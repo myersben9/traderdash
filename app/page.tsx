@@ -26,7 +26,7 @@ export default async function Home() {
     let url;
 
     if (env === 'production') {
-      url = new URL('https://tradedash-backend-production.up.railway.app/');
+      url = new URL('https://nextjs-fastapi-starter-one-pi.vercel.app/');
     }
     else {
       url = new URL('http://127.0.0.1:8000/');
