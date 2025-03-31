@@ -18,16 +18,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-@app.get("/api/py/get_data")
-def get_data(ticker: str, range: str = "1d", interval: str = "5m"):
+# / API endpoint to fetch data
+@app.get("/api/py/get_chart_data")
+def get_chart_data(ticker: str, range: str = "1d", interval: str = "5m"):
     """
     Fetches data for a given ticker using yfetch module.
     """ 
     yf = yfetch.Yfetch([ticker], range=range, interval=interval)
     yf.fetch_data()
     df = yf.df  
-    # include the index in the dict
     df.reset_index(inplace=True)
-    print(df.to_dict(orient='records'))
     return df.to_dict(orient='records')  # Convert DataFrame to dictionary for JSON serialization
