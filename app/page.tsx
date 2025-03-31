@@ -1,20 +1,11 @@
-'use client'
+"use client";
 
 import dynamic from 'next/dynamic'
 import useSWR from 'swr'
 import React from 'react'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-
+import { Select } from '@radix-ui/react-select';
 
 const fetcher = (url : string) => fetch(url).then((r) => r.json())
 const ApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
@@ -32,7 +23,6 @@ interface ChartData {
 
 export default function Home() {
 
-  
   let [inpTicker, setInpTicker] = React.useState('AAPL');
   let [inpRange, setInpRange] = React.useState('1d');
   let [inpInterval, setInpInterval] = React.useState('5m');
@@ -107,44 +97,22 @@ export default function Home() {
     <main className="flex flex-col">
       <div className='flex flex-col items-end justify-end'>
         <div className='flex flex-row items-end justify-end p-3'>
-
-        <Input
-          type="text"
-          placeholder='Ticker'
-          value={inpTicker}
-          className="w-[80px] h-[50px] mb-4"
-          onChange={(e) => {  
-            setInpTicker(e.target.value);
-          }}
-        />
-        <Select>
-          <SelectTrigger className="w-[80px] h-[50px] mb-4 ml-2">
-            <SelectValue/>
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Range</SelectLabel>
-              <SelectItem value="1d" onChange={() => {
-                setInpRange("1d");
-              }}>1 Day</SelectItem>
-              <SelectItem value="1w" onChange={() => {
-                setInpRange("1w");
-              }}>1 Week</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        <Button
-          variant="secondary"
-          className="w-[80px] h-[50px] mb-4 ml-2"
-          onClick={() => {
-            setTicker(inpTicker);
-            setRange(inpRange);
-            setInterval(inpInterval);
-          }
-        }
-        >
-          Submit
-        </Button>
+          <Input
+            type="text"
+            placeholder='Ticker'
+            value={inpTicker}
+            className="w-[80px] h-[50px] mb-4"
+            onChange={(e) => {  
+              setInpTicker(e.target.value);
+            }}
+          />
+          <Button 
+            className="w-[80px] h-[50px] mb-4 ml-2"
+            onClick={() => {
+              setTicker(inpTicker);
+            }}
+          > Submit
+          </Button>
         </div>
         <ApexChart
           type="line"
@@ -153,7 +121,8 @@ export default function Home() {
           height={700}
           width={700}
         />
-        </div>
+          
+      </div>
     </main>
   );
 }
