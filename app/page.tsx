@@ -14,7 +14,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
- 
+
+
 const fetcher = (url : string) => fetch(url).then((r) => r.json())
 const ApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -48,9 +49,8 @@ export default function Home() {
   let stringParams = new URLSearchParams(params).toString();
   let host;
 
-  const env = process.env.APP_ENV;
-
-  if (env === 'production') {
+  console.log(process.env.NEXT_PUBLIC_NODE_ENV);
+  if (process.env.NEXT_PUBLIC_NODE_ENV === 'production') {
     console.log('Production environment detected');
     host = 'https://nextjs-fastapi-starter-one-pi.vercel.app';
   }
