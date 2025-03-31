@@ -1,5 +1,5 @@
 import "./globals.css";
-
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata = {
   title: "Stock Trader",
@@ -14,6 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="dark">{children}</body>
+      <Toaster />
     </html>
   );
 }
