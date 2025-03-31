@@ -5,7 +5,13 @@ import useSWR from 'swr'
 import React from 'react'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Select } from '@radix-ui/react-select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const fetcher = (url : string) => fetch(url).then((r) => r.json())
 const ApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
@@ -49,7 +55,7 @@ export default function Home() {
     host = 'http://127.0.0.1:8000';
   }
 
-  
+
   let { data, error, isLoading } = useSWR(
     `${host}/api/py/get_chart_data?${stringParams}`,
     fetcher);
@@ -85,6 +91,10 @@ export default function Home() {
       xaxis: {
         categories,
         tickAmount:10,
+        tickPlacement: 'on',
+        axisTicks: {
+          show: false,
+        },
       },
     };
   let series = [
@@ -99,17 +109,52 @@ export default function Home() {
         <div className='flex flex-row items-end justify-end p-3'>
           <Input
             type="text"
-            placeholder='Ticker'
-            value={inpTicker}
+            placeholder='AAPL'
             className="w-[80px] h-[50px] mb-4"
-            onChange={(e) => {  
+            value={inpTicker}
+            onBlur={(e) => {
               setInpTicker(e.target.value);
             }}
           />
+          <Select value={inpRange} onValueChange={(e) => {
+            setInpRange(e);
+          }}>
+            <SelectTrigger className="w-[80px] h-[50px] mb-4 ml-2">
+              <SelectValue defaultValue='1d'/>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="1d">
+                1d
+              </SelectItem>
+              <SelectItem value="14d">
+                14d
+              </SelectItem>
+            </SelectContent>
+          </Select>
+          <Select value={inpInterval} onValueChange={(e) => {
+            setInpInterval(e);
+          }}>
+            <SelectTrigger className="w-[100px] h-[50px] mb-4 ml-2">
+              <SelectValue defaultValue='1m'/>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="1m">
+                1 minute
+              </SelectItem>
+              <SelectItem value="5m">
+                5 minutes
+              </SelectItem>
+              <SelectItem value="15m">
+                15 minutes
+              </SelectItem>
+            </SelectContent>
+          </Select>
           <Button 
             className="w-[80px] h-[50px] mb-4 ml-2"
             onClick={() => {
               setTicker(inpTicker);
+              setRange(inpRange);
+              setInterval(inpInterval);
             }}
           > Submit
           </Button>
