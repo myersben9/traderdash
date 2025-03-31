@@ -9,9 +9,11 @@ app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:3000",
-        "https://nextjs-fastapi-starter-one-pi.vercel.app",
-        "https://nextjs-fastapi-starter-f4lael316-art-ecommerce.vercel.app"
+        '*'
+        # "http://localhost:3000",
+        # "http://127.0.0.1:3000",
+        # "https://nextjs-fastapi-starter-one-pi.vercel.app",
+        # "https://nextjs-fastapi-starter-f4lael316-art-ecommerce.vercel.app"
     ],  # Your frontend URL
     allow_credentials=True,
     allow_methods=["*"],

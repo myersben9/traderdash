@@ -51,9 +51,11 @@ export default function Home() {
   const env = process.env.APP_ENV;
 
   if (env === 'production') {
+    console.log('Production environment detected');
     host = 'https://nextjs-fastapi-starter-one-pi.vercel.app';
   }
   else {
+    console.log('Development environment detected');
     host = 'http://127.0.0.1:8000';
   }
 
@@ -117,12 +119,12 @@ export default function Home() {
         />
         <Select>
           <SelectTrigger className="w-[80px] h-[50px] mb-4 ml-2">
-            <SelectValue defaultValue="5m"/>
+            <SelectValue/>
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Range</SelectLabel>
-              <SelectItem value="1d" onChange={(e) => {
+              <SelectItem value="1d" onChange={() => {
                 setInpRange("1d");
               }}>1 Day</SelectItem>
               <SelectItem value="1w" onChange={() => {
