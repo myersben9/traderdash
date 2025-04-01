@@ -100,6 +100,47 @@ export default function Home() {
     
         },
       },
+      tooltip: {
+        theme: 'dark',
+        custom: ({ series, seriesIndex, dataPointIndex, w }) => {
+          //  Get the date in dateime format for any range over one day, otherwise show the time should just be the time
+
+          const time = new Date(categories[dataPointIndex]).toLocaleString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+          });
+          const date = new Date(categories[dataPointIndex]).toLocaleString('en-US', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+          });
+          const price = series[seriesIndex][dataPointIndex].toFixed(2);
+          const volume = chartData[dataPointIndex].Volume;
+          const open = chartData[dataPointIndex].Open.toFixed(2);
+          const high = chartData[dataPointIndex].High.toFixed(2);
+          const low = chartData[dataPointIndex].Low.toFixed(2);
+          const close = chartData[dataPointIndex].Close.toFixed(2);
+          const newDate = document.getElementById('newDate') as HTMLSpanElement;
+          const newTime = document.getElementById('newTime') as HTMLSpanElement;
+          const newPrice = document.getElementById('newPrice') as HTMLSpanElement;
+          const newVolume = document.getElementById('newVolume') as HTMLSpanElement;
+          const newOpen = document.getElementById('newOpen') as HTMLSpanElement;
+          const newHigh = document.getElementById('newHigh') as HTMLSpanElement;
+          const newLow = document.getElementById('newLow') as HTMLSpanElement;
+          const newClose = document.getElementById('newClose') as HTMLSpanElement;
+          newDate.innerText = `${date}`;
+          newTime.innerText = `${time}`;
+          newPrice.innerText = `price: ${price}`;
+          newVolume.innerText = `volume: ${volume}`;
+          newOpen.innerText = `open: ${open}`;
+          newHigh.innerText = `high: ${high}`;
+          newLow.innerText = `low: ${low}`;
+          newClose.innerText = `close: ${close}`;
+
+          return '';
+        },
+      },
       xaxis: {
         tooltip: {
           enabled: false,
@@ -160,6 +201,7 @@ export default function Home() {
               defaultValue={ticker}
               maxLength={5}
               onBlur={(e) => {
+                if (e.target.value === ticker) return;
                 setTicker(e.target.value);
               }}
               onKeyDown={(e) => {
@@ -318,6 +360,18 @@ export default function Home() {
           <h2 className='text-lg font-bold text-gray-500 ml-3'>
             {range} {interval ? `(${interval})` : ''}
           </h2>
+        </div>
+        <div className={`flex flex-row items-center justify-start h-5`}>
+            <span id="newDate" className='text-lg font-bold text-white ml-3'></span>
+            <span id="newTime" className='text-lg font-bold text-white ml-3'></span>
+            <span id="newPrice" className='text-lg font-bold text-white ml-3'></span>
+            <span id="newVolume" className='text-lg font-bold text-white ml-3'></span>
+        </div>
+        <div className='flex flex-row items-center justify-start h-5'>
+            <span id="newOpen" className='text-lg font-bold text-white ml-3'></span>
+            <span id="newHigh" className='text-lg font-bold text-white ml-3'></span>
+            <span id="newLow" className='text-lg font-bold text-white ml-3'></span>
+            <span id="newClose" className='text-lg font-bold text-white ml-3'></span>
         </div>
         <ApexChart
           type="line"
