@@ -100,9 +100,6 @@ export default function Home() {
     
         },
       },
-      tooltip: {
-        custom: () => {},
-      },
       xaxis: {
         tooltip: {
           enabled: false,
