@@ -8,14 +8,13 @@ import { Search } from 'lucide-react';
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { getHost } from "@/app/constants"
-import { set } from 'react-hook-form';
 
 
 const fetcher = (url : string) => fetch(url).then((r) => r.json())
 const ApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 interface ChartPoint {
-  Timestamp: string;
+  Timestamp: string; // or use Date if the timestamp is a Date object
   Open: number;
   High: number;
   Low: number;
@@ -58,14 +57,9 @@ export default function Home() {
   const host = getHost();
   const stringParams = getParams().toString();
 
-  const makeRequest =  () => {
-    const { data , error, isLoading } = useSWR(
-      `${host}/api/py/get_chart_data?${stringParams}`,
-      fetcher);
-    return { data, error, isLoading };
-  }
-
-  const { data, error, isLoading } = makeRequest();
+  const { data, error, isLoading } = useSWR(
+    `${host}/api/py/get_chart_data?${stringParams}`,
+    fetcher);;
 
   if (isLoading) return <div>Loading...</div>
   if (error) return <div>Error: {error.message}</div>
@@ -88,19 +82,40 @@ export default function Home() {
   }
   const chartData = getChartData();
   const close = chartData.map((point: ChartPoint) => point.Close);
-  const categories = chartData.map((point: ChartPoint) => point.Timestamp);
+  const categories = chartData.map((point: ChartPoint) => new Date(point.Timestamp).getTime());
 
   const options : ApexCharts.ApexOptions = {
       theme: {
         mode: 'dark',
       },
       xaxis: {
+        type: 'datetime',
         categories,
         tickAmount: 10,
         tickPlacement: 'on',
         axisTicks: {
           show: false,
         },
+        labels: {
+          
+          datetimeFormatter: {
+            year: 'yyyy',
+            month: 'MMM \'yy',
+            day: 'dd MMM',
+            hour: 'HH:mm'
+          }
+        }
+      },
+      yaxis: {
+        labels: {
+          formatter: (value) => {
+            // if price is less than 1 dollar show 4 decimal places
+            if (value < 1) {
+              return value.toFixed(4);
+            }
+            return value.toFixed(2);
+          }
+        }
       },
     };
   const series = [
