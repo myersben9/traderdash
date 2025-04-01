@@ -38,6 +38,8 @@ const validParams = [
 ];
 
 export default function Home() {
+  const host = getHost();
+
   const [range, setRange] = React.useState('1d');
   const [interval, setInterval] = React.useState<string | null>('1m');
   const [ticker, setTicker] = React.useState('AAPL');
@@ -54,7 +56,7 @@ export default function Home() {
     return new URLSearchParams(params);
   };
 
-  const host = getHost();
+
   const stringParams = getParams().toString();
 
   const { data, error, isLoading } = useSWR(
@@ -85,10 +87,26 @@ export default function Home() {
   const categories = chartData.map((point: ChartPoint) => new Date(point.Timestamp).getTime());
 
   const options : ApexCharts.ApexOptions = {
-      theme: {
-        mode: 'dark',
+      chart: {
+        toolbar: {
+          show: false,
+        },
+        zoom: {
+          enabled: true,
+          type: 'x',
+          autoScaleYaxis: false,
+        },
+        events: {
+    
+        },
+      },
+      tooltip: {
+        custom: () => {},
       },
       xaxis: {
+        tooltip: {
+          enabled: false,
+        },
         type: 'datetime',
         categories,
         tickAmount: 10,
@@ -97,7 +115,11 @@ export default function Home() {
           show: false,
         },
         labels: {
-          
+          style: {
+            colors: '#ffffff',
+            fontSize: '12px',
+          },
+          datetimeUTC: false,
           datetimeFormatter: {
             year: 'yyyy',
             month: 'MMM \'yy',
@@ -108,6 +130,10 @@ export default function Home() {
       },
       yaxis: {
         labels: {
+          style: {
+            colors: '#ffffff',
+            fontSize: '12px',
+          },
           formatter: (value) => {
             // if price is less than 1 dollar show 4 decimal places
             if (value < 1) {
@@ -126,8 +152,8 @@ export default function Home() {
   ];
   return (
     <main className="flex flex-col">
-      <div className='flex flex-col items-end justify-end'>
-        <div className='flex flex-row items-end justify-end p-3'>
+      <div className='flex flex-col items-start justify-start'>
+        <div className='flex flex-row items-end justify-start p-3'>
             <div className='flex flex-row items-center justify-end mr-3'>
             <Input
               type="text"
@@ -286,6 +312,15 @@ export default function Home() {
                 1d
             </Button>
             </div>
+        </div>
+        <div className='flex flex-row items-center justify-start mb-4 ml-3'>
+
+          <h1 className='text-2xl font-bold text-white'>
+            {ticker}
+          </h1>
+          <h2 className='text-lg font-bold text-gray-500 ml-3'>
+            {range} {interval ? `(${interval})` : ''}
+          </h2>
         </div>
         <ApexChart
           type="line"
