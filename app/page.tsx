@@ -2,21 +2,19 @@
 
 import dynamic from 'next/dynamic'
 import useSWR from 'swr'
-import React from 'react'
+import React, { MutableRefObject } from 'react'
+import { Search } from 'lucide-react';
+
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+import { getHost } from "@/app/constants"
+import { set } from 'react-hook-form';
+
 
 const fetcher = (url : string) => fetch(url).then((r) => r.json())
 const ApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-interface ChartData {
+interface ChartPoint {
   Timestamp: string;
   Open: number;
   High: number;
@@ -26,78 +24,86 @@ interface ChartData {
   Symbol: string;
 }
 
+interface ChartData {
+  tick: ChartPoint[];
+}
+
+
+const validParams = [
+  {"1d": "1m"}, 
+  {"1d":"5m"}, 
+  {"1d":"15m"}, 
+  {"14d":"1h"}, 
+  {"1mo":"1d"}, 
+  {"max":null}
+];
 
 export default function Home() {
+  const [range, setRange] = React.useState('1d');
+  const [interval, setInterval] = React.useState<string | null>('1m');
+  const [ticker, setTicker] = React.useState('AAPL');
 
-  let [inpTicker, setInpTicker] = React.useState('AAPL');
-  let [inpRange, setInpRange] = React.useState('1d');
-  let [inpInterval, setInpInterval] = React.useState('5m');
-  let [range, setRange] = React.useState('1d');
-  let [interval, setInterval] = React.useState('5m');
-  let [ticker, setTicker] = React.useState('AAPL');
-
-  let params = {
-    range: range,
-    interval: interval,
-    ticker: ticker,
-  }
-
-  let stringParams = new URLSearchParams(params).toString();
-  let host;
-
-  console.log(process.env.NEXT_PUBLIC_NODE_ENV);
-  if (process.env.NEXT_PUBLIC_NODE_ENV === 'production') {
-    console.log('Production environment detected');
-    host = 'https://nextjs-fastapi-starter-one-pi.vercel.app';
-  }
-  else {
-    console.log('Development environment detected');
-    host = 'http://127.0.0.1:8000';
-  }
-
-
-  let { data, error, isLoading } = useSWR(
-    `${host}/api/py/get_chart_data?${stringParams}`,
-    fetcher);
+  // Write a function to set the params
+  const getParams = () => {
+    const params: Record<string, string> = { range, ticker };
   
+    if (!(interval === null && range === 'max')) {
+      // add the interval to the params
+      params.interval = interval as string;
+    } 
+  
+    return new URLSearchParams(params);
+  };
+
+  const host = getHost();
+  const stringParams = getParams().toString();
+
+  const makeRequest =  () => {
+    const { data , error, isLoading } = useSWR(
+      `${host}/api/py/get_chart_data?${stringParams}`,
+      fetcher);
+    return { data, error, isLoading };
+  }
+
+  const { data, error, isLoading } = makeRequest();
+
   if (isLoading) return <div>Loading...</div>
   if (error) return <div>Error: {error.message}</div>
   if (!data) return <div>Loading...</div>
 
-  let categories;
-  if (params.range === '1d') {
-    categories = data.map((item: ChartData) => {
-      let date = new Date(item.Timestamp);
-      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const getChartData = () => {
+    // Map data into ChartDataObject
+    const chartData = data.map((point: ChartPoint) => {
+      return {
+        Timestamp: point.Timestamp,
+        Open: point.Open,
+        High: point.High,
+        Low: point.Low,
+        Close: point.Close,
+        Volume: point.Volume,
+        Symbol: point.Symbol
+      }
     });
+    return chartData;
   }
-  
-  // If the price is above 1 dollar for close, format the close prices to 2 decimal places, if not format to 4 decimal places
-  let close = data.map((item: ChartData) => {
-    let close = item.Close;
-    if (close > 1) {
-      return close.toFixed(2);
-    }
-    else {
-      return close.toFixed(4);
-    }
-  });
-  // let close = data.map((item: ChartData) => item.Close);
+  const chartData = getChartData();
+  const close = chartData.map((point: ChartPoint) => point.Close);
+  const categories = chartData.map((point: ChartPoint) => point.Timestamp);
 
-  let options : ApexCharts.ApexOptions = {
+  const options : ApexCharts.ApexOptions = {
       theme: {
         mode: 'dark',
       },
       xaxis: {
         categories,
-        tickAmount:10,
+        tickAmount: 10,
         tickPlacement: 'on',
         axisTicks: {
           show: false,
         },
       },
     };
-  let series = [
+  const series = [
       {
         name: "Close",
         data: close
@@ -107,57 +113,164 @@ export default function Home() {
     <main className="flex flex-col">
       <div className='flex flex-col items-end justify-end'>
         <div className='flex flex-row items-end justify-end p-3'>
-          <Input
-            type="text"
-            placeholder='AAPL'
-            className="w-[80px] h-[50px] mb-4"
-            value={inpTicker}
-            onBlur={(e) => {
-              setInpTicker(e.target.value);
-            }}
-          />
-          <Select value={inpRange} onValueChange={(e) => {
-            setInpRange(e);
-          }}>
-            <SelectTrigger className="w-[80px] h-[50px] mb-4 ml-2">
-              <SelectValue defaultValue='1d'/>
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="1d">
+            <div className='flex flex-row items-center justify-end mr-3'>
+            <Input
+              type="text"
+              placeholder='GOOGL'
+              className="w-[100px] h-[50px] mb-4"
+              name="ticker"
+              defaultValue={ticker}
+              maxLength={5}
+              onBlur={(e) => {
+                setTicker(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  setTicker(e.currentTarget.value);
+                }
+              }}
+            />
+            <Search
+              className={`absolute mb-4 mr-2 ml-2 cursor-pointer`}
+              onClick={() => {
+                setRange('1d');
+                setInterval('1m');
+              }}
+            />  
+            </div>
+          {/* Replace selects with ADJS */}
+          <div id="rangeButtons" className='flex flex-row items-center justify-end mr-3'>
+            <Button
+              id='rangeButton-1d'
+              variant="outline"
+              className={`w-[20px] h-[50px] mb-4 mr-[3px] ${range === '1d' ? 'bg-blue-500' : ''}`}
+              onClick={() => {
+                setRange('1d');
+                setInterval('1m');
+              }}
+              >
                 1d
-              </SelectItem>
-              <SelectItem value="14d">
+            </Button>
+            <Button
+              id='rangeButton-14d'
+              variant="outline"
+              className={`w-[20px] h-[50px] mb-4 mr-[3px] ${range === '14d' ? 'bg-blue-500' : ''}`}
+              onClick={() => {
+                setRange('14d');
+                setInterval('1h');
+              }}
+              >
                 14d
-              </SelectItem>
-            </SelectContent>
-          </Select>
-          <Select value={inpInterval} onValueChange={(e) => {
-            setInpInterval(e);
-          }}>
-            <SelectTrigger className="w-[100px] h-[50px] mb-4 ml-2">
-              <SelectValue defaultValue='1m'/>
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="1m">
-                1 minute
-              </SelectItem>
-              <SelectItem value="5m">
-                5 minutes
-              </SelectItem>
-              <SelectItem value="15m">
-                15 minutes
-              </SelectItem>
-            </SelectContent>
-          </Select>
-          <Button 
-            className="w-[80px] h-[50px] mb-4 ml-2"
-            onClick={() => {
-              setTicker(inpTicker);
-              setRange(inpRange);
-              setInterval(inpInterval);
-            }}
-          > Submit
-          </Button>
+            </Button>
+            <Button
+              id='rangeButton-1mo'
+              variant="outline"
+              className={`w-[20px] h-[50px] mb-4 mr-[3px] ${range === '1mo' ? 'bg-blue-500' : ''}`}
+              onClick={() => {
+                setRange('1mo');
+                setInterval('30m');
+              }}
+              >
+                1mo
+            </Button>
+            <Button
+              id='rangeButton-3mo'
+              variant="outline"
+              className={`w-[20px] h-[50px] mb-4 mr-[3px] ${range === '3mo' ? 'bg-blue-500' : ''}`}
+              onClick={() => {
+                setRange('3mo');
+                setInterval('1d');
+              }}
+              >
+                3mo
+            </Button>
+            <Button
+              id='rangeButton-max'
+              variant="outline"
+              className={`w-[20px] h-[50px] mb-4 mr-[3px] ${range === 'max' ? 'bg-blue-500' : ''}`}
+              onClick={() => {
+                setRange('max');
+                setInterval(null);
+              }
+              }
+              >
+                max
+            </Button>
+          </div>
+          <div className='flex flex-row items-center justify-end mr-3'>
+            <Button
+              id='intervalButton-1m'
+              variant="outline"
+              disabled={range === 'max' || range ==='3mo' || range ==='1mo' || range ==='14d'}
+              className={`w-[20px] h-[50px] mb-4 mr-[3px] ${interval === '1m' ? 'enabled:bg-blue-500' : ''}`}
+              onClick={() => {
+                setInterval('1m');
+              }
+              }
+              >
+                1m
+            </Button>
+            <Button
+              id='intervalButton-5m'
+              variant="outline"
+              disabled={range === 'max'|| range ==='3mo' || range ==='1mo' || range ==='14d'}
+              className={`w-[20px] h-[50px] mb-4 mr-[3px] ${interval === '5m' ? 'bg-blue-500' : ''}`}
+              onClick={() => {
+                setInterval('5m');
+              }
+              }
+              >
+                5m
+            </Button>
+            <Button
+              id='intervalButton-15m'
+              variant="outline"
+              disabled={range === 'max'|| range ==='3mo' || range ==='1mo'}
+              className={`w-[20px] h-[50px] mb-4 mr-[3px] ${interval === '15m' ? 'bg-blue-500' : ''}`}
+              onClick={() => {
+                setInterval('15m');
+              }
+              }
+              >
+                15m
+            </Button>
+            <Button
+              id='intervalButton-30m'
+              variant="outline"
+              disabled={range === 'max'|| range ==='3mo'}
+              className={`w-[20px] h-[50px] mb-4 mr-[3px] ${interval === '30m' ? 'bg-blue-500' : ''}`}
+              onClick={() => {
+                setInterval('30m');
+              }
+              }
+              >
+                30m
+            </Button>
+            <Button
+              id='intervalButton-1h'
+              variant="outline"
+              disabled={range === 'max' || range ==='3mo'}
+              className={`w-[20px] h-[50px] mb-4 mr-[3px] ${interval === '1h' ? 'bg-blue-500' : ''}`}
+              onClick={() => {
+                setInterval('1h');
+              }
+              }
+              >
+                1h
+            </Button>
+            <Button
+              id='intervalButton-1d'
+              variant="outline"
+              disabled={range === 'max'}
+              className={`w-[20px] h-[50px] mb-4 mr-[3px] ${interval === '1d' ? 'bg-blue-500' : ''}`}
+              onClick={() => {    
+                setInterval('1d');
+              }
+              }
+              >
+                1d
+            </Button>
+            </div>
         </div>
         <ApexChart
           type="line"
