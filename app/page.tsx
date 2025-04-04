@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import useSWR from 'swr'
-import React, { MutableRefObject } from 'react'
+import React from 'react'
 import { Search } from 'lucide-react';
 
 import { Input } from "@/components/ui/input"
@@ -247,6 +247,7 @@ export default function Home() {
             <div className='flex flex-row items-center justify-end mr-3'>
             <Input
               type="text"
+              id="ticker"
               placeholder='GOOGL'
               className="w-[100px] h-[50px] mb-4"
               name="ticker"
@@ -265,8 +266,10 @@ export default function Home() {
             <Search
               className={`absolute mb-4 mr-2 ml-2 cursor-pointer`}
               onClick={() => {
-                setRange('1d');
-                setInterval('1m');
+                if (document.getElementById('ticker') === null) return;
+                const input = document.getElementById('ticker') as HTMLInputElement;
+                setTicker(input.value);
+
               }}
             />  
             </div>
@@ -426,24 +429,24 @@ export default function Home() {
             {range} {interval ? `(${interval})` : ''}
           </h2>
         </div>
-        <div className='flex flex-row items-center justify-start mb-4 ml-3'>
-          <div className={`flex flex-col items-left justify-start h-5`}>
+        <div className='flex flex-row items-center justify-start mb-4 ml-3 w-[700px]'>
+          <div className={`flex flex-col items-left justify-start h-5 w-200px`}>
               <span id="newDate" className='text-lg font-bold text-white ml-3'></span>
               <span id="newTime" className='text-lg font-bold text-white ml-3'></span>
           </div>
-          <div className={`flex flex-col justify-start h-5`}>
+          <div className={`flex flex-col justify-start h-5 w-[140px]`}>
             <span id="openLabel" className='hidden text-lg  text-white ml-3'>Open:</span>
             <span id="highLabel" className='hidden text-lg text-white ml-3'>High:</span>
           </div>
-          <div className={`flex flex-col justify-start h-5 m-auto text-right`}>
+          <div className={`flex flex-col justify-start h-5 text-right w-[140px]`}>
             <span id="newOpen" className='text-lg font-bold text-white ml-1'></span>             
             <span id="newHigh" className='text-lg font-bold text-white ml-3'></span>
           </div>
-          <div className={`flex flex-col justify-start h-5`}>
+          <div className={`flex flex-col justify-start m-auto  h-5 w-[140px]`}>
             <span id="lowLabel" className='hidden text-lg text-white ml-3'>Low:</span>
             <span id="closeLabel" className='hidden text-lg text-white ml-3'>Close:</span>
           </div>
-          <div className={`flex flex-col m-auto text-right justify-start h-5`}>
+          <div className={`flex flex-col m-auto text-right justify-start h-5 w-1/5`}>
             <span id="newLow" className='text-lg font-bold text-white ml-1'></span>
             <span id="newClose" className='text-lg font-bold text-white ml-3'></span>
             </div>
