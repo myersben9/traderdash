@@ -43,10 +43,11 @@ export default function Home() {
   const [range, setRange] = React.useState('1d');
   const [interval, setInterval] = React.useState<string | null>('1m');
   const [ticker, setTicker] = React.useState('AAPL');
+  const [prePost, setPrePost] = React.useState(false);
 
   // Write a function to set the params
   const getParams = () => {
-    const params: Record<string, string> = { range, ticker };
+    const params: Record<string, string> = { range, ticker, pre_post: prePost ? 'true' : 'false' };
   
     if (!(interval === null && range === 'max')) {
       // add the interval to the params
@@ -67,24 +68,25 @@ export default function Home() {
   if (error) return <div>Error: {error.message}</div>
   if (!data) return <div>Loading...</div>
 
-  const getChartData = () => {
-    // Map data into ChartDataObject
-    const chartData = data.map((point: ChartPoint) => {
-      return {
-        Timestamp: point.Timestamp,
-        Open: point.Open,
-        High: point.High,
-        Low: point.Low,
-        Close: point.Close,
-        Volume: point.Volume,
-        Symbol: point.Symbol
-      }
-    });
-    return chartData;
-  }
-  const chartData = getChartData();
+
+  const chartData = data.map((point: ChartPoint) => {
+    return {
+      Timestamp: point.Timestamp,
+      Open: point.Open,
+      High: point.High,
+      Low: point.Low,
+      Close: point.Close,
+      Volume: point.Volume,
+      Symbol: point.Symbol
+    }
+  });
   const close = chartData.map((point: ChartPoint) => point.Close);
   const categories = chartData.map((point: ChartPoint) => new Date(point.Timestamp).getTime());
+
+
+  const buffer = 0.01;
+  const minValue = Math.min(...close) * (1 - buffer);
+  const maxValue = Math.max(...close) * (1 + buffer);
 
   const options : ApexCharts.ApexOptions = {
       chart: {
@@ -99,6 +101,21 @@ export default function Home() {
         events: {
     
         },
+      },
+      annotations: {
+        yaxis: [
+          {
+            y: chartData[0].Close,
+            borderColor: '#808080', // Grey color
+            label: {
+              borderColor: '#808080', // Grey color for the label border
+              style: {
+                color: '#fff',
+                background: '#808080', // Grey background for the label
+              },
+            },
+          },
+        ],
       },
       tooltip: {
         theme: 'dark',
@@ -116,27 +133,54 @@ export default function Home() {
             day: '2-digit',
           });
           const price = series[seriesIndex][dataPointIndex].toFixed(2);
-          const volume = chartData[dataPointIndex].Volume;
+          const formatter = new Intl.NumberFormat('en-US', { 
+            notation: 'compact' 
+          });
+          const volume = formatter.format(chartData[dataPointIndex].Volume)
           const open = chartData[dataPointIndex].Open.toFixed(2);
           const high = chartData[dataPointIndex].High.toFixed(2);
           const low = chartData[dataPointIndex].Low.toFixed(2);
           const close = chartData[dataPointIndex].Close.toFixed(2);
+
+          const dayPercentChange = ((close - open) / open) * 100;
+          const percentChange = ((close - chartData[0].Close) / chartData[0].Close) * 100;
+          const percentChangeFormatted = percentChange.toFixed(2);
+
+          const percentChangeElement = document.getElementById('percentChange') as HTMLSpanElement;
           const newDate = document.getElementById('newDate') as HTMLSpanElement;
           const newTime = document.getElementById('newTime') as HTMLSpanElement;
-          const newPrice = document.getElementById('newPrice') as HTMLSpanElement;
           const newVolume = document.getElementById('newVolume') as HTMLSpanElement;
           const newOpen = document.getElementById('newOpen') as HTMLSpanElement;
           const newHigh = document.getElementById('newHigh') as HTMLSpanElement;
           const newLow = document.getElementById('newLow') as HTMLSpanElement;
           const newClose = document.getElementById('newClose') as HTMLSpanElement;
+          const changeLabel = document.getElementById('changeLabel') as HTMLSpanElement;
+          const openLabel = document.getElementById('openLabel') as HTMLSpanElement;
+          const highLabel = document.getElementById('highLabel') as HTMLSpanElement;
+          const lowLabel = document.getElementById('lowLabel') as HTMLSpanElement;
+          const volumeLabel = document.getElementById('volumeLabel') as HTMLSpanElement;
+          const closeLabel = document.getElementById('closeLabel') as HTMLSpanElement;
+
+          // Remove hidden class from labels
+          openLabel.classList.remove('hidden');
+          highLabel.classList.remove('hidden');
+          lowLabel.classList.remove('hidden');
+          closeLabel.classList.remove('hidden');    
+          volumeLabel.classList.remove('hidden');
+          changeLabel.classList.remove('hidden');
+
+          
+          
+          percentChangeElement.style.color = percentChange > 0 ? 'green' : 'red';
+
+          percentChangeElement.innerText = `${percentChangeFormatted}%`;
           newDate.innerText = `${date}`;
           newTime.innerText = `${time}`;
-          newPrice.innerText = `price: ${price}`;
-          newVolume.innerText = `volume: ${volume}`;
-          newOpen.innerText = `open: ${open}`;
-          newHigh.innerText = `high: ${high}`;
-          newLow.innerText = `low: ${low}`;
-          newClose.innerText = `close: ${close}`;
+          newVolume.innerText = `${volume}`;
+          newOpen.innerText = `${open}`;
+          newHigh.innerText = `${high}`;
+          newLow.innerText = `${low}`;
+          newClose.innerText = `${close}`;
 
           return '';
         },
@@ -166,7 +210,15 @@ export default function Home() {
           }
         }
       },
+      grid: {
+        yaxis: {
+          lines: {
+            show: false,
+          }}
+      },
       yaxis: {
+        min: minValue,
+        max: maxValue,
         labels: {
           style: {
             colors: '#ffffff',
@@ -190,7 +242,7 @@ export default function Home() {
   ];
   return (
     <main className="flex flex-col">
-      <div className='flex flex-col items-start justify-start'>
+      <div className='flex flex-col items-start justify-star w-[50vw]'>
         <div className='flex flex-row items-end justify-start p-3'>
             <div className='flex flex-row items-center justify-end mr-3'>
             <Input
@@ -351,6 +403,19 @@ export default function Home() {
                 1d
             </Button>
             </div>
+            <div className="flex flex-row items-center justify-end mr-3">
+              <Button
+                id='prePostButton'
+                variant="outline"
+                className={`w-[70px] h-[50px] mb-4 mr-[3px] ${prePost ? 'bg-blue-500' : ''}`}
+                onClick={() => {
+                  setPrePost(!prePost);
+                }
+                }
+                >
+                Pre/Post
+              </Button>
+            </div>
         </div>
         <div className='flex flex-row items-center justify-start mb-4 ml-3'>
 
@@ -361,23 +426,42 @@ export default function Home() {
             {range} {interval ? `(${interval})` : ''}
           </h2>
         </div>
-        <div className={`flex flex-row items-center justify-start h-5`}>
-            <span id="newDate" className='text-lg font-bold text-white ml-3'></span>
-            <span id="newTime" className='text-lg font-bold text-white ml-3'></span>
-            <span id="newPrice" className='text-lg font-bold text-white ml-3'></span>
-            <span id="newVolume" className='text-lg font-bold text-white ml-3'></span>
-        </div>
-        <div className='flex flex-row items-center justify-start h-5'>
-            <span id="newOpen" className='text-lg font-bold text-white ml-3'></span>
+        <div className='flex flex-row items-center justify-start mb-4 ml-3'>
+          <div className={`flex flex-col items-left justify-start h-5`}>
+              <span id="newDate" className='text-lg font-bold text-white ml-3'></span>
+              <span id="newTime" className='text-lg font-bold text-white ml-3'></span>
+          </div>
+          <div className={`flex flex-col justify-start h-5`}>
+            <span id="openLabel" className='hidden text-lg  text-white ml-3'>Open:</span>
+            <span id="highLabel" className='hidden text-lg text-white ml-3'>High:</span>
+          </div>
+          <div className={`flex flex-col justify-start h-5 m-auto text-right`}>
+            <span id="newOpen" className='text-lg font-bold text-white ml-1'></span>             
             <span id="newHigh" className='text-lg font-bold text-white ml-3'></span>
-            <span id="newLow" className='text-lg font-bold text-white ml-3'></span>
+          </div>
+          <div className={`flex flex-col justify-start h-5`}>
+            <span id="lowLabel" className='hidden text-lg text-white ml-3'>Low:</span>
+            <span id="closeLabel" className='hidden text-lg text-white ml-3'>Close:</span>
+          </div>
+          <div className={`flex flex-col m-auto text-right justify-start h-5`}>
+            <span id="newLow" className='text-lg font-bold text-white ml-1'></span>
             <span id="newClose" className='text-lg font-bold text-white ml-3'></span>
+            </div>
+          <div className={`flex flex-col justify-start h-5`}>
+            <span id="volumeLabel" className='hidden text-lg text-white ml-3'>Volume:</span>
+            <span id="changeLabel" className='hidden text-lg text-white ml-3'>Change:</span>
+              </div>
+          <div className={`flex flex-col m-auto text-right justify-start h-5`}>
+            <span id="newVolume" className='text-lg font-bold text-white ml-1'></span>
+            <span id="percentChange" className='text-lg font-bold text-white ml-3'></span>
+            </div>
         </div>
+        
         <ApexChart
           type="line"
           series={series}
           options={options}
-          height={700}
+          height={500}
           width={700}
         />
           

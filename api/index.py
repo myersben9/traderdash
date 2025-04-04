@@ -20,12 +20,20 @@ app.add_middleware(
 
 # / API endpoint to fetch data
 @app.get("/api/py/get_chart_data")
-def get_chart_data(ticker: str, range: str = "1d", interval: str = "5m"):
+def get_chart_data(ticker: str, range: str = "1d", interval: str = "5m", pre_post:str='false'):
     """
     Fetches data for a given ticker using yfetch module.
     """ 
-    yf = yfetch.Yfetch([ticker], range=range, interval=interval)
-    yf.fetch_data()
-    df = yf.df  
-    df.reset_index(inplace=True)
-    return df.to_dict(orient='records')  # Convert DataFrame to dictionary for JSON serialization
+    try:
+        if pre_post == 'true':
+            pre_post = True
+        else:
+            pre_post = False
+        print(f"Fetching data for {ticker} with range {range} and interval {interval}")
+        yf = yfetch.Yfetch([ticker], range=range, interval=interval, pre_post=pre_post)
+        yf.fetch_data()
+        df = yf.df  
+        df.reset_index(inplace=True)
+        return df.to_dict(orient='records')  # Convert DataFrame to dictionary for JSON serialization
+    except Exception as e:
+        return {"error": str(e)}

@@ -7,6 +7,7 @@ from datetime import datetime
 import logging
 from .constants import Constants
 from .chartparse import ChartParse
+from .proxy import ProxyRotator
 
 logger = logging.getLogger(__name__)
 
@@ -27,8 +28,8 @@ class Yfetch:
         self.range = range
         self.start_date = start_date
         self.end_date = end_date
-        self.df = pd.DataFrame()
         self._event_loop = None
+        self.df = pd.DataFrame()
 
     def fetch_data(self) -> None:
         """Synchronous entry point that manages async event loop"""
@@ -61,12 +62,12 @@ class Yfetch:
     async def _fetch_ticker(self, session: aiohttp.ClientSession, ticker: str) -> Optional[pd.DataFrame]:
         """Fetch data for a single ticker"""
         try:
+        
             url = f"{Constants._BASE_URL}{Constants._endpoints['chart'].format(ticker=ticker)}"
             params = self._build_params()
-            
-            async with session.get(url, params=params, headers=Constants._HEADERS, ssl=False) as response:
+            async with session.get(url, params=params, headers=Constants._HEADERS, ssl=False ) as response:
                 if response.status != 200:
-                    logger.warning(f"Failed to fetch {ticker}: HTTP {response.status}")
+                    logger.warning(f"Failed to fetch {ticker}: HTTP {response.status} {response.reason}")
                     return None
                 
                 data = await response.json()
@@ -129,15 +130,16 @@ class Yfetch:
         except RuntimeError:
             return False
 
-# if __name__ == "__main__":
-    # Synchronous usage
-    # Record run time
-    # start_time = datetime.now()
-    # yfetch = Yfetch(
-    #     tickers=['AAPL', 'MSFT', 'GOOGL'],
-    #     interval='1m',
-    #     range='1d',
-    #     pre_post=True,
-    # )
-    # # output to csv
+async def init_yfetch():
+    yfetch = Yfetch(
+        tickers=['AAPL', 'MSFT', 'GOOGL'],
+        interval='1m',
+        range='1d',
+        pre_post=True
+    )
+    yfetch.fetch_data()
+    print(yfetch.df)
+
+if __name__ == "__main__":
+    asyncio.run(init_yfetch())
     
