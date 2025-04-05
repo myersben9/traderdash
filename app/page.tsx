@@ -1,5 +1,24 @@
 "use client";
 
+// {FINISH BY TODAY GOAL}
+// TODO - Make chart data able to stream through websockets
+// TODO - Make date range by ticker
+// TODO - Make Percentage change by ticker to update when it state changes
+// TODO - Make buffer toggle slider for y axis zooming
+// TODO - Make updating current price through websocket
+// TOOD - Make chart not unzoom when mouse leaves
+
+// {COMING UP}
+// TODO - Make chart component resizable to fullscreen, mobile, and different sizes, everything repsonsive
+// TODO - Add candelstick chart toggle button
+// TODO - ADD VWAP, EMA, SMA, and other indicators
+// TODO - Add volume chart below the main chart with green and red by selling
+// TODO - Add news and other data in widget from stocks that appear on scanner and other general news
+// TODO - Add a scanner for stocks that are moving up 30%, are on the nasdaq, have a float of less than 5 million, have a 5x relative volume, priced 3-20 dollars
+// TODO - Add feature to log in and track bots and trade with hotkeys on user accounts
+// TODO - Add ability to draw lines on chart with mouse and visualize strategies / stop losses / profit taking
+// TODO - Add active trade tracking and metrics for trades
+
 import dynamic from 'next/dynamic'
 import useSWR from 'swr'
 import React from 'react'
