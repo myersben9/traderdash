@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.exceptions import HTTPException
 import api.data.yfetch as yfetch
 from typing import Dict, Any
 
@@ -34,6 +35,7 @@ def get_chart_data(ticker: str, range: str = "1d", interval: str = "5m", pre_pos
         yf.fetch_data()
         df = yf.df  
         df.reset_index(inplace=True)
+        print(f"Data fetched successfully for {ticker}.")
         return df.to_dict(orient='records')  # Convert DataFrame to dictionary for JSON serialization
     except Exception as e:
-        return {"error": str(e)}
+        return HTTPException(status_code=500 , msg=f"Error fetching data: {e}")

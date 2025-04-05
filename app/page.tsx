@@ -8,10 +8,27 @@ import { Search } from 'lucide-react';
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { getHost } from "@/app/constants"
-
+import { set } from 'react-hook-form';
 
 const fetcher = (url : string) => fetch(url).then((r) => r.json())
 const ApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
+const abbreviateNumber = (number: number, decimals: number = 2): string => {
+  const abbrev = ["K", "M", "B", "T"];
+  for (let i = abbrev.length - 1; i >= 0; i--) {
+    const size = Math.pow(10, (i + 1) * 3);
+    if (Math.abs(number) >= size) {
+      let shortened = Math.round((number * Math.pow(10, decimals)) / size) / Math.pow(10, decimals);
+      if (shortened === 1000 && i < abbrev.length - 1) {
+        shortened = 1;
+        i++;
+      }
+      return `${shortened}${abbrev[i]}`;
+    }
+  }
+  return number.toFixed(decimals);
+};
+
 
 interface ChartPoint {
   Timestamp: string; // or use Date if the timestamp is a Date object
@@ -44,6 +61,7 @@ export default function Home() {
   const [interval, setInterval] = React.useState<string | null>('1m');
   const [ticker, setTicker] = React.useState('AAPL');
   const [prePost, setPrePost] = React.useState(false);
+  const [ohlcvMenu, setOhlcvMenu] = React.useState('hidden');
 
   // Write a function to set the params
   const getParams = () => {
@@ -99,7 +117,16 @@ export default function Home() {
           autoScaleYaxis: false,
         },
         events: {
-    
+            mouseLeave: () => {
+              // Hide the OHLCV menu when the mouse leaves the chart area
+              setOhlcvMenu('hidden');
+              console.log('Mouse left chart area'+  ohlcvMenu);
+            },
+            mouseMove: () => {
+              // Show the OHLCV menu when the mouse moves over the chart area
+              setOhlcvMenu('flex');
+              console.log('Mouse moved over chart area' + ohlcvMenu);
+            },
         },
       },
       annotations: {
@@ -122,6 +149,8 @@ export default function Home() {
         custom: ({ series, seriesIndex, dataPointIndex, w }) => {
           //  Get the date in dateime format for any range over one day, otherwise show the time should just be the time
 
+
+
           const time = new Date(categories[dataPointIndex]).toLocaleString('en-US', {
             hour: '2-digit',
             minute: '2-digit',
@@ -142,9 +171,9 @@ export default function Home() {
           const low = chartData[dataPointIndex].Low.toFixed(2);
           const close = chartData[dataPointIndex].Close.toFixed(2);
 
-          const dayPercentChange = ((close - open) / open) * 100;
           const percentChange = ((close - chartData[0].Close) / chartData[0].Close) * 100;
-          const percentChangeFormatted = percentChange.toFixed(2);
+          const percentChangeFormatted = abbreviateNumber(percentChange, 2);
+
 
           const percentChangeElement = document.getElementById('percentChange') as HTMLSpanElement;
           const newDate = document.getElementById('newDate') as HTMLSpanElement;
@@ -161,15 +190,7 @@ export default function Home() {
           const volumeLabel = document.getElementById('volumeLabel') as HTMLSpanElement;
           const closeLabel = document.getElementById('closeLabel') as HTMLSpanElement;
 
-          // Remove hidden class from labels
-          openLabel.classList.remove('hidden');
-          highLabel.classList.remove('hidden');
-          lowLabel.classList.remove('hidden');
-          closeLabel.classList.remove('hidden');    
-          volumeLabel.classList.remove('hidden');
-          changeLabel.classList.remove('hidden');
-
-          
+      
           
           percentChangeElement.style.color = percentChange > 0 ? 'green' : 'red';
 
@@ -217,6 +238,7 @@ export default function Home() {
           }}
       },
       yaxis: {
+        
         min: minValue,
         max: maxValue,
         labels: {
@@ -280,6 +302,7 @@ export default function Home() {
               variant="outline"
               className={`w-[20px] h-[50px] mb-4 mr-[3px] ${range === '1d' ? 'bg-blue-500' : ''}`}
               onClick={() => {
+
                 setRange('1d');
                 setInterval('1m');
               }}
@@ -429,34 +452,34 @@ export default function Home() {
             {range} {interval ? `(${interval})` : ''}
           </h2>
         </div>
-        <div className='flex flex-row items-center justify-start mb-4 ml-3 w-[700px]'>
-          <div className={`flex flex-col items-left justify-start h-5 w-200px`}>
-              <span id="newDate" className='text-lg font-bold text-white ml-3'></span>
-              <span id="newTime" className='text-lg font-bold text-white ml-3'></span>
+        <div className='flex flex-row justify-start mb-4 ml-3 min-w-1/2'>
+          <div className={`flex flex-col items-left justify-start h-5 min-w-[120px]`}>
+              <span id="newDate" className={`${ohlcvMenu} text-md font-bold text-white ml-3`}></span>
+              <span id="newTime" className={`${ohlcvMenu} text-md font-bold text-white ml-3`}></span>
           </div>
-          <div className={`flex flex-col justify-start h-5 w-[140px]`}>
-            <span id="openLabel" className='hidden text-lg  text-white ml-3'>Open:</span>
-            <span id="highLabel" className='hidden text-lg text-white ml-3'>High:</span>
+          <div className={`flex flex-col justify-start h-5 w-1/6`}>
+            <span id="openLabel" className={`${ohlcvMenu} text-md text-white ml-3`}>Open:</span>
+            <span id="highLabel" className={`${ohlcvMenu} text-md text-white ml-3`}>High:</span>
           </div>
-          <div className={`flex flex-col justify-start h-5 text-right w-[140px]`}>
-            <span id="newOpen" className='text-lg font-bold text-white ml-1'></span>             
-            <span id="newHigh" className='text-lg font-bold text-white ml-3'></span>
+          <div className={`flex flex-col justify-start h-5 text-right w-1/6`}>
+            <span id="newOpen" className={`${ohlcvMenu} text-md font-bold text-white ml-1`}></span>             
+            <span id="newHigh" className={`${ohlcvMenu} text-md font-bold text-white ml-3`}></span>
           </div>
-          <div className={`flex flex-col justify-start m-auto  h-5 w-[140px]`}>
-            <span id="lowLabel" className='hidden text-lg text-white ml-3'>Low:</span>
-            <span id="closeLabel" className='hidden text-lg text-white ml-3'>Close:</span>
+          <div className={`flex flex-col justify-start h-5 w-1/6`}>
+            <span id="lowLabel" className={`${ohlcvMenu} text-md text-white ml-3`}>Low:</span>
+            <span id="closeLabel" className={`${ohlcvMenu} text-md text-white ml-3`}>Close:</span>
           </div>
-          <div className={`flex flex-col m-auto text-right justify-start h-5 w-1/5`}>
-            <span id="newLow" className='text-lg font-bold text-white ml-1'></span>
-            <span id="newClose" className='text-lg font-bold text-white ml-3'></span>
+          <div className={`flex flex-col justify-start text-right h-5 w-1/6`}>
+            <span id="newLow" className={`${ohlcvMenu} text-md font-bold text-white ml-1`}></span>
+            <span id="newClose" className={`${ohlcvMenu} text-md font-bold text-white ml-3`}></span>
             </div>
-          <div className={`flex flex-col justify-start h-5`}>
-            <span id="volumeLabel" className='hidden text-lg text-white ml-3'>Volume:</span>
-            <span id="changeLabel" className='hidden text-lg text-white ml-3'>Change:</span>
+          <div className={`flex flex-col justify-start h-5 w-1/6`}>
+            <span id="volumeLabel" className={`${ohlcvMenu} text-md text-white ml-3`}>Volume:</span>
+            <span id="changeLabel" className={`${ohlcvMenu} text-md text-white ml-3`}>Change:</span>
               </div>
-          <div className={`flex flex-col m-auto text-right justify-start h-5`}>
-            <span id="newVolume" className='text-lg font-bold text-white ml-1'></span>
-            <span id="percentChange" className='text-lg font-bold text-white ml-3'></span>
+          <div className={`flex flex-col justify-start text-right h-5 w-1/6`}>
+            <span id="newVolume" className={`${ohlcvMenu} text-md font-bold text-white ml-1`}></span>
+            <span id="percentChange" className={`${ohlcvMenu} text-md font-bold text-white ml-3`}></span>
             </div>
         </div>
         
