@@ -62,6 +62,7 @@ export default function Home() {
   const [ticker, setTicker] = React.useState('AAPL');
   const [prePost, setPrePost] = React.useState(false);
   const [ohlcvMenu, setOhlcvMenu] = React.useState('hidden');
+  const [dayPercentChange, setDayPercentChange] = React.useState(0);
 
   // Write a function to set the params
   const getParams = () => {
@@ -75,6 +76,15 @@ export default function Home() {
     return new URLSearchParams(params);
   };
 
+  
+  // Write a function that updates the states for range, interval, ticker, prePost and dayPercentageChange
+  const updateParams = (newParams: Record<string, string>) => {
+    setRange(newParams.range || range);
+    setInterval(newParams.interval || interval);
+    setTicker(newParams.ticker || ticker);
+    setPrePost(newParams.pre_post === 'true' || prePost);
+    setDayPercentChange(parseFloat(newParams.dayPercentageChange) || dayPercentChange);
+  };
 
   const stringParams = getParams().toString();
 
@@ -85,6 +95,7 @@ export default function Home() {
   if (isLoading) return <div>Loading...</div>
   if (error) return <div>Error: {error.message}</div>
   if (!data) return <div>Loading...</div>
+
 
 
   const chartData = data.map((point: ChartPoint) => {
@@ -102,7 +113,12 @@ export default function Home() {
   const categories = chartData.map((point: ChartPoint) => new Date(point.Timestamp).getTime());
 
 
-  const buffer = 0.01;
+  const dayPercentageChange = (close : number, open : number ) => {
+    const change = ((close - open) / open) * 100;
+    return change.toFixed(2);
+  };
+
+  const buffer = 0.05;
   const minValue = Math.min(...close) * (1 - buffer);
   const maxValue = Math.max(...close) * (1 + buffer);
 
@@ -183,14 +199,6 @@ export default function Home() {
           const newHigh = document.getElementById('newHigh') as HTMLSpanElement;
           const newLow = document.getElementById('newLow') as HTMLSpanElement;
           const newClose = document.getElementById('newClose') as HTMLSpanElement;
-          const changeLabel = document.getElementById('changeLabel') as HTMLSpanElement;
-          const openLabel = document.getElementById('openLabel') as HTMLSpanElement;
-          const highLabel = document.getElementById('highLabel') as HTMLSpanElement;
-          const lowLabel = document.getElementById('lowLabel') as HTMLSpanElement;
-          const volumeLabel = document.getElementById('volumeLabel') as HTMLSpanElement;
-          const closeLabel = document.getElementById('closeLabel') as HTMLSpanElement;
-
-      
           
           percentChangeElement.style.color = percentChange > 0 ? 'green' : 'red';
 
@@ -451,33 +459,31 @@ export default function Home() {
           <h2 className='text-lg font-bold text-gray-500 ml-3'>
             {range} {interval ? `(${interval})` : ''}
           </h2>
+          <span id="newDate" className={`${ohlcvMenu} text-sm font-bold text-white ml-3`}></span>
+          <span id="newTime" className={`${ohlcvMenu} text-sm font-bold text-white ml-3`}></span>
         </div>
-        <div className='flex flex-row justify-start mb-4 ml-3 min-w-1/2'>
-          <div className={`flex flex-col items-left justify-start h-5 min-w-[120px]`}>
-              <span id="newDate" className={`${ohlcvMenu} text-md font-bold text-white ml-3`}></span>
-              <span id="newTime" className={`${ohlcvMenu} text-md font-bold text-white ml-3`}></span>
-          </div>
-          <div className={`flex flex-col justify-start h-5 w-1/6`}>
+        <div className='grid grid-cols-7 gap-4 mb-5'>
+          <div className={`flex flex-col justify-start h-5 min-w-[80px]`}>
             <span id="openLabel" className={`${ohlcvMenu} text-md text-white ml-3`}>Open:</span>
             <span id="highLabel" className={`${ohlcvMenu} text-md text-white ml-3`}>High:</span>
           </div>
-          <div className={`flex flex-col justify-start h-5 text-right w-1/6`}>
+          <div className={`flex flex-col justify-start items-end h-5 w-[80px]`}>
             <span id="newOpen" className={`${ohlcvMenu} text-md font-bold text-white ml-1`}></span>             
             <span id="newHigh" className={`${ohlcvMenu} text-md font-bold text-white ml-3`}></span>
           </div>
-          <div className={`flex flex-col justify-start h-5 w-1/6`}>
+          <div className={`flex flex-col justify-start h-5 w-[80px]`}>
             <span id="lowLabel" className={`${ohlcvMenu} text-md text-white ml-3`}>Low:</span>
             <span id="closeLabel" className={`${ohlcvMenu} text-md text-white ml-3`}>Close:</span>
           </div>
-          <div className={`flex flex-col justify-start text-right h-5 w-1/6`}>
+          <div className={`flex flex-col justify-start items-end h-5 w-[80px]`}>
             <span id="newLow" className={`${ohlcvMenu} text-md font-bold text-white ml-1`}></span>
             <span id="newClose" className={`${ohlcvMenu} text-md font-bold text-white ml-3`}></span>
             </div>
-          <div className={`flex flex-col justify-start h-5 w-1/6`}>
+          <div className={`flex flex-col justify-start h-5 w-[80px]`}>
             <span id="volumeLabel" className={`${ohlcvMenu} text-md text-white ml-3`}>Volume:</span>
             <span id="changeLabel" className={`${ohlcvMenu} text-md text-white ml-3`}>Change:</span>
               </div>
-          <div className={`flex flex-col justify-start text-right h-5 w-1/6`}>
+          <div className={`flex flex-col justify-start items-end h-5 w-[80px]`}>
             <span id="newVolume" className={`${ohlcvMenu} text-md font-bold text-white ml-1`}></span>
             <span id="percentChange" className={`${ohlcvMenu} text-md font-bold text-white ml-3`}></span>
             </div>
