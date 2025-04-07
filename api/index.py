@@ -8,7 +8,8 @@ from fastapi import WebSocket
 import json
 import asyncio
 import base64
-import api.data.liveTicker as liveTicker
+from websockets.sync.client import connect
+from google.protobuf.json_format import MessageToJson
 
 ### Create FastAPI instance with custom docs and openapi url
 app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")
@@ -24,48 +25,55 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+YAHOO_WS_URI = "wss://streamer.finance.yahoo.com"
+# --- Handler Functions ---
+
+async def on_connect_to_yahoo(ticker: str, action_type: str = "subscribe"):
+    try:
+        yahoo_ws = await websockets.connect(
+            uri=YAHOO_WS_URI,
+        )
+        subscription_message = json.dumps({"subscribe": ["BTC-USD"]})
+        await yahoo_ws.send(subscription_message)
+        print(f"Subscribed to {ticker}")
+        return yahoo_ws
+    except Exception as e:
+        print(f"[Connection Error] Failed to connect or subscribe: {e}")
+        raise e
+
+async def on_message_yahoo(yahoo_ws, client_ws: WebSocket):
+    while True:
+        try:
+            raw = await asyncio.wait_for(yahoo_ws.recv(), timeout=5)
+            decoded = base64.b64decode(raw)
+            pricing_data = PricingData_pb2.PricingData()
+            pricing_data.ParseFromString(decoded)
+            json_data = MessageToJson(pricing_data)
+            print(f"[Update] {json_data}")
+            await client_ws.send_text(json_data)
+        except asyncio.TimeoutError:
+            await client_ws.send_text(json.dumps({"status": "idle", "message": "No updates yet"}))
+        except Exception as e:
+            print(f"[Error] {e}")
+            break
+
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
-    uri = "wss://streamer.finance.yahoo.com:443"
-    user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
-    data = await websocket.receive_text()
-    data = json.loads(data)
-    print(f"Received JSON data: {data}")
     try:
-        liveTicker.YLiveTicker(
-            on_ticker=websocket.send_text,
-            ticker_names=["AMZN"],
-            on_error=websocket.send_text,
-            on_close=websocket.close
-        )
-        # async with websockets.connect(uri, user_agent_header=user_agent, origin='') as yahoo_ws:
-        #     subscription_message = json.dumps({ data['type']: ['BTC'] })
-        #     print(f"Subscribing to: {subscription_message}")
-        #     await yahoo_ws.send(subscription_message)
-        #     print("Connected to Yahoo WebSocket")
+        message = await websocket.receive_text()
+        payload = json.loads(message)
+        ticker = payload.get("ticker")
+        action_type = payload.get("type", "subscribe")
 
-        #     while True:
-        #         try:
-        #             print("Waiting for data...")
-        #             data = await asyncio.wait_for(yahoo_ws.recv(), timeout=1)   
-        #             #Base 64 decode the data
-        #             data = base64.b64decode(data)                 
-        #             data_bytes = bytes(data)
-        #             stock_data = PricingData_pb2.PricingData()
-        #             stock_data.ParseFromString(data_bytes)
-        #             await websocket.send_text(stock_data.SerializeToString().hex())
-        #         except asyncio.TimeoutError:
-        #             # No update received in 5 seconds
-        #             await websocket.send_text(json.dumps({"status": "idle", "message": "No updates yet"}))
-        #         except DecodeError as e:
-        #             print(f"Decode error: {e}")
-        #         except Exception as e:
-        #             print(f"WebSocket read error: {e}")
-        #             break
+        yahoo_ws = await on_connect_to_yahoo(ticker, action_type)
+        await on_message_yahoo(yahoo_ws, websocket)
+
+    # ex
+    #     print("Client disconnected")
     except Exception as e:
-        print(f"Connection error: {e}")
+        print(f"WebSocket error: {e}")
         await websocket.send_text(json.dumps({"status": "error", "message": str(e)}))
 
 # / API endpoint to fetch data

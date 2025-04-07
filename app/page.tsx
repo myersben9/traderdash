@@ -5,7 +5,6 @@
 // TODO - Make date range by ticker
 // TODO - Make Percentage change by ticker to update when it state changes
 // TODO - Make buffer toggle slider for y axis zooming
-// TODO - Make updating current price through websocket
 // TOOD - Make chart not unzoom when mouse leaves
 
 // {COMING UP}
@@ -83,6 +82,7 @@ export default function Home() {
   const [interval, setInterval] = React.useState<string | null>('1m');
   const [ticker, setTicker] = React.useState('AAPL');
   const [prePost, setPrePost] = React.useState(false);
+  const [currentPrice, setCurrentPrice] = React.useState<number | null>(null);
 
   const ws = new WebSocket(`ws://localhost:8000/ws`);
   ws.onopen = () => {
@@ -90,7 +90,11 @@ export default function Home() {
     ws.send(JSON.stringify({ type: 'subscribe', ticker }));
   };
   ws.onmessage = (event) => {
-    console.log('WebSocket message received:', event);
+    const data = JSON.parse(event.data);
+    // Set current price into state
+    if (!data.price) return;
+    setCurrentPrice(data.price);
+    console.log('WebSocket message received:', data);
   };  
   ws.onclose = () => {
     console.log('WebSocket connection closed');
@@ -313,7 +317,6 @@ export default function Home() {
               className="w-[100px] h-[50px] mb-4"
               name="ticker"
               defaultValue={ticker}
-              maxLength={5}
               onBlur={(e) => {
                 if (e.target.value === ticker) return;
                 setTicker(e.target.value);
@@ -505,7 +508,8 @@ export default function Home() {
         </div>
         {/* Graph live opens and live percentages */}
         <div className={`flex flex-row items-left col-span-2 justify-start h-5`}>
-          <span id="liveOpen" className='text-sm font-bold text-white ml-3'>{abbreviateNumber(open[open.length-1],2)}</span>
+          {/* If no current price, use last close */}
+          <span id="liveOpen" className='text-sm font-bold text-white ml-3'>{currentPrice ? currentPrice : close[close.length - 1]}</span>
           <span id="livePercentChange" className='text-sm font-bold text-white ml-3'>{statePercentChangeText}</span>
         </div>
         <div className='grid grid-cols-7 gap-4 mb-4 w-[820px]'>
