@@ -1,7 +1,7 @@
 "use client";
 
 // {FINISH BY TODAY GOAL}
-// TODO - Make chart data able to stream through websockets
+// TODO - Make chart data able to stream through websockets ()
 // TODO - Make date range by ticker
 // TODO - Make Percentage change by ticker to update when it state changes
 // TODO - Make buffer toggle slider for y axis zooming
@@ -27,6 +27,7 @@ import { Search } from 'lucide-react';
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { getHost } from "@/app/constants"
+
 
 
 const fetcher = (url : string) => fetch(url).then((r) => r.json())
@@ -59,10 +60,44 @@ const validParams = [
 export default function Home() {
   const host = getHost();
 
+  const abbreviateNumber = (number: number, decimals: number = 2): string => {
+    const abbrev = ["K", "M", "B", "T"];
+  
+    for (let i = abbrev.length - 1; i >= 0; i--) {
+  
+      const size = Math.pow(10, (i + 1) * 3);
+      if (Math.abs(number) >= size) {
+        let shortened = Math.round((number * Math.pow(10, decimals)) / size) / Math.pow(10, decimals);
+         if (shortened === 1000 && i < abbrev.length - 1) {
+  
+          shortened = 1;
+          i++;
+        }
+        return `${shortened}${abbrev[i]}`;
+      }
+    }
+    return number.toFixed(decimals);
+  };
+
   const [range, setRange] = React.useState('1d');
   const [interval, setInterval] = React.useState<string | null>('1m');
   const [ticker, setTicker] = React.useState('AAPL');
   const [prePost, setPrePost] = React.useState(false);
+
+  const ws = new WebSocket(`ws://localhost:8000/ws`);
+  ws.onopen = () => {
+    console.log('WebSocket connection opened');
+    ws.send(JSON.stringify({ type: 'subscribe', ticker }));
+  };
+  ws.onmessage = (event) => {
+    console.log('WebSocket message received:', event);
+  };  
+  ws.onclose = () => {
+    console.log('WebSocket connection closed');
+  };
+  ws.onerror = (error) => {
+    console.error('WebSocket error:', error);
+  };
 
   // Write a function to set the params
   const getParams = () => {
@@ -79,6 +114,7 @@ export default function Home() {
 
   const stringParams = getParams().toString();
 
+  // Do not tie these up in astate or all hell breaks lose
   const { data, error, isLoading } = useSWR(
     `${host}/api/py/get_chart_data?${stringParams}`,
     fetcher);;
@@ -100,9 +136,17 @@ export default function Home() {
     }
   });
   const close = chartData.map((point: ChartPoint) => point.Close);
+  const open = chartData.map((point: ChartPoint) => point.Open);
   const categories = chartData.map((point: ChartPoint) => new Date(point.Timestamp).getTime());
 
-
+  // Constat
+  const statePercentChange = ((close[close.length - 1] - close[0]) / close[0]) * 100;
+  const statePoints = close[close.length - 1] - close[0];
+  const statePointsFormatted = abbreviateNumber(statePoints, 2);
+  const statePercentChangeFormatted = abbreviateNumber(statePercentChange, 2);
+  // Add correct + or - sign to the state points and percent change
+  const statePointsText = statePoints > 0 ? `+${statePointsFormatted}` : `${statePointsFormatted}`;
+  const statePercentChangeText = statePercentChange > 0 ? `+${statePercentChangeFormatted}` : `${statePercentChangeFormatted}`;
   const buffer = 0.01;
   const minValue = Math.min(...close) * (1 - buffer);
   const maxValue = Math.max(...close) * (1 + buffer);
@@ -163,7 +207,7 @@ export default function Home() {
 
           const dayPercentChange = ((close - open) / open) * 100;
           const percentChange = ((close - chartData[0].Close) / chartData[0].Close) * 100;
-          const percentChangeFormatted = percentChange.toFixed(2);
+          const percentChangeFormatted = abbreviateNumber(percentChange, 2);
 
           const percentChangeElement = document.getElementById('percentChange') as HTMLSpanElement;
           const newDate = document.getElementById('newDate') as HTMLSpanElement;
@@ -188,8 +232,6 @@ export default function Home() {
           volumeLabel.classList.remove('hidden');
           changeLabel.classList.remove('hidden');
 
-          
-          
           percentChangeElement.style.color = percentChange > 0 ? 'green' : 'red';
 
           percentChangeElement.innerText = `${percentChangeFormatted}%`;
@@ -440,40 +482,54 @@ export default function Home() {
             </div>
         </div>
         <div className='flex flex-row items-center justify-start mb-4 ml-3'>
-
           <h1 className='text-2xl font-bold text-white'>
-            {ticker}
+            {ticker.toUpperCase()}
           </h1>
-          <h2 className='text-lg font-bold text-gray-500 ml-3'>
+          <h2 className='text-sm font-bold text-gray-500 ml-3'>
             {range} {interval ? `(${interval})` : ''}
           </h2>
-        </div>
-        <div className='flex flex-row items-center justify-start mb-4 ml-3 w-[700px]'>
-          <div className={`flex flex-col items-left justify-start h-5 w-200px`}>
-              <span id="newDate" className='text-lg font-bold text-white ml-3'></span>
-              <span id="newTime" className='text-lg font-bold text-white ml-3'></span>
+          <h2 className='text-sm font-bold text-gray-500 ml-3'>
+            {prePost ? 'Pre/Post' : ''}
+          </h2>
+         {/* Format the day percentage state change and the day points with green red, number formatting fixed 2, and +- signs */}
+          <h2 className={`text-sm font-bold text-white ml-3 ${statePoints > 0 ? 'text-green-500' : 'text-red-500'}`}>
+            {statePointsText}
+          </h2>
+          <h2 className={`text-sm font-bold text-gray-500 ml-3 ${statePercentChange > 0 ? 'text-green-500' : 'text-red-500'}`}>
+            ({statePercentChangeText}%)
+          </h2>
+          <div className={`flex flex-row items-left col-span-2 justify-start h-5`}>
+              <span id="newDate" className='text-sm font-bold text-white ml-3'></span>
+              <span id="newTime" className='text-sm font-bold text-white ml-3'></span>
           </div>
-          <div className={`flex flex-col justify-start h-5 w-[140px]`}>
+        </div>
+        {/* Graph live opens and live percentages */}
+        <div className={`flex flex-row items-left col-span-2 justify-start h-5`}>
+          <span id="liveOpen" className='text-sm font-bold text-white ml-3'>{abbreviateNumber(open[open.length-1],2)}</span>
+          <span id="livePercentChange" className='text-sm font-bold text-white ml-3'>{statePercentChangeText}</span>
+        </div>
+        <div className='grid grid-cols-7 gap-4 mb-4 w-[820px]'>
+          <div className={`flex flex-col justify-start h-5 min-w-[80px]`}>
             <span id="openLabel" className='hidden text-lg  text-white ml-3'>Open:</span>
             <span id="highLabel" className='hidden text-lg text-white ml-3'>High:</span>
           </div>
-          <div className={`flex flex-col justify-start h-5 text-right w-[140px]`}>
+          <div className={`flex flex-col items-end h-5 min-w-[80px]`}>
             <span id="newOpen" className='text-lg font-bold text-white ml-1'></span>             
             <span id="newHigh" className='text-lg font-bold text-white ml-3'></span>
           </div>
-          <div className={`flex flex-col justify-start m-auto  h-5 w-[140px]`}>
+          <div className={`flex flex-col justify-start h-5 min-w-[80px]`}>
             <span id="lowLabel" className='hidden text-lg text-white ml-3'>Low:</span>
             <span id="closeLabel" className='hidden text-lg text-white ml-3'>Close:</span>
           </div>
-          <div className={`flex flex-col m-auto text-right justify-start h-5 w-1/5`}>
+          <div className={`flex flex-col items-end min-w-[80px] h-5`}>
             <span id="newLow" className='text-lg font-bold text-white ml-1'></span>
             <span id="newClose" className='text-lg font-bold text-white ml-3'></span>
             </div>
-          <div className={`flex flex-col justify-start h-5`}>
+          <div className={`flex flex-col justify-start h-5 min-w-[80px]`}>
             <span id="volumeLabel" className='hidden text-lg text-white ml-3'>Volume:</span>
             <span id="changeLabel" className='hidden text-lg text-white ml-3'>Change:</span>
               </div>
-          <div className={`flex flex-col m-auto text-right justify-start h-5`}>
+          <div className={`flex flex-col items-end h-5 min-w-[80px]`}>
             <span id="newVolume" className='text-lg font-bold text-white ml-1'></span>
             <span id="percentChange" className='text-lg font-bold text-white ml-3'></span>
             </div>
