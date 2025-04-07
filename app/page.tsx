@@ -29,8 +29,26 @@ import { getHost } from "@/app/constants"
 
 
 
+
 const fetcher = (url : string) => fetch(url).then((r) => r.json())
 const ApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
+// Write a function that takes in a timestamp, chartpoint[], currentPrice, and appends an updated row to chartpoint[] with the current price and the timestamp
+// and then updates the chart with the new data
+const updateChartData = (chartData: ChartPoint[], data : Record<any,any>) => {
+  const newData = {
+    Timestamp: data.Timestamp,
+    Open: data.Open,
+    High: data.High,
+    Low: data.Low,
+    Close: data.Close,
+    Volume: data.Volume,
+    Symbol: data.Symbol
+  }
+  chartData.push(newData);
+  return chartData;
+}
+
 
 interface ChartPoint {
   Timestamp: string; // or use Date if the timestamp is a Date object
@@ -42,9 +60,17 @@ interface ChartPoint {
   Symbol: string;
 }
 
-interface ChartData {
-  tick: ChartPoint[];
+interface WebsocketData {
+  id: string;
+  price: number;
+  time: string;
+  exchange: string;
+  quoteType: string;
+  changePercent: number;
+  change: number;
+  priceHint: number;
 }
+
 
 
 const validParams = [
@@ -82,27 +108,57 @@ export default function Home() {
   const [interval, setInterval] = React.useState<string | null>('1m');
   const [ticker, setTicker] = React.useState('AAPL');
   const [prePost, setPrePost] = React.useState(false);
-  const [currentPrice, setCurrentPrice] = React.useState<number | null>(null);
+  const [websocketState, setWebsocketState] = React.useState<Record<any,any>>(
+    {
+      id: 'AAPL',
+      price: 0,
+      time: '',
+      exchange: '',
+      quoteType: '',
+      changePercent: 0,
+      change: 0,
+      priceHint: 0
+    }
+  );
 
-  const ws = new WebSocket(`ws://localhost:8000/ws`);
-  ws.onopen = () => {
-    console.log('WebSocket connection opened');
-    ws.send(JSON.stringify({ type: 'subscribe', ticker }));
-  };
-  ws.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-    // Set current price into state
-    if (!data.price) return;
-    setCurrentPrice(data.price);
-    console.log('WebSocket message received:', data);
-  };  
-  ws.onclose = () => {
-    console.log('WebSocket connection closed');
-  };
-  ws.onerror = (error) => {
-    console.error('WebSocket error:', error);
-  };
+  const [chartDataState, setChartData] = React.useState<ChartPoint[]>([]);
 
+  // Basically what i want to do is to connect the websocket initially to the default ticker
+  // Then i was to set up the connection and put data where it needs to go
+  // If the ticker changes, i want to close the connection and open a new one
+
+  const connectYlive = () => {
+    const ws = new WebSocket(`ws://localhost:8000/ws`);
+    ws.onopen = () => {
+      console.log('WebSocket connection opened');
+      const msg = {
+        subscribe: [ticker]
+      };
+      ws.send(JSON.stringify(msg));
+    }
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.price) {
+        setWebsocketState(data);
+      }
+    }
+    ws.onclose = () => {
+      console.log('WebSocket connection closed');
+    }
+    ws.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    }
+    return ws;
+  }
+
+  // Connect to the websocket when the component mount, but when ticker changes close the connection
+  React.useEffect(() => {
+    const ws = connectYlive();
+    return () => {
+      ws.close();
+    }
+  }
+  , [ticker]);
   // Write a function to set the params
   const getParams = () => {
     const params: Record<string, string> = { range, ticker, pre_post: prePost ? 'true' : 'false' };
@@ -118,14 +174,26 @@ export default function Home() {
 
   const stringParams = getParams().toString();
 
-  // Do not tie these up in astate or all hell breaks lose
+  const params = getParams();
   const { data, error, isLoading } = useSWR(
     `${host}/api/py/get_chart_data?${stringParams}`,
-    fetcher);;
+    fetcher,
+    {
+      refreshInterval: 10000,
+      revalidateOnFocus: false,
+      onSuccess: (data) => {
+        if (!data) return;
+        // Update the chart data with the new data
+        const newData = updateChartData(chartDataState, data);
+        setChartData(newData);
+      }
+    }
+  );;
 
-  if (isLoading) return <div>Loading...</div>
+  // if (isLoading) return <div>Loading...</div>
   if (error) return <div>Error: {error.message}</div>
   if (!data) return <div>Loading...</div>
+
 
 
   const chartData = data.map((point: ChartPoint) => {
@@ -145,7 +213,7 @@ export default function Home() {
 
   // Constat
   const statePercentChange = ((close[close.length - 1] - close[0]) / close[0]) * 100;
-  const statePoints = close[close.length - 1] - close[0];
+  const statePoints = websocketState!.price ? websocketState!.price - close[0] : close[close.length - 1] - close[0];
   const statePointsFormatted = abbreviateNumber(statePoints, 2);
   const statePercentChangeFormatted = abbreviateNumber(statePercentChange, 2);
   // Add correct + or - sign to the state points and percent change
@@ -320,6 +388,7 @@ export default function Home() {
               onBlur={(e) => {
                 if (e.target.value === ticker) return;
                 setTicker(e.target.value);
+                connectYlive
               }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
@@ -327,6 +396,7 @@ export default function Home() {
                 }
               }}
             />
+            
             <Search
               className={`absolute mb-4 mr-2 ml-2 cursor-pointer`}
               onClick={() => {
@@ -495,42 +565,43 @@ export default function Home() {
             {prePost ? 'Pre/Post' : ''}
           </h2>
          {/* Format the day percentage state change and the day points with green red, number formatting fixed 2, and +- signs */}
-          <h2 className={`text-sm font-bold text-white ml-3 ${statePoints > 0 ? 'text-green-500' : 'text-red-500'}`}>
-            {statePointsText}
-          </h2>
-          <h2 className={`text-sm font-bold text-gray-500 ml-3 ${statePercentChange > 0 ? 'text-green-500' : 'text-red-500'}`}>
-            ({statePercentChangeText}%)
-          </h2>
           <div className={`flex flex-row items-left col-span-2 justify-start h-5`}>
               <span id="newDate" className='text-sm font-bold text-white ml-3'></span>
               <span id="newTime" className='text-sm font-bold text-white ml-3'></span>
           </div>
         </div>
         {/* Graph live opens and live percentages */}
-        <div className={`flex flex-row items-left col-span-2 justify-start h-5`}>
+        <div className={`flex flex-row ml-3 h-10`}>
           {/* If no current price, use last close */}
-          <span id="liveOpen" className='text-sm font-bold text-white ml-3'>{currentPrice ? currentPrice : close[close.length - 1]}</span>
-          <span id="livePercentChange" className='text-sm font-bold text-white ml-3'>{statePercentChangeText}</span>
+          {/* If it is green style it with a flash and then green if red style with flash then red */}
+          <h2 id="liveOpen" className={`text-center text-2xl ${websocketState!.price && websocketState!.price > close[close.length - 1] ? 'text-green-500' : 'text-red-500'}`}>{websocketState!.price ? websocketState!.price.toFixed(2) : close[close.length - 1].toFixed(2)}</h2>
+
+          <h2 className={`text-sm ml-3 ${statePoints > 0 ? 'text-green-500' : 'text-red-500'}`}>
+            {statePointsText}
+          </h2>
+          <h2 className={`text-sm font-bold text-gray-500 ml-3 ${statePercentChange > 0 ? 'text-green-500' : 'text-red-500'}`}>
+            ({statePercentChangeText}%)
+          </h2>
         </div>
         <div className='grid grid-cols-7 gap-4 mb-4 w-[820px]'>
           <div className={`flex flex-col justify-start h-5 min-w-[80px]`}>
-            <span id="openLabel" className='hidden text-lg  text-white ml-3'>Open:</span>
-            <span id="highLabel" className='hidden text-lg text-white ml-3'>High:</span>
+            <span id="openLabel" className='hidden text-lg  text-white ml-3'>O:</span>
+            <span id="highLabel" className='hidden text-lg text-white ml-3'>H:</span>
           </div>
           <div className={`flex flex-col items-end h-5 min-w-[80px]`}>
             <span id="newOpen" className='text-lg font-bold text-white ml-1'></span>             
             <span id="newHigh" className='text-lg font-bold text-white ml-3'></span>
           </div>
           <div className={`flex flex-col justify-start h-5 min-w-[80px]`}>
-            <span id="lowLabel" className='hidden text-lg text-white ml-3'>Low:</span>
-            <span id="closeLabel" className='hidden text-lg text-white ml-3'>Close:</span>
+            <span id="lowLabel" className='hidden text-lg text-white ml-3'>L:</span>
+            <span id="closeLabel" className='hidden text-lg text-white ml-3'>C:</span>
           </div>
           <div className={`flex flex-col items-end min-w-[80px] h-5`}>
             <span id="newLow" className='text-lg font-bold text-white ml-1'></span>
             <span id="newClose" className='text-lg font-bold text-white ml-3'></span>
             </div>
           <div className={`flex flex-col justify-start h-5 min-w-[80px]`}>
-            <span id="volumeLabel" className='hidden text-lg text-white ml-3'>Volume:</span>
+            <span id="volumeLabel" className='hidden text-lg text-white ml-3'>V:</span>
             <span id="changeLabel" className='hidden text-lg text-white ml-3'>Change:</span>
               </div>
           <div className={`flex flex-col items-end h-5 min-w-[80px]`}>

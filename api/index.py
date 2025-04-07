@@ -28,14 +28,14 @@ app.add_middleware(
 YAHOO_WS_URI = "wss://streamer.finance.yahoo.com"
 # --- Handler Functions ---
 
-async def on_connect_to_yahoo(ticker: str, action_type: str = "subscribe"):
+tickers = set()
+
+async def on_connect_to_yahoo(subscription_message):
     try:
         yahoo_ws = await websockets.connect(
             uri=YAHOO_WS_URI,
         )
-        subscription_message = json.dumps({"subscribe": ["BTC-USD"]})
         await yahoo_ws.send(subscription_message)
-        print(f"Subscribed to {ticker}")
         return yahoo_ws
     except Exception as e:
         print(f"[Connection Error] Failed to connect or subscribe: {e}")
@@ -44,15 +44,25 @@ async def on_connect_to_yahoo(ticker: str, action_type: str = "subscribe"):
 async def on_message_yahoo(yahoo_ws, client_ws: WebSocket):
     while True:
         try:
-            raw = await asyncio.wait_for(yahoo_ws.recv(), timeout=5)
+            # 
+            raw = await yahoo_ws.recv()
             decoded = base64.b64decode(raw)
             pricing_data = PricingData_pb2.PricingData()
             pricing_data.ParseFromString(decoded)
             json_data = MessageToJson(pricing_data)
-            print(f"[Update] {json_data}")
+            data = json.loads(json_data)
+            print(data)
+            if data['id'] not in tickers:
+                tickers.add(data['id']) 
+
+            if len(tickers) > 1:
+                # Send unsubscribe ticker the the one that we didn't just add
+                unsubscribe_message = {
+                    "unsubscribe": [list(tickers)[0]]
+                }
+                msg = json.dumps(unsubscribe_message)
+                await yahoo_ws.send(msg)
             await client_ws.send_text(json_data)
-        except asyncio.TimeoutError:
-            await client_ws.send_text(json.dumps({"status": "idle", "message": "No updates yet"}))
         except Exception as e:
             print(f"[Error] {e}")
             break
@@ -63,15 +73,8 @@ async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     try:
         message = await websocket.receive_text()
-        payload = json.loads(message)
-        ticker = payload.get("ticker")
-        action_type = payload.get("type", "subscribe")
-
-        yahoo_ws = await on_connect_to_yahoo(ticker, action_type)
+        yahoo_ws = await on_connect_to_yahoo(message)
         await on_message_yahoo(yahoo_ws, websocket)
-
-    # ex
-    #     print("Client disconnected")
     except Exception as e:
         print(f"WebSocket error: {e}")
         await websocket.send_text(json.dumps({"status": "error", "message": str(e)}))
