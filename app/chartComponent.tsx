@@ -26,6 +26,12 @@ const ChartComponent = ({
     websocketState: WebSocketState;
 }
 ) => {
+    const xAxisRange = useRef<{ min: number; max: number } | null>(null);
+
+    // Reset zoom when relevant props change
+    useEffect(() => {
+        xAxisRange.current = null;
+    }, [ticker, interval, range, prePost]);
 
     const getParams = () => {
         const params: Record<string, string> = { range, ticker, pre_post: prePost ? 'true' : 'false' };
@@ -43,15 +49,16 @@ const ChartComponent = ({
       const { data, error, isLoading } = useSWR(
         `${host}/api/py/get_chart_data?${stringParams}`,
         fetcher,
-        // {
-        //   refreshInterval: 10000,
+        {
+            // Refresh data for every interval (right now just do 1m)
+            refreshInterval: 60000,
         //   revalidateOnFocus: false,
         //   onSuccess: (data) => {
         //     if (data) {
               
         //     }
         //   }
-        // }
+        }
       );;
       // if (isLoading) return <div>Loading...</div>
       if (error) return <div>Error: {error.message}</div>
@@ -72,6 +79,15 @@ const ChartComponent = ({
   const close = chartData.map((point: ChartPoint) => point.Close);
   const categories = chartData.map((point: ChartPoint) => new Date(point.Timestamp).getTime());
 
+  const categoriesLast = categories[categories.length - 1];
+//   Turn into dates
+const categoriesDate = new Date(categoriesLast);    
+const websocketDate = new Date(parseInt(websocketState.time));
+console.log(categoriesDate, "categoriesDate");
+console.log(websocketDate, "websocketDate");
+  console.log(websocketState.price)
+
+
   const buffer = 0.01;
   const minValue = Math.min(...close) * (1 - buffer);
   const maxValue = Math.max(...close) * (1 + buffer);
@@ -89,7 +105,10 @@ const ChartComponent = ({
           
         },
         events: {
-      }
+            zoomed: (chartContext, { xaxis }) => {
+              xAxisRange.current = { min: xaxis.min, max: xaxis.max };
+            }
+          },
       },
       annotations: {
         yaxis: [
@@ -170,6 +189,8 @@ const ChartComponent = ({
         },
         type: 'datetime',
         categories,
+        min: xAxisRange.current?.min,
+        max: xAxisRange.current?.max,
         tickAmount: 10,
         tickPlacement: 'on',
         axisTicks: {
