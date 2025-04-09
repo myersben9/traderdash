@@ -20,12 +20,13 @@
 
 
 import React from 'react'
-import { Search } from 'lucide-react';
+import { Search, ChevronDown, ChevronUp } from 'lucide-react';
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useWebSocket } from "@/app/useWebSocket"
 import ChartComponent from '@/app//chartComponent';
+import { abbreviateNumber, formatPrice } from './utils';
 
 
 export default function Home() {
@@ -216,6 +217,9 @@ export default function Home() {
               </Button>
             </div>
         </div>
+        <div>
+          {/* Add a slider for range */}
+        </div>
         <div className='flex flex-row items-center justify-start mb-4 ml-3'>
           <h1 className='text-2xl font-bold text-white'>
             {ticker.toUpperCase()}
@@ -232,8 +236,26 @@ export default function Home() {
           </div>
         </div>
         <div className={`flex flex-row ml-3 h-10`}>
-          <h2 id='livePrice'>{websocketState.price}</h2>
+          <h2 id='livePrice' className={`
+            text-2xl font-bold text-white
+            ${websocketState.change > 0 ? 'text-green-500' : 'text-red-500'}
+          `}>{websocketState.price}</h2>
         </div>
+        <div className="flex items-center text-left space-x-1 ml-3">
+        <span className={`
+            text-xs 
+            ${websocketState.change > 0 ? 'text-green-500' : 'text-red-500'}
+          `}>
+            {websocketState.change > 0 ? '▲' : '▼'}
+          </span>
+        <span className={`
+            text-xs font-bold 
+            ${websocketState.change > 0 ? 'text-green-500' : 'text-red-500'}
+          `}>
+          {abbreviateNumber(websocketState.changePercent)}% ({abbreviateNumber(websocketState.change)})
+        </span>
+      </div>
+
         {
           (ticker) && (
             <ChartComponent

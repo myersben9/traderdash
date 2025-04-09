@@ -6,6 +6,7 @@ import useSWR from 'swr'
 import { WebSocketState } from '@/app/models';
 import { getHost } from "@/app/constants"
 import { ChartPoint } from '@/app/models';
+import { abbreviateNumber } from './utils';
 
 const host = getHost();
 const fetcher = (url : string) => fetch(url).then((r) => r.json())
@@ -51,7 +52,7 @@ const ChartComponent = ({
         fetcher,
         {
             // Refresh data for every interval (right now just do 1m)
-            refreshInterval: 60000,
+            refreshInterval: 1000,
         //   revalidateOnFocus: false,
         //   onSuccess: (data) => {
         //     if (data) {
@@ -80,13 +81,7 @@ const ChartComponent = ({
   const categories = chartData.map((point: ChartPoint) => new Date(point.Timestamp).getTime());
 
   const categoriesLast = categories[categories.length - 1];
-//   Turn into dates
-const categoriesDate = new Date(categoriesLast);    
-const websocketDate = new Date(parseInt(websocketState.time));
-console.log(categoriesDate, "categoriesDate");
-console.log(websocketDate, "websocketDate");
-  console.log(websocketState.price)
-
+  // Write a use effect that prints the latest time of the close when data changes
 
   const buffer = 0.01;
   const minValue = Math.min(...close) * (1 - buffer);
@@ -107,7 +102,24 @@ console.log(websocketDate, "websocketDate");
         events: {
             zoomed: (chartContext, { xaxis }) => {
               xAxisRange.current = { min: xaxis.min, max: xaxis.max };
-            }
+            },
+            mouseLeave: () => {
+              const fields = [
+                'newOpen',
+                'newHigh',
+                'newLow',
+                'newClose',
+                'newVolume',
+                'percentChange'
+              ];
+            
+              fields.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.innerText = '--';
+              });
+            },
+            
+            
           },
       },
       annotations: {
@@ -150,6 +162,7 @@ console.log(websocketDate, "websocketDate");
           const low = chartData[dataPointIndex].Low.toFixed(2);
           const close = chartData[dataPointIndex].Close.toFixed(2);
 
+          const percentChange = document.getElementById('percentChange') as HTMLSpanElement;
           const newDate = document.getElementById('newDate') as HTMLSpanElement;
           const newTime = document.getElementById('newTime') as HTMLSpanElement;
           const newVolume = document.getElementById('newVolume') as HTMLSpanElement;
@@ -172,6 +185,9 @@ console.log(websocketDate, "websocketDate");
           volumeLabel.classList.remove('hidden');
           changeLabel.classList.remove('hidden');
 
+          const percentChangeValue = abbreviateNumber((price - open) / open * 100,2);
+
+
           newDate.innerText = `${date}`;
           newTime.innerText = `${time}`;
           newVolume.innerText = `${volume}`;
@@ -179,6 +195,7 @@ console.log(websocketDate, "websocketDate");
           newHigh.innerText = `${high}`;
           newLow.innerText = `${low}`;
           newClose.innerText = `${close}`;
+          percentChange.innerText = `${percentChangeValue}%`;
 
           return '';
         },
@@ -241,33 +258,49 @@ console.log(websocketDate, "websocketDate");
       }
   ];
   return (
-        <>
-        <div className='grid grid-cols-7 gap-4 mb-4 w-[820px]'>
-          <div className={`flex flex-col justify-start h-5 min-w-[80px]`}>
-            <span id="openLabel" className='hidden text-lg  text-white ml-3'>O:</span>
-            <span id="highLabel" className='hidden text-lg text-white ml-3'>H:</span>
+          <div
+    onMouseLeave={() => {
+      const fields = [
+        'newOpen',
+        'newHigh',
+        'newLow',
+        'newClose',
+        'newVolume',
+        'percentChange'
+      ];
+      fields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = '--';
+      });
+    }}
+  >
+        
+        <div id="tooltip-apex" className="flex items-center gap-4 text-white text-sm font-medium px-4 py-2 rounded-md shadow-md w-fit">
+          <div className="flex items-center gap-1">
+            <span id="openLabel" className="text-gray-400">O:</span>
+            <span id="newOpen">--</span>
           </div>
-          <div className={`flex flex-col items-end h-5 min-w-[80px]`}>
-            <span id="newOpen" className='text-lg font-bold text-white ml-1'></span>             
-            <span id="newHigh" className='text-lg font-bold text-white ml-3'></span>
+          <div className="flex items-center gap-1">
+            <span id="highLabel" className="text-gray-400">H:</span>
+            <span id="newHigh">--</span>
           </div>
-          <div className={`flex flex-col justify-start h-5 min-w-[80px]`}>
-            <span id="lowLabel" className='hidden text-lg text-white ml-3'>L:</span>
-            <span id="closeLabel" className='hidden text-lg text-white ml-3'>C:</span>
+          <div className="flex items-center gap-1">
+            <span id="lowLabel" className="text-gray-400">L:</span>
+            <span id="newLow">--</span>
           </div>
-          <div className={`flex flex-col items-end min-w-[80px] h-5`}>
-            <span id="newLow" className='text-lg font-bold text-white ml-1'></span>
-            <span id="newClose" className='text-lg font-bold text-white ml-3'></span>
-            </div>
-          <div className={`flex flex-col justify-start h-5 min-w-[80px]`}>
-            <span id="volumeLabel" className='hidden text-lg text-white ml-3'>V:</span>
-            <span id="changeLabel" className='hidden text-lg text-white ml-3'>Change:</span>
-              </div>
-          <div className={`flex flex-col items-end h-5 min-w-[80px]`}>
-            <span id="newVolume" className='text-lg font-bold text-white ml-1'></span>
-            <span id="percentChange" className='text-lg font-bold text-white ml-3'></span>
-            </div>
-        </div>
+          <div className="flex items-center gap-1">
+            <span id="closeLabel" className="text-gray-400">C:</span>
+            <span id="newClose">--</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span id="volumeLabel" className="text-gray-400">V:</span>
+            <span id="newVolume">--</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span id="changeLabel" className="text-gray-400">Change:</span>
+            <span id="percentChange">--</span>
+          </div>
+      </div>
         
         <ApexChart
           type="line"
@@ -276,7 +309,7 @@ console.log(websocketDate, "websocketDate");
           height={500}
           width={700}
         />
-        </>
+        </div>
   );
 }
 
