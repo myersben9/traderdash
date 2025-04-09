@@ -1,11 +1,8 @@
 "use client";
 
 // {FINISH BY TODAY GOAL}
-// TODO - Make chart data able to stream through websockets ()
 // TODO - Make date range by ticker
-// TODO - Make Percentage change by ticker to update when it state changes
 // TODO - Make buffer toggle slider for y axis zooming
-// TOOD - Make chart not unzoom when mouse leaves
 
 // {COMING UP}
 // TODO - Make chart component resizable to fullscreen, mobile, and different sizes, everything repsonsive
@@ -216,6 +213,20 @@ export default function Home() {
                 >
                 Pre/Post
               </Button>
+              <Slider
+                id="slider"
+                defaultValue={[0]}
+                min={0}
+                max={100}
+                step={1}
+                className="w-[200px] h-[50px] mb-4 mr-[3px]"
+                onValueCommit={(value) => {
+                  console.log(value);
+                }}
+                onValueChange={(value) => {
+                  console.log(value);
+                }}
+              />
             </div>
         </div>
         <div>
