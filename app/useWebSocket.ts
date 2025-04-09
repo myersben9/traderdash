@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { getHost } from "@/app/constants";
 import { WebSocketState } from '@/app/models';
 
 // Example const interface for the websocket state
@@ -11,7 +12,9 @@ export const useWebSocket = (ticker: string) => {
   const [websocketState, setWebsocketData] = useState<WebSocketState>(exampleWebSocketState);
 
   useEffect(() => {
-    const ws = new WebSocket(`ws://localhost:8000/ws`);
+    // Get enviornment variable for host
+    const host = getHost();
+    const ws = new WebSocket(`ws://${host}/ws`);
     ws.onopen = () => {
       ws.send(JSON.stringify({ subscribe: [ticker] }));
     };
