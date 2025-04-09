@@ -20,7 +20,7 @@
 
 
 import React from 'react'
-import { Search, ChevronDown, ChevronUp } from 'lucide-react';
+import { Search } from 'lucide-react';
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -28,6 +28,7 @@ import { useWebSocket } from "@/app/useWebSocket"
 import ChartComponent from '@/app//chartComponent';
 import { abbreviateNumber, formatPrice } from './utils';
 
+import { Slider } from "@/components/ui/slider"
 
 export default function Home() {
 
