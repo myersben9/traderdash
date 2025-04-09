@@ -13,7 +13,7 @@ export const useWebSocket = (ticker: string) => {
   useEffect(() => {
     let ws: WebSocket = new WebSocket(`ws://localhost:8000/ws`);
     if (process.env.NEXT_PUBLIC_NODE_ENV === 'production') {
-       ws = new WebSocket(`wss://${process.env.NEXT_PUBLIC_PROD_BACKEND_URL}/${ticker}.json`);
+       ws = new WebSocket(`wss://${process.env.NEXT_PUBLIC_PROD_BACKEND_URL}/ws`);
     }
     ws.onopen = () => {
       ws.send(JSON.stringify({ subscribe: [ticker] }));
