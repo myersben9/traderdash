@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { getHost } from "@/app/constants";
 import { WebSocketState } from '@/app/models';
 
 // Example const interface for the websocket state
@@ -12,9 +11,10 @@ export const useWebSocket = (ticker: string) => {
   const [websocketState, setWebsocketData] = useState<WebSocketState>(exampleWebSocketState);
 
   useEffect(() => {
-    // Get enviornment variable for host
-    const host = getHost();
-    const ws = new WebSocket(`ws://${host}/ws`);
+    let ws: WebSocket = new WebSocket(`ws://localhost:8000/ws`);
+    if (process.env.NEXT_PUBLIC_NODE_ENV === 'production') {
+       ws = new WebSocket(`wss://${process.env.NEXT_PUBLIC_PROD_BACKEND_URL}/${ticker}.json`);
+    }
     ws.onopen = () => {
       ws.send(JSON.stringify({ subscribe: [ticker] }));
     };
