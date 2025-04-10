@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { WebSocketState } from '@/app/models';
 
@@ -9,12 +10,11 @@ const exampleWebSocketState3= {'id': '^VIX', 'price': 52.33, 'time': '1744143301
 
 export const useWebSocket = (ticker: string) => {
   const [websocketState, setWebsocketData] = useState<WebSocketState>(exampleWebSocketState);
-
+  
   useEffect(() => {
-    let ws: WebSocket = new WebSocket(`ws://localhost:8000/ws`);
-    if (process.env.NEXT_PUBLIC_NODE_ENV === 'production') {
-       ws = new WebSocket(`wss://${process.env.NEXT_PUBLIC_PROD_BACKEND_URL}/ws`);
-    }
+    const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    const host = `${window.location.hostname}`;
+    const ws = new WebSocket(`${protocol}://${host}/ws`);
     ws.onopen = () => {
       ws.send(JSON.stringify({ subscribe: [ticker] }));
     };

@@ -50,8 +50,9 @@ const ChartComponent = ({
     
     
       const stringParams = getParams().toString();
+
       const { data, error, isLoading } = useSWR(
-        `${host}/api/py/get_chart_data?${stringParams}`,
+        `/api/py/get_chart_data?${stringParams}`,
         fetcher,
         {
             // Refresh data for every interval (right now just do 1m)
