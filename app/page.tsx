@@ -2,6 +2,10 @@
 
 // {FINISH BY TODAY GOAL}
 // TODO - Create live newsfeed component that updates every 5 seconds
+// TODO - Make images work, make links for news clickable, 
+// TODO - Add adequate loading and error handling for different inputs for ticker
+// TODO - Add loading and error handling for websocket connection
+// TODO - Fix websocket on production
 
 // {COMING UP}
 // TODO - Make chart component resizable to fullscreen, mobile, and different sizes, everything repsonsive
