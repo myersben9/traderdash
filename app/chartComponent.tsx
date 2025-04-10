@@ -7,6 +7,7 @@ import { WebSocketState } from '@/app/models';
 import { getHost } from "@/app/constants"
 import { ChartPoint } from '@/app/models';
 import { abbreviateNumber } from './utils';
+import { Slider } from "@/components/ui/slider"
 
 const host = getHost();
 const fetcher = (url : string) => fetch(url).then((r) => r.json())
@@ -301,7 +302,16 @@ const ChartComponent = ({
             <span id="percentChange">--</span>
           </div>
       </div>
-        
+      <div className='flex flex-row items-center justify-start mb-4 ml-3'>
+      <div className='w-10 flex justify-center'>
+        <Slider
+          defaultValue={[33]}
+          max={100}
+          step={1}
+          orientation='vertical'
+          className='h-36 w-4 relative flex items-center bg-white rounded-full' // height = vertical length, width = thickness, rounded corners
+        />
+      </div>
         <ApexChart
           type="line"
           series={series}
@@ -309,6 +319,7 @@ const ChartComponent = ({
           height={500}
           width={700}
         />
+      </div> 
         </div>
   );
 }

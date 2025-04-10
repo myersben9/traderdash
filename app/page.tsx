@@ -25,8 +25,6 @@ import { useWebSocket } from "@/app/useWebSocket"
 import ChartComponent from '@/app//chartComponent';
 import { abbreviateNumber, formatPrice } from './utils';
 
-import { Slider } from "@/components/ui/slider"
-
 export default function Home() {
 
   const [range, setRange] = React.useState('1d');
@@ -213,25 +211,11 @@ export default function Home() {
                 >
                 Pre/Post
               </Button>
-              <Slider
-                id="slider"
-                defaultValue={[0]}
-                min={0}
-                max={100}
-                step={1}
-                className="w-[200px] h-[50px] mb-4 mr-[3px]"
-                onValueCommit={(value) => {
-                  console.log(value);
-                }}
-                onValueChange={(value) => {
-                  console.log(value);
-                }}
-              />
+             
             </div>
         </div>
-        <div>
-          {/* Add a slider for range */}
-        </div>
+
+       
         <div className='flex flex-row items-center justify-start mb-4 ml-3'>
           <h1 className='text-2xl font-bold text-white'>
             {ticker.toUpperCase()}
@@ -270,6 +254,8 @@ export default function Home() {
 
         {
           (ticker) && (
+            <>
+           {/* Add vertical slider to left of chart component that controls the buffer of the graph */}
             <ChartComponent
               ticker={ticker}
               interval={interval}
@@ -277,6 +263,7 @@ export default function Home() {
               prePost={prePost}
               websocketState={websocketState}
             />
+            </>
           )
         }
           
