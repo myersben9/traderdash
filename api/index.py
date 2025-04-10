@@ -52,7 +52,6 @@ async def on_message_yahoo(yahoo_ws, client_ws: WebSocket):
             pricing_data.ParseFromString(decoded)
             json_data = MessageToJson(pricing_data)
             data = json.loads(json_data)
-            print(data)
             if data['id'] not in tickers:
                 tickers.add(data['id']) 
 
@@ -109,15 +108,24 @@ def get_spy_news():
     """
     try:
         print("Fetching news for SPY")
-        yf = yf.Ticker("SPY")
-        news = yf.news
-        # Filter out the most recent news
-        recent_news = news[:5]  # Get the most recent 5 news articles
-        # Convert to a more readable format
-        # Write toa  file   
-        print(recent_news)
-        with open("spy_news.json", "w") as f:
-            json.dump(recent_news, f, indent=4)
+        yahooTicker = yf.Ticker("SPY")
+        news = yahooTicker.news
+        recent_news = news[:5] 
+        return recent_news
+    except Exception as e:
+        return {"error": str(e)}
+    
+
+@app.get("/api/py/get_ticker_news") 
+def get_ticker_news(ticker: str):
+    """
+    Fetches the most recent news for a given ticker.
+    """
+    try:
+        print("Fetching news for {ticker}")
+        yahooTicker = yf.Ticker(ticker)
+        news = yahooTicker.news
+        recent_news = news[:5]
         return recent_news
     except Exception as e:
         return {"error": str(e)}

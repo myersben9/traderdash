@@ -23,8 +23,48 @@ import { Button } from "@/components/ui/button"
 import { useWebSocket } from "@/app/useWebSocket"
 import ChartComponent from '@/app//chartComponent';
 import useSWR from 'swr';
-import { abbreviateNumber, formatPrice } from './utils';
-import { fetcher } from './utils';
+import { fetcher, abbreviateNumber, formatPrice } from '@/app/utils';
+
+
+
+interface NewsStateData {
+  id: string;
+  content: NewsStateContent;
+  provider: Record<string, string>;
+  canonicalUrl: Record<string, string>;
+  clickThroughUrl: Record<string, string>;
+  metadata: Record<string, string>;
+  finance: Record<string, string>;
+  storyline: any | null;
+}
+
+interface NewsStateContent {
+  title: string;
+  contentType: string;
+  summary: string;
+  date: string;
+  link: string;
+  source: string;
+  pubDate: string;
+  displayTime: string;
+  thumbnail: Thumbnail;
+}
+
+interface Thumbnail {
+  originalUrl: string;
+  originalWidth: number;
+  originalHeight: number;
+  caption: string;
+  resolutions: ThumbnailResolution[];
+
+}
+
+interface ThumbnailResolution {
+  url: string;
+  width: number;
+  height: number;
+  tag: string;
+}
 
 export default function Home() {
 
@@ -35,10 +75,40 @@ export default function Home() {
   const websocketState = useWebSocket(ticker);
 
   // Make useSWR hook to fetch news data 
-  const { data, error, isLoading } = useSWR(`/api/py/get_spy_news`, fetcher);
-  console.log('data', data);
+  const { data, error, isLoading } = useSWR(`/api/py/get_ticker_news?ticker=${ticker}`, 
+    fetcher,
+    {
+      refreshInterval: 10000, // Refresh every 5 seconds
+    }
+  );
+  // Parse data into NewsState if no error and data is not undefined
+  // Map the content in each dict in the list of data
+  if (!data) {
+    console.log('No data available');
+  }
+  const newsData = data && !error ? data.map((news: NewsStateData) => {
+    return {
+      title: news.content.title,
+      contentType: news.content.contentType,
+      summary: news.content.summary,
+      date: news.content.date,
+      link: news.content.link,
+      source: news.content.source,
+      pubDate: news.content.pubDate,
+      displayTime: news.content.displayTime,
+      // thumbnail: news.content.thumbnail.resolutions[0]?.url || null,
+    }
+  }) : [];
+  if (error) {
+    console.error('Error fetching news data:', error);
+  }
+  // Log loading state
+  if (isLoading) {
+    console.log('Loading news data...');
+  }
   return (
     <main className="flex flex-col">
+    <div className="flex flex-row w-full h-[100vh]">
       <div className='flex flex-col items-start justify-star w-[50vw]'>
         <div className='flex flex-row items-end justify-start p-3'>
             <div className='flex flex-row items-center justify-end mr-3'>
@@ -271,6 +341,41 @@ export default function Home() {
           )
         }
           
+      </div>
+      {/* Make news component that displays most recent news for the ticker */}
+      <div className='flex flex-col items-start justify-start w-[50vw] h-full overflow-y-scroll'>
+        <div className='flex flex-row items-start justify-start p-3'>
+          <h1 className='text-2xl font-bold text-white'>
+            News
+          </h1>
+        </div>
+        <div className='flex flex-col items-start justify-start w-full h-full overflow-y-scroll'>
+          {newsData.map((news: NewsStateContent, index: number) => (
+            <div key={index} className='flex flex-col items-start justify-start p-3 border-b border-gray-700'>
+
+              {/* <img
+                src={news.thumbnail.originalUrl}
+                alt="news-thumbnail"
+                className="w-24 h-24 object-cover rounded-lg mr-4 border border-gray-600"
+                width={news.thumbnail.originalWidth}
+                height={news.thumbnail.originalHeight}
+              /> */}
+              <a href={news.link} target="_blank" rel="noopener noreferrer" className='text-lg font-bold text-white hover:text-blue-500'>
+                {news.title}
+              </a>
+              <p className='text-sm font-bold text-gray-500'>{news.source}</p>
+              <p className='text-sm font-bold text-gray-500'>{news.date}</p>
+              <p className='text-sm font-bold text-gray-500'>{news.summary}</p>
+            </div>
+          ))}
+          {newsData.length === 0 && (
+            <div className='flex flex-col items-start justify-start p-3'>
+              <p className='text-sm font-bold text-gray-500'>No news available</p>
+            </div>
+          )}
+
+        </div>
+      </div>
       </div>
     </main>
   );
