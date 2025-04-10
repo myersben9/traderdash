@@ -13,8 +13,11 @@ export const useWebSocket = (ticker: string) => {
   
   useEffect(() => {
     const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-    const host = `${window.location.hostname}`;
-    const ws = new WebSocket(`${protocol}://${host}/ws`);
+    let host = `${window.location.hostname}`;
+    if (window.location.port) {
+      host += `:${window.location.port}`;
+    }
+    const ws = new WebSocket(`${protocol}://${host}/api/py/ws`);
     ws.onopen = () => {
       ws.send(JSON.stringify({ subscribe: [ticker] }));
     };

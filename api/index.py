@@ -68,7 +68,7 @@ async def on_message_yahoo(yahoo_ws, client_ws: WebSocket):
             break
 
 
-@app.websocket("/ws")
+@app.websocket("/api/py/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     try:
