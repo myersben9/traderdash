@@ -7,7 +7,6 @@ from datetime import datetime
 import logging
 from .constants import Constants
 from .chartparse import ChartParse
-from .proxy import ProxyRotator
 
 logger = logging.getLogger(__name__)
 
