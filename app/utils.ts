@@ -20,3 +20,5 @@ export const abbreviateNumber = (number: number, decimals: number = 2): string =
 export const formatPrice = (price: number): string => {
     return `$${abbreviateNumber(price, 2)}`;
 };
+
+export const fetcher = (url : string) => fetch(url).then((r) => r.json())

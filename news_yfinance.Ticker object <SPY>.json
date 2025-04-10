@@ -1,0 +1,574 @@
+[
+    {
+        "id": "48a51f09-2a90-43ee-9f86-7dcda10d5c48",
+        "content": {
+            "id": "48a51f09-2a90-43ee-9f86-7dcda10d5c48",
+            "contentType": "STORY",
+            "title": "US stocks stage historic rally as Trump's 90-day pause takes worst case scenario 'off the table'",
+            "description": "",
+            "summary": "Stocks wanted one thing from Trump after last week's shocking \"Liberation Day\" announcement. On Wednesday, they got it.",
+            "pubDate": "2025-04-09T20:31:45Z",
+            "displayTime": "2025-04-09T20:31:45Z",
+            "isHosted": true,
+            "bypassModal": false,
+            "previewUrl": null,
+            "thumbnail": {
+                "originalUrl": "https://s.yimg.com/os/creatr-uploaded-images/2025-04/fbfbec30-157a-11f0-b7bd-d1f550efbed6",
+                "originalWidth": 8256,
+                "originalHeight": 5504,
+                "caption": "",
+                "resolutions": [
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/kGfLiUtNxKyevEZzFGRcUg--~B/aD01NTA0O3c9ODI1NjthcHBpZD15dGFjaHlvbg--/https://s.yimg.com/os/creatr-uploaded-images/2025-04/fbfbec30-157a-11f0-b7bd-d1f550efbed6",
+                        "width": 8256,
+                        "height": 5504,
+                        "tag": "original"
+                    },
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/3T52u9J2DeAdmc44MGQf1A--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://s.yimg.com/os/creatr-uploaded-images/2025-04/fbfbec30-157a-11f0-b7bd-d1f550efbed6",
+                        "width": 170,
+                        "height": 128,
+                        "tag": "170x128"
+                    }
+                ]
+            },
+            "provider": {
+                "displayName": "Yahoo Finance",
+                "url": "http://finance.yahoo.com/"
+            },
+            "canonicalUrl": {
+                "url": "https://finance.yahoo.com/news/us-stocks-stage-historic-rally-as-trumps-90-day-pause-takes-worst-case-scenario-off-the-table-203145671.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "clickThroughUrl": {
+                "url": "https://finance.yahoo.com/news/us-stocks-stage-historic-rally-as-trumps-90-day-pause-takes-worst-case-scenario-off-the-table-203145671.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "metadata": {
+                "editorsPick": true
+            },
+            "finance": {
+                "premiumFinance": {
+                    "isPremiumNews": false,
+                    "isPremiumFreeNews": false
+                }
+            },
+            "storyline": null
+        }
+    },
+    {
+        "id": "3931ba16-6bdb-41be-bd7d-92269d94e050",
+        "content": {
+            "id": "3931ba16-6bdb-41be-bd7d-92269d94e050",
+            "contentType": "STORY",
+            "title": "Stock market today: Dow sinks 300 points, S&P 500 nears bear market as Trump's tariffs keep roiling Wall Street",
+            "description": "",
+            "summary": "Investors are digesting tariff whiplash after the White House confirmed plans to levy 104% tariffs on China, set to go into effect at 12:01am ET.",
+            "pubDate": "2025-04-08T20:02:57Z",
+            "displayTime": "2025-04-09T13:10:55Z",
+            "isHosted": true,
+            "bypassModal": false,
+            "previewUrl": null,
+            "thumbnail": {
+                "originalUrl": "https://s.yimg.com/os/creatr-uploaded-images/2025-04/76643cf0-13e3-11f0-9b7b-379760daf946",
+                "originalWidth": 4876,
+                "originalHeight": 3251,
+                "caption": "",
+                "resolutions": [
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/8TtzfIs9SUWJ3UP0F7YrFQ--~B/aD0zMjUxO3c9NDg3NjthcHBpZD15dGFjaHlvbg--/https://s.yimg.com/os/creatr-uploaded-images/2025-04/76643cf0-13e3-11f0-9b7b-379760daf946",
+                        "width": 4876,
+                        "height": 3251,
+                        "tag": "original"
+                    },
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/IIyIRDX_KlRqNTSN5M77rw--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://s.yimg.com/os/creatr-uploaded-images/2025-04/76643cf0-13e3-11f0-9b7b-379760daf946",
+                        "width": 170,
+                        "height": 128,
+                        "tag": "170x128"
+                    }
+                ]
+            },
+            "provider": {
+                "displayName": "Yahoo Finance",
+                "url": "http://finance.yahoo.com/"
+            },
+            "canonicalUrl": {
+                "url": "https://finance.yahoo.com/news/live/stock-market-today-dow-sinks-300-points-sp-500-nears-bear-market-as-trumps-tariffs-keep-roiling-wall-street-200257670.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "clickThroughUrl": {
+                "url": "https://finance.yahoo.com/news/live/stock-market-today-dow-sinks-300-points-sp-500-nears-bear-market-as-trumps-tariffs-keep-roiling-wall-street-200257670.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "metadata": {
+                "editorsPick": true
+            },
+            "finance": {
+                "premiumFinance": {
+                    "isPremiumNews": false,
+                    "isPremiumFreeNews": false
+                }
+            },
+            "storyline": null
+        }
+    },
+    {
+        "id": "8b4b4b06-2708-3b14-a4f0-0695b8b09a04",
+        "content": {
+            "id": "8b4b4b06-2708-3b14-a4f0-0695b8b09a04",
+            "contentType": "STORY",
+            "title": "Stock, Bond ETFs React to Tariff News; VOO Hits Bear Market",
+            "description": "",
+            "summary": "- Equities extended their losing streak as VOO, SPY hit bear market territory intraday. - Bond ETFs also dropped as Trump threatens more China tariffs. - Recession and interest rate hike fears pushed investors into buffer ETFs: Innovator. - NOTE: Clarifies seventh paragraph to say around $850 million in buffer ETFs were traded on Friday.",
+            "pubDate": "2025-04-09T19:30:00Z",
+            "displayTime": "2025-04-09T19:30:00Z",
+            "isHosted": true,
+            "bypassModal": false,
+            "previewUrl": null,
+            "thumbnail": {
+                "originalUrl": "https://media.zenfs.com/en/indexuniverse.com/09f1d8bca0a6a20971d6e1b93522d727",
+                "originalWidth": 1000,
+                "originalHeight": 668,
+                "caption": "market gain-loss",
+                "resolutions": [
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/JcY8PoKwgAJb5Ci2X2CnWQ--~B/aD02Njg7dz0xMDAwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/indexuniverse.com/09f1d8bca0a6a20971d6e1b93522d727",
+                        "width": 1000,
+                        "height": 668,
+                        "tag": "original"
+                    },
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/5nxPJht1FCZyv22BcIDxdg--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/indexuniverse.com/09f1d8bca0a6a20971d6e1b93522d727",
+                        "width": 170,
+                        "height": 128,
+                        "tag": "170x128"
+                    }
+                ]
+            },
+            "provider": {
+                "displayName": "etf.com",
+                "url": "https://www.etf.com/"
+            },
+            "canonicalUrl": {
+                "url": "http://www.etf.com/sections/news/stock-bond-etfs-react-tariff-news-voo-hits-bear-market?utm_source=yahoo-finance&utm_medium=rss&utm_campaign=yahoo-finance-rss",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "clickThroughUrl": {
+                "url": "https://finance.yahoo.com/news/stock-bond-etfs-react-tariff-220000483.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "metadata": {
+                "editorsPick": false
+            },
+            "finance": {
+                "premiumFinance": {
+                    "isPremiumNews": false,
+                    "isPremiumFreeNews": false
+                }
+            },
+            "storyline": null
+        }
+    },
+    {
+        "id": "b21d6133-0d1d-342c-95d0-e457c6222ca5",
+        "content": {
+            "id": "b21d6133-0d1d-342c-95d0-e457c6222ca5",
+            "contentType": "STORY",
+            "title": "Should You Fear a Bear Market & Recession? ETFs in Focus",
+            "description": "",
+            "summary": "Bear market and recession buzz are strong on Wall Street these days. Should you fear these?",
+            "pubDate": "2025-04-09T17:00:00Z",
+            "displayTime": "2025-04-09T17:00:00Z",
+            "isHosted": true,
+            "bypassModal": false,
+            "previewUrl": null,
+            "thumbnail": {
+                "originalUrl": "https://media.zenfs.com/en/zacks.com/1585b73748775a131bbef61f41be0a77",
+                "originalWidth": 620,
+                "originalHeight": 413,
+                "caption": "",
+                "resolutions": [
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/Jl3EwVqWPtr7Q3yYhe.A1g--~B/aD00MTM7dz02MjA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/zacks.com/1585b73748775a131bbef61f41be0a77",
+                        "width": 620,
+                        "height": 413,
+                        "tag": "original"
+                    },
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/U97K5Lk9sSQWBFLV4BLbWw--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/zacks.com/1585b73748775a131bbef61f41be0a77",
+                        "width": 170,
+                        "height": 128,
+                        "tag": "170x128"
+                    }
+                ]
+            },
+            "provider": {
+                "displayName": "Zacks",
+                "url": "http://www.zacks.com/"
+            },
+            "canonicalUrl": {
+                "url": "https://finance.yahoo.com/news/fear-bear-market-recession-etfs-170000802.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "clickThroughUrl": {
+                "url": "https://finance.yahoo.com/news/fear-bear-market-recession-etfs-170000802.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "metadata": {
+                "editorsPick": false
+            },
+            "finance": {
+                "premiumFinance": {
+                    "isPremiumNews": false,
+                    "isPremiumFreeNews": false
+                }
+            },
+            "storyline": null
+        }
+    },
+    {
+        "id": "78b09228-5bef-3ef1-97ca-33b1471ca21d",
+        "content": {
+            "id": "78b09228-5bef-3ef1-97ca-33b1471ca21d",
+            "contentType": "STORY",
+            "title": "Exchange-Traded Funds, Equity Futures Lower Pre-Bell Wednesday Amid China's Retaliatory Tariffs",
+            "description": "",
+            "summary": "The broad market exchange-traded fund SPDR S&P 500 ETF Trust (SPY) was down 2% and the actively trad",
+            "pubDate": "2025-04-09T13:00:40Z",
+            "displayTime": "2025-04-09T13:00:40Z",
+            "isHosted": true,
+            "bypassModal": false,
+            "previewUrl": null,
+            "thumbnail": null,
+            "provider": {
+                "displayName": "MT Newswires",
+                "url": "https://www.mtnewswires.com/"
+            },
+            "canonicalUrl": {
+                "url": "https://finance.yahoo.com/news/exchange-traded-funds-equity-futures-130040893.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "clickThroughUrl": {
+                "url": "https://finance.yahoo.com/news/exchange-traded-funds-equity-futures-130040893.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "metadata": {
+                "editorsPick": false
+            },
+            "finance": {
+                "premiumFinance": {
+                    "isPremiumNews": true,
+                    "isPremiumFreeNews": false
+                }
+            },
+            "storyline": null
+        }
+    },
+    {
+        "id": "4009ba5c-c2a7-30a1-acc6-1e5ee9399e58",
+        "content": {
+            "id": "4009ba5c-c2a7-30a1-acc6-1e5ee9399e58",
+            "contentType": "STORY",
+            "title": "QQQ Close Confirms Bear Market; SPY Nears Its Own",
+            "description": "",
+            "summary": "- Investors are officially on a bear market watch. - The S&P 500 is now knocking on the door of bear market territory. - The Nasdaq-100 closed down more than 20% from its recent high.",
+            "pubDate": "2025-04-09T00:45:00Z",
+            "displayTime": "2025-04-09T00:45:00Z",
+            "isHosted": true,
+            "bypassModal": false,
+            "previewUrl": null,
+            "thumbnail": {
+                "originalUrl": "https://media.zenfs.com/en/indexuniverse.com/1562ff9467611d7a84d15ec6e379dc42",
+                "originalWidth": 760,
+                "originalHeight": 520,
+                "caption": "Bear market",
+                "resolutions": [
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/yqbbrr0bn29s.N2JW26h3w--~B/aD01MjA7dz03NjA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/indexuniverse.com/1562ff9467611d7a84d15ec6e379dc42",
+                        "width": 760,
+                        "height": 520,
+                        "tag": "original"
+                    },
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/VLo8UMxRTlr7tLNpaQa4dg--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/indexuniverse.com/1562ff9467611d7a84d15ec6e379dc42",
+                        "width": 170,
+                        "height": 128,
+                        "tag": "170x128"
+                    }
+                ]
+            },
+            "provider": {
+                "displayName": "etf.com",
+                "url": "https://www.etf.com/"
+            },
+            "canonicalUrl": {
+                "url": "http://www.etf.com/sections/news/qqq-close-confirms-bear-market-spy-nears-its-own?utm_source=yahoo-finance&utm_medium=rss&utm_campaign=yahoo-finance-rss",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "clickThroughUrl": {
+                "url": "https://finance.yahoo.com/news/qqq-close-confirms-bear-market-004500726.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "metadata": {
+                "editorsPick": false
+            },
+            "finance": {
+                "premiumFinance": {
+                    "isPremiumNews": false,
+                    "isPremiumFreeNews": false
+                }
+            },
+            "storyline": null
+        }
+    },
+    {
+        "id": "38c02d35-47fc-3888-a599-dc703cd9babc",
+        "content": {
+            "id": "38c02d35-47fc-3888-a599-dc703cd9babc",
+            "contentType": "STORY",
+            "title": "SPY Gains a Big $9.4 Billion; JAAA Waves Bye to $585 Million",
+            "description": "",
+            "summary": "- The SPDR S&P 500 ETF Trust (SPY) pulled in a massive $9.4 billion. - The Janus Detroit Street Trust Janus Henderson AAA CLO ETF (JAAA) had $585 million in outflows. - Here are the daily ETF fund flows for April 8, 2025.",
+            "pubDate": "2025-04-08T22:00:00Z",
+            "displayTime": "2025-04-08T22:00:00Z",
+            "isHosted": true,
+            "bypassModal": false,
+            "previewUrl": null,
+            "thumbnail": {
+                "originalUrl": "https://media.zenfs.com/en/indexuniverse.com/9229078de046b24a0ccf8b72599ab4aa",
+                "originalWidth": 1254,
+                "originalHeight": 836,
+                "caption": "ETF Flows Reach Record $296B as Inflation Fears Rise",
+                "resolutions": [
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/QMHbQ61LKSnQD6M6Nnd_Mw--~B/aD04MzY7dz0xMjU0O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/indexuniverse.com/9229078de046b24a0ccf8b72599ab4aa",
+                        "width": 1254,
+                        "height": 836,
+                        "tag": "original"
+                    },
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/pCb9yyCMu2x9R55..mE6bw--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/indexuniverse.com/9229078de046b24a0ccf8b72599ab4aa",
+                        "width": 170,
+                        "height": 128,
+                        "tag": "170x128"
+                    }
+                ]
+            },
+            "provider": {
+                "displayName": "etf.com",
+                "url": "https://www.etf.com/"
+            },
+            "canonicalUrl": {
+                "url": "http://www.etf.com/sections/daily-etf-flows/spy-gains-big-94-billion-jaaa-waves-bye-585-million?utm_source=yahoo-finance&utm_medium=rss&utm_campaign=yahoo-finance-rss",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "clickThroughUrl": {
+                "url": "https://finance.yahoo.com/news/spy-gains-big-9-4-220000581.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "metadata": {
+                "editorsPick": false
+            },
+            "finance": {
+                "premiumFinance": {
+                    "isPremiumNews": false,
+                    "isPremiumFreeNews": false
+                }
+            },
+            "storyline": null
+        }
+    },
+    {
+        "id": "fc6939a0-0703-470a-ba37-db776f435f01",
+        "content": {
+            "id": "fc6939a0-0703-470a-ba37-db776f435f01",
+            "contentType": "STORY",
+            "title": "Stocks haven't fallen this much since 2020. Their recovery could look different this time.",
+            "description": "",
+            "summary": "The largest difference between this shock and the one that came with the pandemic is that the president has a potential \"off\" switch for the chaos this time.",
+            "pubDate": "2025-04-08T21:26:45Z",
+            "displayTime": "2025-04-08T21:26:45Z",
+            "isHosted": true,
+            "bypassModal": false,
+            "previewUrl": null,
+            "thumbnail": {
+                "originalUrl": "https://s.yimg.com/os/creatr-uploaded-images/2025-04/6a7b6870-14a4-11f0-bfef-7bc01998e8e4",
+                "originalWidth": 7969,
+                "originalHeight": 5313,
+                "caption": "",
+                "resolutions": [
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/kzrI7Ic_wz9SOdZGsTFWeA--~B/aD01MzEzO3c9Nzk2OTthcHBpZD15dGFjaHlvbg--/https://s.yimg.com/os/creatr-uploaded-images/2025-04/6a7b6870-14a4-11f0-bfef-7bc01998e8e4",
+                        "width": 7969,
+                        "height": 5313,
+                        "tag": "original"
+                    },
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/24Okiy.Law9bMxu2e_jxdA--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://s.yimg.com/os/creatr-uploaded-images/2025-04/6a7b6870-14a4-11f0-bfef-7bc01998e8e4",
+                        "width": 170,
+                        "height": 128,
+                        "tag": "170x128"
+                    }
+                ]
+            },
+            "provider": {
+                "displayName": "Yahoo Finance",
+                "url": "http://finance.yahoo.com/"
+            },
+            "canonicalUrl": {
+                "url": "https://finance.yahoo.com/news/stocks-havent-fallen-this-much-since-2020-their-recovery-could-look-different-this-time-212645541.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "clickThroughUrl": {
+                "url": "https://finance.yahoo.com/news/stocks-havent-fallen-this-much-since-2020-their-recovery-could-look-different-this-time-212645541.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "metadata": {
+                "editorsPick": false
+            },
+            "finance": {
+                "premiumFinance": {
+                    "isPremiumNews": false,
+                    "isPremiumFreeNews": false
+                }
+            },
+            "storyline": null
+        }
+    },
+    {
+        "id": "7fceed6f-581f-434e-b6e8-8a33ebf3ccaf",
+        "content": {
+            "id": "7fceed6f-581f-434e-b6e8-8a33ebf3ccaf",
+            "contentType": "STORY",
+            "title": "Trump's China tariffs send stocks tumbling as 'FOMO' rally fades, S&P 500 closes at lowest level in a year",
+            "description": "",
+            "summary": "A stock market rally evaporated on Tuesday as the White House announced further tariffs on China.",
+            "pubDate": "2025-04-08T20:35:06Z",
+            "displayTime": "2025-04-08T20:35:06Z",
+            "isHosted": true,
+            "bypassModal": false,
+            "previewUrl": null,
+            "thumbnail": {
+                "originalUrl": "https://s.yimg.com/os/creatr-uploaded-images/2025-04/77b74bf0-14b6-11f0-bce7-5041cfe02000",
+                "originalWidth": 8640,
+                "originalHeight": 5760,
+                "caption": "",
+                "resolutions": [
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/Wdo_RZsdqDMlU9tcwr5IGQ--~B/aD01NzYwO3c9ODY0MDthcHBpZD15dGFjaHlvbg--/https://s.yimg.com/os/creatr-uploaded-images/2025-04/77b74bf0-14b6-11f0-bce7-5041cfe02000",
+                        "width": 8640,
+                        "height": 5760,
+                        "tag": "original"
+                    },
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/6poZZ.XDstp6hsWqzPejqA--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://s.yimg.com/os/creatr-uploaded-images/2025-04/77b74bf0-14b6-11f0-bce7-5041cfe02000",
+                        "width": 170,
+                        "height": 128,
+                        "tag": "170x128"
+                    }
+                ]
+            },
+            "provider": {
+                "displayName": "Yahoo Finance",
+                "url": "http://finance.yahoo.com/"
+            },
+            "canonicalUrl": {
+                "url": "https://finance.yahoo.com/news/trumps-china-tariffs-send-stocks-tumbling-as-fomo-rally-fades-sp-500-closes-at-lowest-level-in-a-year-203506681.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "clickThroughUrl": {
+                "url": "https://finance.yahoo.com/news/trumps-china-tariffs-send-stocks-tumbling-as-fomo-rally-fades-sp-500-closes-at-lowest-level-in-a-year-203506681.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "metadata": {
+                "editorsPick": false
+            },
+            "finance": {
+                "premiumFinance": {
+                    "isPremiumNews": false,
+                    "isPremiumFreeNews": false
+                }
+            },
+            "storyline": null
+        }
+    },
+    {
+        "id": "43d3ecee-7836-39a5-ad97-7577c965f665",
+        "content": {
+            "id": "43d3ecee-7836-39a5-ad97-7577c965f665",
+            "contentType": "STORY",
+            "title": "Exchange-Traded Funds, Equity Futures Higher Pre-Bell Tuesday as Potential Japan-US Talks Lift Hopes",
+            "description": "",
+            "summary": "The broad market exchange-traded fund SPDR S&P 500 ETF Trust (SPY) was up 1.8% and the actively trad",
+            "pubDate": "2025-04-08T12:41:41Z",
+            "displayTime": "2025-04-08T12:41:41Z",
+            "isHosted": true,
+            "bypassModal": false,
+            "previewUrl": null,
+            "thumbnail": null,
+            "provider": {
+                "displayName": "MT Newswires",
+                "url": "https://www.mtnewswires.com/"
+            },
+            "canonicalUrl": {
+                "url": "https://finance.yahoo.com/news/exchange-traded-funds-equity-futures-124141906.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "clickThroughUrl": {
+                "url": "https://finance.yahoo.com/news/exchange-traded-funds-equity-futures-124141906.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "metadata": {
+                "editorsPick": false
+            },
+            "finance": {
+                "premiumFinance": {
+                    "isPremiumNews": true,
+                    "isPremiumFreeNews": false
+                }
+            },
+            "storyline": null
+        }
+    }
+]

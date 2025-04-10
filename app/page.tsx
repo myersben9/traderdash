@@ -1,8 +1,7 @@
 "use client";
 
 // {FINISH BY TODAY GOAL}
-// TODO - Make date range by ticker
-// TODO - Make buffer toggle slider for y axis zooming
+// TODO - Create live newsfeed component that updates every 5 seconds
 
 // {COMING UP}
 // TODO - Make chart component resizable to fullscreen, mobile, and different sizes, everything repsonsive
@@ -23,7 +22,9 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useWebSocket } from "@/app/useWebSocket"
 import ChartComponent from '@/app//chartComponent';
+import useSWR from 'swr';
 import { abbreviateNumber, formatPrice } from './utils';
+import { fetcher } from './utils';
 
 export default function Home() {
 
@@ -33,6 +34,9 @@ export default function Home() {
   const [prePost, setPrePost] = React.useState(false);
   const websocketState = useWebSocket(ticker);
 
+  // Make useSWR hook to fetch news data 
+  const { data, error, isLoading } = useSWR(`/api/py/get_spy_news`, fetcher);
+  console.log('data', data);
   return (
     <main className="flex flex-col">
       <div className='flex flex-col items-start justify-star w-[50vw]'>

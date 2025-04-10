@@ -1,0 +1,702 @@
+[
+    {
+        "id": "f558ef26-8090-3b2e-8876-9ca6443aad80",
+        "content": {
+            "id": "f558ef26-8090-3b2e-8876-9ca6443aad80",
+            "contentType": "VIDEO",
+            "title": "Apple stock surges on tariff pause despite China exclusion",
+            "description": "<p>US President Trump temporarily walked back his tariff policy on all countries except China. Apple (<a data-i13n=\"cpos:1;pos:1\" href=\"https://finance.yahoo.com/quote/AAPL\">AAPL</a>) was among the names to surge on the announcement despite its significant reliance on China for sourcing.</p>\n<p>TECHnalysis Research president and chief analyst Bob O'Donnell joins Morning Domination Overtime with <a data-i13n=\"cpos:2;pos:1\" href=\"https://finance.yahoo.com/author/josh-lipton/\">Josh Lipton</a> to discuss the stock move, the impact of Trump's tariffs on the iPhone maker, and whether the president could grant the company a tariff exception.</p>\n<p>To watch more expert insights and analysis on the latest market action, check out more Market Domination Overtime <a data-i13n=\"cpos:3;pos:1\" href=\"https://finance.yahoo.com/videos/series/market-domination-overtime/\">here</a>.</p>",
+            "summary": "US President Trump temporarily walked back his tariff policy on all countries except China. Apple (AAPL) was among the names to surge on the announcement despite its significant reliance on China for sourcing. TECHnalysis Research president and chief analyst Bob O'Donnell joins Morning Domination Overtime with Josh Lipton to discuss the stock move, the impact of Trump's tariffs on the iPhone maker, and whether the president could grant the company a tariff exception. To watch more expert insights and analysis on the latest market action, check out more Market Domination Overtime here.",
+            "pubDate": "2025-04-09T22:31:40Z",
+            "displayTime": "",
+            "isHosted": true,
+            "bypassModal": false,
+            "previewUrl": null,
+            "thumbnail": {
+                "originalUrl": "https://s.yimg.com/os/creatr-uploaded-images/2025-04/580e51a0-1591-11f0-bd3d-88315c0b9ee6",
+                "originalWidth": 2609,
+                "originalHeight": 1465,
+                "caption": "",
+                "resolutions": [
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/wKOkS4WD8_LUqYnZsQHRxg--~B/aD0xNDY1O3c9MjYwOTthcHBpZD15dGFjaHlvbg--/https://s.yimg.com/os/creatr-uploaded-images/2025-04/580e51a0-1591-11f0-bd3d-88315c0b9ee6",
+                        "width": 2609,
+                        "height": 1465,
+                        "tag": "original"
+                    },
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/k_iRnY7XeHoN4hp86dovKg--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://s.yimg.com/os/creatr-uploaded-images/2025-04/580e51a0-1591-11f0-bd3d-88315c0b9ee6",
+                        "width": 170,
+                        "height": 128,
+                        "tag": "170x128"
+                    }
+                ]
+            },
+            "provider": {
+                "displayName": "Yahoo Finance Video",
+                "url": "https://finance.yahoo.com/"
+            },
+            "canonicalUrl": {
+                "url": "https://finance.yahoo.com/video/apple-stock-surges-tariff-pause-223140722.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "clickThroughUrl": {
+                "url": "https://finance.yahoo.com/video/apple-stock-surges-tariff-pause-223140722.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "metadata": {
+                "editorsPick": true
+            },
+            "finance": {
+                "premiumFinance": {
+                    "isPremiumNews": false,
+                    "isPremiumFreeNews": false
+                }
+            },
+            "storyline": {
+                "storylineItems": [
+                    {
+                        "content": {
+                            "id": "48a51f09-2a90-43ee-9f86-7dcda10d5c48",
+                            "contentType": "STORY",
+                            "isHosted": true,
+                            "title": "US stocks stage historic rally as Trump's 90-day pause takes worst case scenario 'off the table'",
+                            "thumbnail": {
+                                "originalUrl": "https://s.yimg.com/os/creatr-uploaded-images/2025-04/fbfbec30-157a-11f0-b7bd-d1f550efbed6",
+                                "originalWidth": 8256,
+                                "originalHeight": 5504,
+                                "caption": "",
+                                "resolutions": null
+                            },
+                            "provider": {
+                                "displayName": "Yahoo Finance",
+                                "sourceId": "yahoofinance.com"
+                            },
+                            "previewUrl": null,
+                            "providerContentUrl": "",
+                            "canonicalUrl": {
+                                "url": "https://finance.yahoo.com/news/us-stocks-stage-historic-rally-as-trumps-90-day-pause-takes-worst-case-scenario-off-the-table-203145671.html"
+                            },
+                            "clickThroughUrl": {
+                                "url": "https://finance.yahoo.com/news/us-stocks-stage-historic-rally-as-trumps-90-day-pause-takes-worst-case-scenario-off-the-table-203145671.html"
+                            }
+                        }
+                    },
+                    {
+                        "content": {
+                            "id": "7d12e6b0-00ff-4109-af66-10b3c5b8c126",
+                            "contentType": "STORY",
+                            "isHosted": true,
+                            "title": "The tech world aggressively backed Trump. It couldn't stop his tariffs.",
+                            "thumbnail": {
+                                "originalUrl": "https://s.yimg.com/os/creatr-uploaded-images/2025-01/d864f190-d9ca-11ef-b7db-667eb58f9220",
+                                "originalWidth": 7039,
+                                "originalHeight": 4693,
+                                "caption": "",
+                                "resolutions": null
+                            },
+                            "provider": {
+                                "displayName": "Yahoo Finance",
+                                "sourceId": "yahoofinance.com"
+                            },
+                            "previewUrl": null,
+                            "providerContentUrl": "",
+                            "canonicalUrl": {
+                                "url": "https://finance.yahoo.com/news/the-tech-world-aggressively-backed-trump-it-couldnt-stop-his-tariffs-192914454.html"
+                            },
+                            "clickThroughUrl": {
+                                "url": "https://finance.yahoo.com/news/the-tech-world-aggressively-backed-trump-it-couldnt-stop-his-tariffs-192914454.html"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "id": "93d8baf2-aa25-3b1b-abe4-8c6a60a77359",
+        "content": {
+            "id": "93d8baf2-aa25-3b1b-abe4-8c6a60a77359",
+            "contentType": "VIDEO",
+            "title": "Apple, oil futures, bank stocks: Market Minute",
+            "description": "<p><a data-i13n=\"cpos:1;pos:1\" href=\"https://finance.yahoo.com/author/josh-lipton/\">Josh Lipton</a> goes over some of the top trending stories on this segment of <a data-i13n=\"cpos:2;pos:1\" href=\"https://finance.yahoo.com/videos/series/market-minute/\">Market Minute.</a></p>\n<p>Apple (<a data-i13n=\"cpos:3;pos:1\" href=\"https://finance.yahoo.com/quote/AAPL\">AAPL</a>) stock rebounds after previous losses, though shares are down over 20% over the past five days.</p>\n<p>Oil futures (<a data-i13n=\"cpos:4;pos:1\" href=\"https://finance.yahoo.com/quote/CL=F\">CL=F</a>) are sliding due to the escalating trade war as China announced retaliatory tariffs of 84% on US goods, effective April 10th.</p>\n<p>Bank stocks, including JPMorgan (<a data-i13n=\"cpos:5;pos:1\" href=\"https://finance.yahoo.com/quote/JPM\">JPM</a>), Wells Fargo (<a data-i13n=\"cpos:6;pos:1\" href=\"https://finance.yahoo.com/quote/WFC\">WFC</a>), and Citigroup (<a data-i13n=\"cpos:7;pos:1\" href=\"https://finance.yahoo.com/quote/C\">C</a>) are under pressure after JPMorgan Chase CEO Jamie Dimon warned that a US recession is likely.</p>\n<p>Stay up to date on the latest market action, minute-by-minute, with <a data-i13n=\"cpos:8;pos:1\" href=\"https://finance.yahoo.com/videos/series/market-minute/\">Yahoo Finance's Market Minute.</a></p>",
+            "summary": "Josh Lipton goes over some of the top trending stories on this segment of Market Minute. Apple (AAPL) stock rebounds after previous losses, though shares are down over 20% over the past five days. Oil futures (CL=F) are sliding due to the escalating trade war as China announced retaliatory tariffs of 84% on US goods, effective April 10th. Bank stocks, including JPMorgan (JPM), Wells Fargo (WFC), and Citigroup (C) are under pressure after JPMorgan Chase CEO Jamie Dimon warned that a US recession is likely. Stay up to date on the latest market action, minute-by-minute, with Yahoo Finance's Market Minute.",
+            "pubDate": "2025-04-09T17:19:38Z",
+            "displayTime": "",
+            "isHosted": true,
+            "bypassModal": false,
+            "previewUrl": null,
+            "thumbnail": {
+                "originalUrl": "https://s.yimg.com/os/creatr-uploaded-images/2025-04/be6d5890-1566-11f0-9dd7-65217a9c1451",
+                "originalWidth": 5568,
+                "originalHeight": 3135,
+                "caption": "",
+                "resolutions": [
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/8NnNw0Ch7LNoX6UofK93uw--~B/aD0zMTM1O3c9NTU2ODthcHBpZD15dGFjaHlvbg--/https://s.yimg.com/os/creatr-uploaded-images/2025-04/be6d5890-1566-11f0-9dd7-65217a9c1451",
+                        "width": 5568,
+                        "height": 3135,
+                        "tag": "original"
+                    },
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/It15IMno0uZskOO66cHQtQ--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://s.yimg.com/os/creatr-uploaded-images/2025-04/be6d5890-1566-11f0-9dd7-65217a9c1451",
+                        "width": 170,
+                        "height": 128,
+                        "tag": "170x128"
+                    }
+                ]
+            },
+            "provider": {
+                "displayName": "Yahoo Finance Video",
+                "url": "https://finance.yahoo.com/"
+            },
+            "canonicalUrl": {
+                "url": "https://finance.yahoo.com/video/apple-oil-futures-bank-stocks-171938467.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "clickThroughUrl": {
+                "url": "https://finance.yahoo.com/video/apple-oil-futures-bank-stocks-171938467.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "metadata": {
+                "editorsPick": true
+            },
+            "finance": {
+                "premiumFinance": {
+                    "isPremiumNews": false,
+                    "isPremiumFreeNews": false
+                }
+            },
+            "storyline": {
+                "storylineItems": [
+                    {
+                        "content": {
+                            "id": "22407950-a8f9-3d18-b6ce-42a8911228cd",
+                            "contentType": "VIDEO",
+                            "isHosted": true,
+                            "title": "Apple, Alibaba, drugmaker stocks: Trending Tickers",
+                            "thumbnail": {
+                                "originalUrl": "https://s.yimg.com/os/creatr-uploaded-images/2025-04/dffef380-1550-11f0-bcce-b0425d8e1933",
+                                "originalWidth": 6000,
+                                "originalHeight": 3378,
+                                "caption": "",
+                                "resolutions": null
+                            },
+                            "provider": {
+                                "displayName": "Yahoo Finance Video",
+                                "sourceId": "video.yahoofinance.com"
+                            },
+                            "previewUrl": null,
+                            "providerContentUrl": "",
+                            "canonicalUrl": {
+                                "url": "https://finance.yahoo.com/video/apple-alibaba-drugmaker-stocks-trending-144322260.html"
+                            },
+                            "clickThroughUrl": {
+                                "url": "https://finance.yahoo.com/video/apple-alibaba-drugmaker-stocks-trending-144322260.html"
+                            }
+                        }
+                    },
+                    {
+                        "content": {
+                            "id": "30d6b22f-cc5a-46f1-bb75-1144bfd8798a",
+                            "contentType": "STORY",
+                            "isHosted": true,
+                            "title": "Trump tariffs should be reworked but not withdrawn: Veteran economist",
+                            "thumbnail": {
+                                "originalUrl": "https://s.yimg.com/os/creatr-images/2020-02/6f1a0cd0-4ea5-11ea-92bb-c7571d7d2b2d",
+                                "originalWidth": 5306,
+                                "originalHeight": 3537,
+                                "caption": "",
+                                "resolutions": null
+                            },
+                            "provider": {
+                                "displayName": "Yahoo Finance",
+                                "sourceId": "yahoofinance.com"
+                            },
+                            "previewUrl": null,
+                            "providerContentUrl": "",
+                            "canonicalUrl": {
+                                "url": "https://finance.yahoo.com/news/trump-tariffs-should-be-reworked-but-not-withdrawn-veteran-economist-131916819.html"
+                            },
+                            "clickThroughUrl": {
+                                "url": "https://finance.yahoo.com/news/trump-tariffs-should-be-reworked-but-not-withdrawn-veteran-economist-131916819.html"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "id": "c5ff0af8-b344-3326-94cc-7721cc31c1b0",
+        "content": {
+            "id": "c5ff0af8-b344-3326-94cc-7721cc31c1b0",
+            "contentType": "STORY",
+            "title": "Bank of America: U.S. iPhone Build Could Push Costs Up 90%",
+            "description": "",
+            "summary": "A U.S.-made iPhone could cost 90% more due to tariffs and labor, Bank of America estimates",
+            "pubDate": "2025-04-10T12:34:14Z",
+            "displayTime": "2025-04-10T12:34:14Z",
+            "isHosted": true,
+            "bypassModal": false,
+            "previewUrl": null,
+            "thumbnail": {
+                "originalUrl": "https://media.zenfs.com/en/us.finance.gurufocus/2ce39b3abe8afaa55224627ba7747e7d",
+                "originalWidth": 550,
+                "originalHeight": 366,
+                "caption": "",
+                "resolutions": [
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/2uQdGu06KkWqy8b5wec6KQ--~B/aD0zNjY7dz01NTA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/us.finance.gurufocus/2ce39b3abe8afaa55224627ba7747e7d",
+                        "width": 550,
+                        "height": 366,
+                        "tag": "original"
+                    },
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/k3ILMDA.gE_h_gpU.uRC2Q--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/us.finance.gurufocus/2ce39b3abe8afaa55224627ba7747e7d",
+                        "width": 170,
+                        "height": 128,
+                        "tag": "170x128"
+                    }
+                ]
+            },
+            "provider": {
+                "displayName": "GuruFocus.com",
+                "url": "http://www.gurufocus.com/"
+            },
+            "canonicalUrl": {
+                "url": "https://finance.yahoo.com/news/bank-america-u-iphone-build-123414248.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "clickThroughUrl": {
+                "url": "https://finance.yahoo.com/news/bank-america-u-iphone-build-123414248.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "metadata": {
+                "editorsPick": false
+            },
+            "finance": {
+                "premiumFinance": {
+                    "isPremiumNews": false,
+                    "isPremiumFreeNews": false
+                }
+            },
+            "storyline": null
+        }
+    },
+    {
+        "id": "98ddbeb2-a324-3fa5-a22d-788cca6b68b3",
+        "content": {
+            "id": "98ddbeb2-a324-3fa5-a22d-788cca6b68b3",
+            "contentType": "STORY",
+            "title": "Apple (AAPL) Faces Global Pressure \u2013 KeyBanc Slashes Price Target to $170",
+            "description": "",
+            "summary": "We recently published a list of 10 AI Stocks Investors Are Watching Today. In this article, we are going to take a look at where Apple Inc. (NASDAQ:AAPL) stands against other AI stocks investors are watching today. Tech experts strongly believe that the new tariffs could potentially slow down the AI boom. \u201cThe AI Revolution [\u2026]",
+            "pubDate": "2025-04-10T12:07:51Z",
+            "displayTime": "2025-04-10T12:07:51Z",
+            "isHosted": true,
+            "bypassModal": false,
+            "previewUrl": null,
+            "thumbnail": {
+                "originalUrl": "https://media.zenfs.com/en/insidermonkey.com/bd47dc2e86b4a3086f845d200d9daf1f",
+                "originalWidth": 1456,
+                "originalHeight": 816,
+                "caption": "Apple (AAPL) Faces Global Pressure - KeyBanc Slashes Price Target to $170",
+                "resolutions": [
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/fTPNobtT0bdcSxj2xXAamw--~B/aD04MTY7dz0xNDU2O2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/insidermonkey.com/bd47dc2e86b4a3086f845d200d9daf1f",
+                        "width": 1456,
+                        "height": 816,
+                        "tag": "original"
+                    },
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/ERk7UFMt6k8ofjYa8ja0kw--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/insidermonkey.com/bd47dc2e86b4a3086f845d200d9daf1f",
+                        "width": 170,
+                        "height": 128,
+                        "tag": "170x128"
+                    }
+                ]
+            },
+            "provider": {
+                "displayName": "Insider Monkey",
+                "url": "http://www.insidermonkey.com"
+            },
+            "canonicalUrl": {
+                "url": "https://finance.yahoo.com/news/apple-aapl-faces-global-pressure-120751508.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "clickThroughUrl": {
+                "url": "https://finance.yahoo.com/news/apple-aapl-faces-global-pressure-120751508.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "metadata": {
+                "editorsPick": false
+            },
+            "finance": {
+                "premiumFinance": {
+                    "isPremiumNews": false,
+                    "isPremiumFreeNews": false
+                }
+            },
+            "storyline": null
+        }
+    },
+    {
+        "id": "2e9045e6-62cb-3399-bc0f-62bb21ded8e4",
+        "content": {
+            "id": "2e9045e6-62cb-3399-bc0f-62bb21ded8e4",
+            "contentType": "STORY",
+            "title": "These Stocks Are Moving the Most Today: Nvidia, Apple, Tesla, U.S. Steel, CarMax, DJT, Constellation Brands, and More",
+            "description": "",
+            "summary": "Shares of Nvidia, Apple, and Tesla fall Thursday after each stock soared double-digits Wednesday following President Donald Trump\u2019s move to pause most reciprocal tariffs for 90 days. U.S. Steel, meanwhile, slumps after Trump says he wants the steel maker to remain an American company.",
+            "pubDate": "2025-04-10T11:03:00Z",
+            "displayTime": "2025-04-10T11:03:00Z",
+            "isHosted": false,
+            "bypassModal": false,
+            "previewUrl": "https://finance.yahoo.com/m/2e9045e6-62cb-3399-bc0f-62bb21ded8e4/these-stocks-are-moving-the.html",
+            "thumbnail": {
+                "originalUrl": "https://media.zenfs.com/en/Barrons.com/dbd281b993ff2c797f3a71f4f40e4031",
+                "originalWidth": 1280,
+                "originalHeight": 640,
+                "caption": "",
+                "resolutions": [
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/jwcZnNB7Xo6bzo2l6ewlWw--~B/aD02NDA7dz0xMjgwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/Barrons.com/dbd281b993ff2c797f3a71f4f40e4031",
+                        "width": 1280,
+                        "height": 640,
+                        "tag": "original"
+                    },
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/KiS.TuK6X6ZiEyZTPti.Gw--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/Barrons.com/dbd281b993ff2c797f3a71f4f40e4031",
+                        "width": 170,
+                        "height": 128,
+                        "tag": "170x128"
+                    }
+                ]
+            },
+            "provider": {
+                "displayName": "Barrons.com",
+                "url": "http://www.barrons.com/"
+            },
+            "canonicalUrl": {
+                "url": "https://www.barrons.com/articles/stock-market-movers-85cba71e?siteid=yhoof2&yptr=yahoo",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "clickThroughUrl": null,
+            "metadata": {
+                "editorsPick": false
+            },
+            "finance": {
+                "premiumFinance": {
+                    "isPremiumNews": false,
+                    "isPremiumFreeNews": false
+                }
+            },
+            "storyline": null
+        }
+    },
+    {
+        "id": "97112dc6-0af6-355c-8a3d-6b26482e7d15",
+        "content": {
+            "id": "97112dc6-0af6-355c-8a3d-6b26482e7d15",
+            "contentType": "STORY",
+            "title": "Alphabet Can\u2019t Shake Off AI Concerns Even With Low Multiple",
+            "description": "",
+            "summary": "(Bloomberg) -- Persistent concerns that Alphabet Inc. has fallen behind in the artificial intelligence supremacy race has weighed on the stock this year, and not even the cheapest earnings multiple in about two years, or limited risk from tariffs, has been enough to entice investors.Widely seen as one of the major players in AI, Google\u2019s parent company nevertheless continues to be dogged by the perception that it could lose market share to rivals like ChatGPT. Though it retains a dominant share",
+            "pubDate": "2025-04-10T10:52:37Z",
+            "displayTime": "2025-04-10T10:52:37Z",
+            "isHosted": true,
+            "bypassModal": false,
+            "previewUrl": null,
+            "thumbnail": {
+                "originalUrl": "https://media.zenfs.com/en/bloomberg_holding_pen_162/8ac53e22a4e0359d04d4c1af1e512c88",
+                "originalWidth": 1200,
+                "originalHeight": 675,
+                "caption": "",
+                "resolutions": [
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/cOyQdlt02arg0qesdVSg5w--~B/aD02NzU7dz0xMjAwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/bloomberg_holding_pen_162/8ac53e22a4e0359d04d4c1af1e512c88",
+                        "width": 1200,
+                        "height": 675,
+                        "tag": "original"
+                    },
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/sbcsRJZa3hz0tRxqVJOy7Q--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/bloomberg_holding_pen_162/8ac53e22a4e0359d04d4c1af1e512c88",
+                        "width": 170,
+                        "height": 128,
+                        "tag": "170x128"
+                    }
+                ]
+            },
+            "provider": {
+                "displayName": "Bloomberg",
+                "url": "https://www.bloomberg.com/company"
+            },
+            "canonicalUrl": {
+                "url": "https://finance.yahoo.com/news/alphabet-t-shake-off-ai-105237667.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "clickThroughUrl": {
+                "url": "https://finance.yahoo.com/news/alphabet-t-shake-off-ai-105237667.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "metadata": {
+                "editorsPick": false
+            },
+            "finance": {
+                "premiumFinance": {
+                    "isPremiumNews": false,
+                    "isPremiumFreeNews": false
+                }
+            },
+            "storyline": null
+        }
+    },
+    {
+        "id": "69a54189-2d8b-3c23-bce5-0f57c920e626",
+        "content": {
+            "id": "69a54189-2d8b-3c23-bce5-0f57c920e626",
+            "contentType": "STORY",
+            "title": "Market Chatter: Apple Airlifts iPhones From India to the US to Sidestep Trump Tariffs",
+            "description": "",
+            "summary": "Apple (AAPL) recently flew around 600 tonnes of iPhones, estimated to be around 1.5 million units, f",
+            "pubDate": "2025-04-10T10:48:20Z",
+            "displayTime": "2025-04-10T10:48:20Z",
+            "isHosted": true,
+            "bypassModal": false,
+            "previewUrl": null,
+            "thumbnail": null,
+            "provider": {
+                "displayName": "MT Newswires",
+                "url": "https://www.mtnewswires.com/"
+            },
+            "canonicalUrl": {
+                "url": "https://finance.yahoo.com/news/market-chatter-apple-airlifts-iphones-104820223.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "clickThroughUrl": {
+                "url": "https://finance.yahoo.com/news/market-chatter-apple-airlifts-iphones-104820223.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "metadata": {
+                "editorsPick": false
+            },
+            "finance": {
+                "premiumFinance": {
+                    "isPremiumNews": true,
+                    "isPremiumFreeNews": false
+                }
+            },
+            "storyline": null
+        }
+    },
+    {
+        "id": "81ec18a4-0913-3c2c-8fb6-280f419b8551",
+        "content": {
+            "id": "81ec18a4-0913-3c2c-8fb6-280f419b8551",
+            "contentType": "STORY",
+            "title": "Here\u2019s when iPhones may get more expensive",
+            "description": "",
+            "summary": "If paying $1,000 for a new iPhone already sounded expensive, consumers should brace for even greater sticker shock later this year. President Donald Trump\u2019s tariffs on foreign goods \u2013 specifically those sourced from China \u2013 are expected to heighten the prices of everyday tech products, from iPhones to laptops, cars and even smaller gadgets like headphones and computer mice.",
+            "pubDate": "2025-04-10T10:30:35Z",
+            "displayTime": "2025-04-10T10:30:35Z",
+            "isHosted": true,
+            "bypassModal": false,
+            "previewUrl": null,
+            "thumbnail": {
+                "originalUrl": "https://media.zenfs.com/en/cnn_business_articles_218/2e2974b3394125319d514b5a84084058",
+                "originalWidth": 960,
+                "originalHeight": 540,
+                "caption": "An Apple store on March 22, 2025, in Chongqing, China. - Cheng Xin/Getty Images",
+                "resolutions": [
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/8XHdJgIcRvoqEvQUFw7NHQ--~B/aD01NDA7dz05NjA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/cnn_business_articles_218/2e2974b3394125319d514b5a84084058",
+                        "width": 960,
+                        "height": 540,
+                        "tag": "original"
+                    },
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/DWtSdlcQpgNbQE64lgR5tw--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/cnn_business_articles_218/2e2974b3394125319d514b5a84084058",
+                        "width": 170,
+                        "height": 128,
+                        "tag": "170x128"
+                    }
+                ]
+            },
+            "provider": {
+                "displayName": "CNN Business",
+                "url": "https://www.cnn.com/business"
+            },
+            "canonicalUrl": {
+                "url": "https://www.cnn.com/2025/04/10/tech/apple-iphone-prices-tariffs-china",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "clickThroughUrl": {
+                "url": "https://finance.yahoo.com/news/iphones-may-more-expensive-103035687.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "metadata": {
+                "editorsPick": false
+            },
+            "finance": {
+                "premiumFinance": {
+                    "isPremiumNews": false,
+                    "isPremiumFreeNews": false
+                }
+            },
+            "storyline": null
+        }
+    },
+    {
+        "id": "9fcb8b32-bbc8-376c-9d5a-3117cd0532b6",
+        "content": {
+            "id": "9fcb8b32-bbc8-376c-9d5a-3117cd0532b6",
+            "contentType": "STORY",
+            "title": "Apple airlifts 600 tons of iPhones from India 'to beat' Trump tariffs, sources say",
+            "description": "",
+            "summary": "Tech giant Apple chartered cargo flights to ferry 600 tons of iPhones, or as many as 1.5 million, to the United States from India, after it stepped up production there in an effort to beat President Donald Trump's tariffs, sources told Reuters.  The details of the push provide an insight into the U.S. smartphone company's private strategy to navigate around the Trump tariffs and build up inventory of its popular iPhones in the United States, one of its biggest markets.",
+            "pubDate": "2025-04-10T08:56:42Z",
+            "displayTime": "2025-04-10T08:56:42Z",
+            "isHosted": true,
+            "bypassModal": false,
+            "previewUrl": null,
+            "thumbnail": {
+                "originalUrl": "https://media.zenfs.com/en/reuters.com/67c9579a5d8225aa66bfc1159af0bce6",
+                "originalWidth": 800,
+                "originalHeight": 557,
+                "caption": "FILE PHOTO: Apple iPhones are seen inside India's first Apple retail store, a day ahead of its launch, in Mumbai",
+                "resolutions": [
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/DDe_QamZL.48SE0OouSapA--~B/aD01NTc7dz04MDA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/reuters.com/67c9579a5d8225aa66bfc1159af0bce6",
+                        "width": 800,
+                        "height": 557,
+                        "tag": "original"
+                    },
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/G2voghgqvucoH0byldOqkg--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/reuters.com/67c9579a5d8225aa66bfc1159af0bce6",
+                        "width": 170,
+                        "height": 128,
+                        "tag": "170x128"
+                    }
+                ]
+            },
+            "provider": {
+                "displayName": "Reuters",
+                "url": "https://www.reuters.com/"
+            },
+            "canonicalUrl": {
+                "url": "https://finance.yahoo.com/news/apple-airlifts-600-tons-iphones-085642117.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "clickThroughUrl": {
+                "url": "https://finance.yahoo.com/news/apple-airlifts-600-tons-iphones-085642117.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "metadata": {
+                "editorsPick": false
+            },
+            "finance": {
+                "premiumFinance": {
+                    "isPremiumNews": false,
+                    "isPremiumFreeNews": false
+                }
+            },
+            "storyline": null
+        }
+    },
+    {
+        "id": "feeea9e9-dbd0-3c04-bc94-aa1e3e672f58",
+        "content": {
+            "id": "feeea9e9-dbd0-3c04-bc94-aa1e3e672f58",
+            "contentType": "STORY",
+            "title": "Finland\u2019s Oura went from a tiny Kickstarter campaign to a $5.2 billion startup with Cristiano Ronaldo and Prince Harry among its fans",
+            "description": "",
+            "summary": "Oura just capped off a funding round that will help the Finnish company look \u201cbeyond rings,\u201d CEO Tom Hale said.",
+            "pubDate": "2025-04-10T05:37:00Z",
+            "displayTime": "2025-04-10T05:37:00Z",
+            "isHosted": true,
+            "bypassModal": false,
+            "previewUrl": null,
+            "thumbnail": {
+                "originalUrl": "https://media.zenfs.com/en/fortune_175/c446081cf58ce6ceeed1dd4edc65b850",
+                "originalWidth": 2048,
+                "originalHeight": 1392,
+                "caption": "Tom Hale is the CEO of Oura.",
+                "resolutions": [
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/ttugnPJwOiVNH.uDWqMXCQ--~B/aD0xMzkyO3c9MjA0ODthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/fortune_175/c446081cf58ce6ceeed1dd4edc65b850",
+                        "width": 2048,
+                        "height": 1392,
+                        "tag": "original"
+                    },
+                    {
+                        "url": "https://s.yimg.com/uu/api/res/1.2/VkpsVNY4p1752HQs1iJ82Q--~B/Zmk9c3RyaW07aD0xMjg7dz0xNzA7YXBwaWQ9eXRhY2h5b24-/https://media.zenfs.com/en/fortune_175/c446081cf58ce6ceeed1dd4edc65b850",
+                        "width": 170,
+                        "height": 128,
+                        "tag": "170x128"
+                    }
+                ]
+            },
+            "provider": {
+                "displayName": "Fortune",
+                "url": "http://fortune.com/"
+            },
+            "canonicalUrl": {
+                "url": "https://finance.yahoo.com/news/finland-oura-went-tiny-kickstarter-053700313.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "clickThroughUrl": {
+                "url": "https://finance.yahoo.com/news/finland-oura-went-tiny-kickstarter-053700313.html",
+                "site": "finance",
+                "region": "US",
+                "lang": "en-US"
+            },
+            "metadata": {
+                "editorsPick": false
+            },
+            "finance": {
+                "premiumFinance": {
+                    "isPremiumNews": false,
+                    "isPremiumFreeNews": false
+                }
+            },
+            "storyline": null
+        }
+    }
+]

@@ -8,9 +8,10 @@ import { getHost } from "@/app/constants"
 import { ChartPoint } from '@/app/models';
 import { abbreviateNumber } from './utils';
 import { Slider } from "@/components/ui/slider"
+import { fetcher } from './utils';
 
 const host = getHost();
-const fetcher = (url : string) => fetch(url).then((r) => r.json())
+
 const ApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 
@@ -28,6 +29,7 @@ const ChartComponent = ({
     websocketState: WebSocketState;
 }
 ) => {
+    const [bufferPercent, setBufferPercent] = useState(1); // 1% default
     const xAxisRange = useRef<{ min: number; max: number } | null>(null);
 
     // Reset zoom when relevant props change
@@ -84,7 +86,7 @@ const ChartComponent = ({
   const categoriesLast = categories[categories.length - 1];
   // Write a use effect that prints the latest time of the close when data changes
 
-  const buffer = 0.01;
+  const buffer = bufferPercent / 100;
   const minValue = Math.min(...close) * (1 - buffer);
   const maxValue = Math.max(...close) * (1 + buffer);
   
@@ -304,13 +306,15 @@ const ChartComponent = ({
       </div>
       <div className='flex flex-row items-center justify-start mb-4 ml-3'>
       <div className='w-10 flex justify-center'>
-        <Slider
-          defaultValue={[33]}
-          max={100}
-          step={1}
-          orientation='vertical'
-          className='h-36 w-4 relative flex items-center bg-white rounded-full' // height = vertical length, width = thickness, rounded corners
-        />
+      <Slider
+        defaultValue={[1]} // 1%
+        min={0}
+        max={20} // up to 20% buffer
+        step={1}
+        orientation='vertical'
+        className='h-36 w-4 relative flex items-center bg-white rounded-full'
+        onValueChange={(value) => setBufferPercent(value[0])}
+      />
       </div>
         <ApexChart
           type="line"

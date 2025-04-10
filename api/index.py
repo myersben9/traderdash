@@ -10,6 +10,7 @@ import asyncio
 import base64
 from websockets.sync.client import connect
 from google.protobuf.json_format import MessageToJson
+import yfinance as yf
 
 ### Create FastAPI instance with custom docs and openapi url
 app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")
@@ -96,5 +97,27 @@ def get_chart_data(ticker: str, range: str = "1d", interval: str = "5m", pre_pos
         df = yf.df  
         df.reset_index(inplace=True)
         return df.to_dict(orient='records')  # Convert DataFrame to dictionary for JSON serialization
+    except Exception as e:
+        return {"error": str(e)}
+    
+
+# Write an endpoint that fetches the most recent news about a ticker given a ticker
+@app.get("/api/py/get_spy_news")
+def get_spy_news():
+    """
+    Fetches the most recent news for a given ticker.
+    """
+    try:
+        print("Fetching news for SPY")
+        yf = yf.Ticker("SPY")
+        news = yf.news
+        # Filter out the most recent news
+        recent_news = news[:5]  # Get the most recent 5 news articles
+        # Convert to a more readable format
+        # Write toa  file   
+        print(recent_news)
+        with open("spy_news.json", "w") as f:
+            json.dump(recent_news, f, indent=4)
+        return recent_news
     except Exception as e:
         return {"error": str(e)}
