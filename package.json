@@ -33,7 +33,6 @@
     "lucide-react": "^0.485.0",
     "next": "^14.2.13",
     "postcss": "^8.4.47",
-    "protobufjs": "^7.4.0",
     "react": "18.3.1",
     "react-apexcharts": "^1.7.0",
     "react-dom": "18.3.1",
@@ -46,6 +45,9 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "protolint": "^0.52.0"
+    "@types/protobufjs": "^6.0.0",
+    "protobufjs": "^7.4.0",
+    "protolint": "^0.52.0",
+    "ts-proto": "^2.7.0"
   }
 }

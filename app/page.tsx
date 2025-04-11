@@ -19,14 +19,15 @@
 // TODO - Add feature to log in and track bots and trade with hotkeys on user accounts
 // TODO - Add ability to draw lines on chart with mouse and visualize strategies / stop losses / profit taking
 // TODO - Add active trade tracking and metrics for trades 
-
+// TODO - Make shad cn components for tables of screeners, news, and other things
 
 import React from 'react'
 import { Search } from 'lucide-react';
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { useWebSocket } from "@/app/useWebSocket"
+// import { useWebSocket } from "@/app/useWebSocket"
+import { useYahooWebSocket } from "@/app/useYahooWebsocket"
 import ChartComponent from '@/app//chartComponent';
 import useSWR from 'swr';
 import { fetcher, abbreviateNumber, formatPrice } from '@/app/utils';
@@ -38,7 +39,8 @@ export default function Home() {
   const [interval, setInterval] = React.useState<string | null>('1m');
   const [ticker, setTicker] = React.useState('AAPL');
   const [prePost, setPrePost] = React.useState(false);
-  const websocketState = useWebSocket(ticker);
+  // const websocketState = useWebSocket(ticker);
+  const websocketState = useYahooWebSocket(ticker); // Get the new state
 
   // Make useSWR hook to fetch news data 
   const { data, error, isLoading } = useSWR(`/api/py/get_ticker_news?ticker=${ticker}`, 
@@ -287,13 +289,12 @@ export default function Home() {
         {
           (ticker) && (
             <>
-           {/* Add vertical slider to left of chart component that controls the buffer of the graph */}
             <ChartComponent
               ticker={ticker}
               interval={interval}
               range={range}
               prePost={prePost}
-              websocketState={websocketState}
+              pricingData={websocketState}
             />
             </>
           )
@@ -307,6 +308,7 @@ export default function Home() {
             News
           </h1>
         </div>
+        {/* Make a shadcn component card */}
         <div className='flex flex-col items-start justify-start w-full h-full overflow-y-scroll'>
           {data.map((news: NewsStateData, index: number) => (
             <div key={index} className='flex flex-col items-start justify-start p-3 border-b border-gray-700'>

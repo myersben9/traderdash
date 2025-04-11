@@ -20,13 +20,13 @@ const ChartComponent = ({
     interval,
     range,
     prePost,
-    websocketState
+    pricingData,
 }: {
     ticker: string;
     interval: string | null;
     range: string;
     prePost: boolean;
-    websocketState: WebSocketState;
+    pricingData: WebSocketState | null;
 }
 ) => {
     const [bufferPercent, setBufferPercent] = useState(1); // 1% default

@@ -2,14 +2,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import api.data.yfetch as yfetch
 import websockets
-import PricingData_pb2  # Import your protobuf class
-from google.protobuf.message import DecodeError
 from fastapi import WebSocket
 import json
-import asyncio
 import base64
-from websockets.sync.client import connect
-from google.protobuf.json_format import MessageToJson
 import yfinance as yf
 
 ### Create FastAPI instance with custom docs and openapi url
@@ -26,59 +21,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-YAHOO_WS_URI = "wss://streamer.finance.yahoo.com"
-# --- Handler Functions ---
-
-tickers = set()
-
-async def on_connect_to_yahoo(subscription_message):
-    try:
-        yahoo_ws = await websockets.connect(
-            uri=YAHOO_WS_URI,
-        )
-        await yahoo_ws.send(subscription_message)
-        return yahoo_ws
-    except Exception as e:
-        print(f"[Connection Error] Failed to connect or subscribe: {e}")
-        raise e
-
-async def on_message_yahoo(yahoo_ws, client_ws: WebSocket):
-    while True:
-        try:
-            # 
-            raw = await yahoo_ws.recv()
-            decoded = base64.b64decode(raw)
-            pricing_data = PricingData_pb2.PricingData()
-            pricing_data.ParseFromString(decoded)
-            json_data = MessageToJson(pricing_data)
-            data = json.loads(json_data)
-            if data['id'] not in tickers:
-                tickers.add(data['id']) 
-
-            if len(tickers) > 1:
-                # Send unsubscribe ticker the the one that we didn't just add
-                unsubscribe_message = {
-                    "unsubscribe": [list(tickers)[0]]
-                }
-                msg = json.dumps(unsubscribe_message)
-                await yahoo_ws.send(msg)
-            await client_ws.send_text(json_data)
-        except Exception as e:
-            print(f"[Error] {e}")
-            break
-
-
-@app.websocket("/api/py/ws")
-async def websocket_endpoint(websocket: WebSocket):
-    await websocket.accept()
-    try:
-        message = await websocket.receive_text()
-        yahoo_ws = await on_connect_to_yahoo(message)
-        await on_message_yahoo(yahoo_ws, websocket)
-    except Exception as e:
-        print(f"WebSocket error: {e}")
-        await websocket.send_text(json.dumps({"status": "error", "message": str(e)}))
-
 # / API endpoint to fetch data
 @app.get("/api/py/get_chart_data")
 def get_chart_data(ticker: str, range: str = "1d", interval: str = "5m", pre_post:str='false'):

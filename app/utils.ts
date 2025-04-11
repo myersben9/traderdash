@@ -1,3 +1,4 @@
+
 export const abbreviateNumber = (number: number, decimals: number = 2): string => {
     const abbrev = ["K", "M", "B", "T"];
   
