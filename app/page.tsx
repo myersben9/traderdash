@@ -57,10 +57,14 @@ export default function Home() {
   if (!data) {
     return <>Loading...</>
   }
-  console.log('Data:', data);
 
   if (isLoading) {
-    console.log('Loading news data...');
+    return (
+      <div className="flex flex-col items-center justify-center w-full h-full">
+        <h1 className="text-2xl font-bold text-white">Loading...</h1>
+        <div className="loader"></div>
+      </div>
+    )
   }
   return (
     <main className="flex flex-col">
@@ -267,7 +271,7 @@ export default function Home() {
             ${websocketState.change > 0 ? 'text-green-500' : 'text-red-500'}
           `}>
             { 
-              websocketState.price
+              websocketState.price.toFixed(2)
             }
           </h2>
         </div>

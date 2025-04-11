@@ -9,6 +9,7 @@ import { ChartPoint } from '@/app/models';
 import { abbreviateNumber } from './utils';
 import { Slider } from "@/components/ui/slider"
 import { fetcher } from './utils';
+import { PricingData } from '@/proto/pricingData';
 
 const host = getHost();
 
@@ -26,7 +27,7 @@ const ChartComponent = ({
     interval: string | null;
     range: string;
     prePost: boolean;
-    pricingData: WebSocketState | null;
+    pricingData: PricingData | null;
 }
 ) => {
     const [bufferPercent, setBufferPercent] = useState(1); // 1% default
