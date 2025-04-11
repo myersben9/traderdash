@@ -31,3 +31,50 @@ export interface ChartPoint {
   Volume: number;
   Symbol: string;
 }
+
+export interface CanonicalUrl {
+  url : string;
+  site : string;
+  region : string;
+  lang : string;
+}
+
+
+export interface NewsStateData {
+  id: string;
+  content: NewsStateContent;
+  provider: Record<string, string>;
+  clickThroughUrl: Record<string, string>;
+  metadata: Record<string, string>;
+  finance: Record<string, string>;
+  storyline: any | null;
+}
+
+export interface NewsStateContent {
+  canonicalUrl: CanonicalUrl;
+  title: string;
+  contentType: string;
+  summary: string;
+  date: string;
+  link: string;
+  source: string;
+  pubDate: string;
+  displayTime: string;
+  thumbnail: Thumbnail;
+}
+
+export interface Thumbnail {
+  originalUrl: string;
+  originalWidth: number;
+  originalHeight: number;
+  caption: string;
+  resolutions: ThumbnailResolution[];
+
+}
+
+export interface ThumbnailResolution {
+  url: string;
+  width: number;
+  height: number;
+  tag: string;
+}

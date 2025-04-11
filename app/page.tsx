@@ -6,17 +6,19 @@
 // TODO - Add adequate loading and error handling for different inputs for ticker
 // TODO - Add loading and error handling for websocket connection/ fetches with toasts
 // TODO - Make buffer adjustable on the data in the range, so data goes outside of the chart when buffer is increased
+// TODO - Make live price still accurate even when the websocket isn't running
+
 
 // {COMING UP}
-// TODO - Make chart component resizable to fullscreen, mobile, and different sizes, everything repsonsive
-// TODO - Add candelstick chart toggle button
-// TODO - ADD VWAP, EMA, SMA, and other indicators
-// TODO - Add volume chart below the main chart with green and red by selling
-// TODO - Add news and other data in widget from stocks that appear on scanner and other general news
+// TODO - Make chart component resizable to fullscreen, mobile, and different sizes, everything repsonsive (difficulty: scuffed)
+// TODO - Add candelstick chart toggle button (difficulty: easy somewhat)
+// TODO - ADD VWAP, EMA, SMA, and other indicators (difficulty: easy)
+// TODO - Add volume chart below the main chart with green and red by selling (difficulty: easy)
+// TODO - Add ability to click on sticks from screener, news, or other places and open it in teh chart component
 // TODO - Add a scanner for stocks that are moving up 30%, are on the nasdaq, have a float of less than 5 million, have a 5x relative volume, priced 3-20 dollars
 // TODO - Add feature to log in and track bots and trade with hotkeys on user accounts
 // TODO - Add ability to draw lines on chart with mouse and visualize strategies / stop losses / profit taking
-// TODO - Add active trade tracking and metrics for trades
+// TODO - Add active trade tracking and metrics for trades 
 
 
 import React from 'react'
@@ -28,47 +30,7 @@ import { useWebSocket } from "@/app/useWebSocket"
 import ChartComponent from '@/app//chartComponent';
 import useSWR from 'swr';
 import { fetcher, abbreviateNumber, formatPrice } from '@/app/utils';
-
-
-
-interface NewsStateData {
-  id: string;
-  content: NewsStateContent;
-  provider: Record<string, string>;
-  canonicalUrl: Record<string, string>;
-  clickThroughUrl: Record<string, string>;
-  metadata: Record<string, string>;
-  finance: Record<string, string>;
-  storyline: any | null;
-}
-
-interface NewsStateContent {
-  title: string;
-  contentType: string;
-  summary: string;
-  date: string;
-  link: string;
-  source: string;
-  pubDate: string;
-  displayTime: string;
-  thumbnail: Thumbnail;
-}
-
-interface Thumbnail {
-  originalUrl: string;
-  originalWidth: number;
-  originalHeight: number;
-  caption: string;
-  resolutions: ThumbnailResolution[];
-
-}
-
-interface ThumbnailResolution {
-  url: string;
-  width: number;
-  height: number;
-  tag: string;
-}
+import { NewsStateData } from '@/app/models';
 
 export default function Home() {
 
@@ -87,26 +49,14 @@ export default function Home() {
   );
   // Parse data into NewsState if no error and data is not undefined
   // Map the content in each dict in the list of data
-  if (!data) {
-    console.log('No data available');
-  }
-  const newsData = data && !error ? data.map((news: NewsStateData) => {
-    return {
-      title: news.content.title,
-      contentType: news.content.contentType,
-      summary: news.content.summary,
-      date: news.content.date,
-      link: news.content.link,
-      source: news.content.source,
-      pubDate: news.content.pubDate,
-      displayTime: news.content.displayTime,
-      // thumbnail: news.content.thumbnail.resolutions[0]?.url || null,
-    }
-  }) : [];
   if (error) {
-    console.error('Error fetching news data:', error);
+    return <>Error Loading News</>
   }
-  // Log loading state
+  if (!data) {
+    return <>Loading...</>
+  }
+  console.log('Data:', data);
+
   if (isLoading) {
     console.log('Loading news data...');
   }
@@ -347,14 +297,14 @@ export default function Home() {
           
       </div>
       {/* Make news component that displays most recent news for the ticker */}
-      <div className='flex flex-col items-start justify-start w-[50vw] h-full overflow-y-scroll'>
+      <div className='flex flex-col items-start justify-start w-[50vw] h-full'>
         <div className='flex flex-row items-start justify-start p-3'>
           <h1 className='text-2xl font-bold text-white'>
             News
           </h1>
         </div>
         <div className='flex flex-col items-start justify-start w-full h-full overflow-y-scroll'>
-          {newsData.map((news: NewsStateContent, index: number) => (
+          {data.map((news: NewsStateData, index: number) => (
             <div key={index} className='flex flex-col items-start justify-start p-3 border-b border-gray-700'>
 
               {/* <img
@@ -364,15 +314,14 @@ export default function Home() {
                 width={news.thumbnail.originalWidth}
                 height={news.thumbnail.originalHeight}
               /> */}
-              <a href={news.link} target="_blank" rel="noopener noreferrer" className='text-lg font-bold text-white hover:text-blue-500'>
-                {news.title}
+              
+              <a href={news.content.canonicalUrl.url} target="_blank" rel="noopener noreferrer" className='text-lg font-bold text-white hover:text-blue-500'>
+                {news.content.title}
               </a>
-              <p className='text-sm font-bold text-gray-500'>{news.source}</p>
-              <p className='text-sm font-bold text-gray-500'>{news.date}</p>
-              <p className='text-sm font-bold text-gray-500'>{news.summary}</p>
+              <p className='text-sm font-bold text-gray-500'>{news.content.summary}</p>
             </div>
           ))}
-          {newsData.length === 0 && (
+          {data.length === 0 && (
             <div className='flex flex-col items-start justify-start p-3'>
               <p className='text-sm font-bold text-gray-500'>No news available</p>
             </div>
