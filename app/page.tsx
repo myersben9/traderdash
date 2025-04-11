@@ -263,7 +263,11 @@ export default function Home() {
           <h2 id='livePrice' className={`
             text-2xl font-bold text-white
             ${websocketState.change > 0 ? 'text-green-500' : 'text-red-500'}
-          `}>{websocketState.price}</h2>
+          `}>
+            { 
+              websocketState.price
+            }
+          </h2>
         </div>
         <div className="flex items-center text-left space-x-1 ml-3">
         <span className={`
