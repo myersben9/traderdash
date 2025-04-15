@@ -21,13 +21,13 @@ const ChartComponent = ({
     interval,
     range,
     prePost,
-    pricingData,
+    chartType = 'line',
 }: {
     ticker: string;
     interval: string | null;
     range: string;
     prePost: boolean;
-    pricingData: PricingData | null;
+    chartType: string;
 }
 ) => {
     const [bufferPercent, setBufferPercent] = useState(1); // 1% default
@@ -318,13 +318,45 @@ const ChartComponent = ({
         onValueChange={(value) => setBufferPercent(value[0])}
       />
       </div>
-        <ApexChart
+      {
+        chartType === 'line' ? (
+          <ApexChart
+            type="line"
+            series={series}
+            options={options}
+            height={500}
+            width={700}
+          />
+        ) : (
+          <ApexChart
+            type="candlestick"
+            series={[
+              {
+                data: chartData.map((point: ChartPoint) => ({
+                  x: new Date(point.Timestamp).getTime(),
+                  y: [point.Open, point.High, point.Low, point.Close],
+                })),
+              },
+            ]}
+            options={{
+              ...options,
+              chart: {
+                ...options.chart,
+                type: 'candlestick',
+              },
+            }}
+            height={500}
+            width={700}
+          />
+        )
+      }
+        {/* <ApexChart
           type="line"
           series={series}
           options={options}
           height={500}
           width={700}
-        />
+        /> */}
       </div> 
         </div>
   );
@@ -335,6 +367,7 @@ export default React.memo(ChartComponent, (prevProps, nextProps) => {
       prevProps.ticker === nextProps.ticker &&
       prevProps.interval === nextProps.interval &&
       prevProps.range === nextProps.range &&
-      prevProps.prePost === nextProps.prePost
+      prevProps.prePost === nextProps.prePost &&
+      prevProps.chartType === nextProps.chartType
     );
   });

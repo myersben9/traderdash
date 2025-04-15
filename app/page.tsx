@@ -1,8 +1,7 @@
 "use client";
 
 // {FINISH BY TODAY GOAL}
-// TODO - Create live newsfeed component that updates every 5 seconds
-// TODO - Make images work, make links for news clickable, 
+// TODO - Make images work
 // TODO - Add adequate loading and error handling for different inputs for ticker
 // TODO - Add loading and error handling for websocket connection/ fetches with toasts
 // TODO - Make buffer adjustable on the data in the range, so data goes outside of the chart when buffer is increased
@@ -39,6 +38,7 @@ export default function Home() {
   const [interval, setInterval] = React.useState<string | null>('1m');
   const [ticker, setTicker] = React.useState('AAPL');
   const [prePost, setPrePost] = React.useState(false);
+  const [chartType, setChartType] = React.useState('line');
   // const websocketState = useWebSocket(ticker);
   const websocketState = useYahooWebSocket(ticker); // Get the new state
 
@@ -247,6 +247,31 @@ export default function Home() {
               </Button>
              
             </div>
+            <div className="flex flex-row items-center justify-end mr-3">
+              <Button
+                id='chartTypeButton'
+                variant="outline"
+                className={`w-[70px] h-[50px] mb-4 mr-[3px] ${chartType === 'line' ? 'bg-blue-500' : ''}`}
+                onClick={() => {
+                  setChartType('line');
+                }
+                }
+                >
+                Line
+              </Button>
+              <Button
+                id='chartTypeButton'
+                variant="outline"
+                className={`w-[70px] h-[50px] mb-4 mr-[3px] ${chartType === 'candlestick' ? 'bg-blue-500' : ''}`}
+                onClick={() => {
+                  setChartType('candlestick');
+                }
+                }
+                >
+                Candle
+              </Button>
+              </div>
+
         </div>
 
        
@@ -298,7 +323,7 @@ export default function Home() {
               interval={interval}
               range={range}
               prePost={prePost}
-              pricingData={websocketState}
+              chartType={chartType}
             />
             </>
           )
