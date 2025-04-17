@@ -1,11 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import api.data.yfetch as yfetch
-import websockets
-from fastapi import WebSocket
-import json
-import base64
 import yfinance as yf
+from .data.screener import DailyScreener
 
 ### Create FastAPI instance with custom docs and openapi url
 app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")
@@ -69,5 +66,21 @@ def get_ticker_news(ticker: str):
         news = yahooTicker.news
         recent_news = news[:5]
         return recent_news
+    except Exception as e:
+        return {"error": str(e)}
+    
+
+@app.get("/api/py/get_daily_screen")
+def get_daily_screen():
+    """
+    Fetches the daily screen data.
+    """
+    try:
+
+        screener = DailyScreener().tickers
+        if screener:
+            return screener
+        else:
+            return {"error": "No valid tickers found."}
     except Exception as e:
         return {"error": str(e)}

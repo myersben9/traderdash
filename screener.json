@@ -1,0 +1,86 @@
+[
+    {
+        "symbol": "ZYBT",
+        "bid": 9.59,
+        "ask": 10.78,
+        "price": 10.06,
+        "volume": 879030,
+        "averageDailyVolume3Month": 195632,
+        "relativeVolume": 4.493283307434367,
+        "floatShares": 4266610,
+        "pubDate": "2025-04-07 12:44:29",
+        "today": "2025-04-17 14:17:46.198617"
+    },
+    {
+        "symbol": "QURE",
+        "bid": 12.93,
+        "ask": 13.15,
+        "price": 13.0,
+        "volume": 14397773,
+        "averageDailyVolume3Month": 1101122,
+        "relativeVolume": 13.075547487017788,
+        "floatShares": 44295995,
+        "pubDate": "2025-03-01 12:18:51",
+        "today": "2025-04-17 14:17:47.676429"
+    },
+    {
+        "symbol": "HTZ",
+        "bid": 6.24,
+        "ask": 9.8,
+        "price": 8.24,
+        "volume": 262578113,
+        "averageDailyVolume3Month": 8328837,
+        "relativeVolume": 31.526383935716357,
+        "floatShares": 119870770,
+        "pubDate": "2025-04-17 18:18:45",
+        "today": "2025-04-17 14:17:48.270615"
+    },
+    {
+        "symbol": "OMH",
+        "bid": 2.94,
+        "ask": 2.8,
+        "price": 2.96,
+        "volume": 6335314,
+        "averageDailyVolume3Month": 90324,
+        "relativeVolume": 70.1398742305478,
+        "floatShares": 1284269,
+        "pubDate": "2024-09-06 11:35:41",
+        "today": "2025-04-17 14:17:49.333597"
+    },
+    {
+        "symbol": "SMX",
+        "bid": 2.18,
+        "ask": 2.28,
+        "price": 2.3,
+        "volume": 38541149,
+        "averageDailyVolume3Month": 309842,
+        "relativeVolume": 124.38968571078162,
+        "floatShares": 102450,
+        "pubDate": "2024-12-27 12:20:06",
+        "today": "2025-04-17 14:17:49.806430"
+    },
+    {
+        "symbol": "PNBK",
+        "bid": 3.32,
+        "ask": 3.26,
+        "price": 3.28,
+        "volume": 1329431,
+        "averageDailyVolume3Month": 1374772,
+        "relativeVolume": 0.9670192584661311,
+        "floatShares": 3177638,
+        "pubDate": "2025-03-24 12:18:20",
+        "today": "2025-04-17 14:17:50.341123"
+    },
+    {
+        "symbol": "MSGM",
+        "bid": 2.2,
+        "ask": 3.22,
+        "price": 2.75,
+        "volume": 34810363,
+        "averageDailyVolume3Month": 102377,
+        "relativeVolume": 340.0213231487541,
+        "floatShares": 1590092,
+        "pubDate": "2025-03-21 11:39:24",
+        "today": "2025-04-17 14:17:51.417635"
+    }
+]
