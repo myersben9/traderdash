@@ -368,6 +368,7 @@ export default function Home() {
         </div>
         {/* Add the shadcn table for the stock screener fetch */}
         <div className='flex flex-col items-start justify-start w-full h-full mb-10'>
+          {/* trigger table deploy */}
         <Table>
           <TableHeader>
             <TableRow>
