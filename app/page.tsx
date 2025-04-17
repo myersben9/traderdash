@@ -24,8 +24,7 @@
 import React from 'react'
 import { Search } from 'lucide-react';
 
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+
 // import { useWebSocket } from "@/app/useWebSocket"
 import { useYahooWebSocket } from "@/app/useYahooWebsocket"
 import ChartComponent from '@/app//chartComponent';
@@ -33,12 +32,41 @@ import useSWR from 'swr';
 import { fetcher, abbreviateNumber, formatPrice } from '@/app/utils';
 import { NewsStateData } from '@/app/models';
 
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
 export default function Home() {
 
   const [range, setRange] = React.useState('1d');
   const [interval, setInterval] = React.useState<string | null>('1m');
   const [ticker, setTicker] = React.useState('AAPL');
   const [prePost, setPrePost] = React.useState(false);
+   // Fetch from python backend daily stocks of interest
+   const [stocks, setStocks] = React.useState<Array<Record<string, any>>>([])
+
+   React.useEffect(() => {
+       const fetchStocks = async () => {
+           const response = await fetch('/api/py/get_daily_screen')
+           if (response.ok) {
+               const data = await response.json()
+               setStocks(data)
+               console.log(data)
+           } else {
+               console.error('Failed to fetch stocks')
+           }
+       }
+       fetchStocks()
+   }, [])
+
   // const websocketState = useWebSocket(ticker);
   const websocketState = useYahooWebSocket(ticker); // Get the new state
 
@@ -313,7 +341,7 @@ export default function Home() {
           </h1>
         </div>
         {/* Make a shadcn component card */}
-        <div className='flex flex-col items-start justify-start w-full h-full overflow-y-scroll'>
+        <div className='flex flex-col items-start justify-start w-full h-full overflow-y-scroll mb-5'>
           {data.map((news: NewsStateData, index: number) => (
             <div key={index} className='flex flex-col items-start justify-start p-3 border-b border-gray-700'>
 
@@ -337,6 +365,36 @@ export default function Home() {
             </div>
           )}
 
+        </div>
+        {/* Add the shadcn table for the stock screener fetch */}
+        <div className='flex flex-col items-start justify-start w-full h-full mb-10'>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Symbol</TableHead>
+              <TableHead>Bid</TableHead>
+              <TableHead>Ask</TableHead>
+              <TableHead>Relative Volume </TableHead>
+              <TableHead>Float</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {stocks.map((stock, index) => (
+              <TableRow key={index}>
+                <TableCell 
+                  className="font-medium text-white cursor-pointer"
+                  onClick={() => setTicker(stock.symbol)}
+                >
+                  {stock.symbol}
+                </TableCell>
+                <TableCell>{stock.bid}</TableCell>
+                <TableCell>{stock.ask}</TableCell>
+                <TableCell>{stock.relativeVolume}</TableCell>
+                <TableCell>{stock.floatShares}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
         </div>
       </div>
       </div>
