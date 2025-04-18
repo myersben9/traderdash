@@ -82,6 +82,12 @@ const ChartComponent = ({
       Symbol: point.Symbol
     } 
   });
+
+  // Check if chartData is not a valid array
+  if (!Array.isArray(chartData) || chartData.length === 0) {
+    return <div>No data available</div>;
+  }
+
   const close = chartData.map((point: ChartPoint) => point.Close);
   const categories = chartData.map((point: ChartPoint) => new Date(point.Timestamp).getTime());
 

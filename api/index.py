@@ -80,6 +80,8 @@ def get_daily_screen():
         if screener:
             return screener
         else:
-            return {"error": "No valid tickers found."}
+            print("No data found in screener, returning empty list.")
+            return [{}]
     except Exception as e:
+        print(f"Error fetching daily screen data: {e}")
         return {"error": str(e)}

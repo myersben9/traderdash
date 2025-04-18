@@ -58,7 +58,7 @@ export default function Home() {
            const response = await fetch('/api/py/get_daily_screen')
            if (response.ok) {
                const data = await response.json()
-               setStocks(data)
+               setStocks(data)  
                console.log(data)
            } else {
                console.error('Failed to fetch stocks')
