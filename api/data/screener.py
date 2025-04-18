@@ -10,7 +10,7 @@
 import yfinance as yf
 from yfinance import EquityQuery
 from .conditions import DailyConditions
-from typing import List, Dict
+from typing import List, Dict, Optional
 
 class DailyScreener:
     def __init__(self) -> None:
@@ -18,6 +18,71 @@ class DailyScreener:
         Initialize the DailyScreener class.
         """
         self.tickers = self.get_daily_screen()
+
+    def get_ticker_info(self, quote: Dict = None, symbol = None) -> Dict:
+
+        if quote is None and symbol:
+            ticker_info = yf.Ticker(symbol).info
+        elif quote is not None:
+            ticker_info = yf.Ticker(quote["symbol"]).info
+        elif quote is None and symbol is None:
+            raise ValueError("Either quote or symbol must be provided.")
+        
+        floatShares = ticker_info["floatShares"] 
+        # print(ticker_info)
+        bid = ticker_info["bid"]
+        ask = ticker_info["ask"]
+
+        volume = ticker_info["regularMarketVolume"]
+
+        try:
+            averageDailyVolume = ticker_info["averageDailyVolume10Day"]
+        except KeyError:
+            raise KeyError(f"Key 'averageDailyVolume10Day' not found in quote for {ticker_info['symbol']}")
+
+        relativeVolume = volume / averageDailyVolume if averageDailyVolume > 0 else 0
+
+        return {
+            "symbol": quote["symbol"] if quote else symbol,
+            "floatShares": floatShares,
+            "relativeVolume": relativeVolume,
+            "bid": bid,
+            "ask": ask,
+        }
+
+    def parse_screen_response(self, response: Dict) -> List[Dict]:
+        """
+        Parse the response from the screener and return a list of valid tickers, while retrieving additional information.
+        """
+        valid_tickers = []
+        for quote in response["quotes"]:
+            try:
+                ticker_info = self.get_ticker_info(quote)
+            except KeyError as e:
+                print(f"KeyError: {e} for quote: {quote}")
+                continue
+            isValid = DailyConditions(ticker_info["floatShares"], ticker_info["relativeVolume"], ticker_info["bid"]).valid
+            if isValid:
+                valid_tickers.append({
+                    "symbol": quote["symbol"],
+                    "floatShares": ticker_info["floatShares"],
+                    "relativeVolume": ticker_info["relativeVolume"],
+                    "bid": ticker_info["bid"],
+                    "ask": ticker_info["ask"],
+                })
+
+        if valid_tickers == []:
+            default_tickers = ["AAPL", "MSFT", "GOOGL", "AMZN", "TSLA"]
+            for ticker in default_tickers:
+                ticker_info = self.get_ticker_info(symbol=ticker)
+                valid_tickers.append({
+                    "symbol": ticker,
+                    "floatShares": ticker_info["floatShares"],
+                    "relativeVolume": ticker_info["relativeVolume"],
+                    "bid": ticker_info["bid"],
+                    "ask": ticker_info["ask"],
+                })
+        return valid_tickers
 
     def get_daily_screen(self) -> List[Dict]:
         """
@@ -36,39 +101,9 @@ class DailyScreener:
             sortAsc=True,         
         )
 
-        valid_tickers = []
-        for quote in response["quotes"]:
-            symbol = quote["symbol"]
-            ticker = yf.Ticker(symbol)
+        screened_tickers = self.parse_screen_response(response)
 
-            ticker_info = ticker.info
-
-            floatShares = ticker_info["floatShares"] 
-
-            bid = quote["bid"]
-            ask = quote["ask"]
-
-            volume = quote["regularMarketVolume"]
-
-            try:
-                averageDailyVolume = quote["averageDailyVolume10Day"]
-            except KeyError:
-                continue
-
-            relativeVolume = volume / averageDailyVolume if averageDailyVolume > 0 else 0
-
-        
-            isValid = DailyConditions(floatShares, relativeVolume, bid).valid
-            if isValid:
-                valid_tickers.append({
-                    "symbol": symbol,
-                    "floatShares": floatShares,
-                    "relativeVolume": relativeVolume,
-                    "bid": bid,
-                    "ask": ask,
-                })
-
-        return valid_tickers
+        return screened_tickers
 
 
 

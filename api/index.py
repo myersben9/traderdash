@@ -74,14 +74,5 @@ def get_daily_screen():
     """
     Fetches the daily screen data.
     """
-    try:
-
-        screener = DailyScreener().tickers
-        if screener:
-            return screener
-        else:
-            print("No data found in screener, returning empty list.")
-            return [{}]
-    except Exception as e:
-        print(f"Error fetching daily screen data: {e}")
-        return {"error": str(e)}
+    screener = DailyScreener().tickers
+    return screener
