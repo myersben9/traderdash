@@ -76,3 +76,24 @@ def get_daily_screen():
     """
     screener = DailyScreener().tickers
     return screener
+
+@app.get("/api/py/get_websocket_state")
+def get_websocket_state(ticker: str):
+    """
+    Fetches the a websocket state imitation when the websocket isn't returning data becaus eits outside of market hours.
+    """
+    ticker_info = yf.Ticker(ticker).info
+    # {'id': 'AAPL', 'price': 172.6, 'time': '1744145133000', 'exchange': 'NMS', 'quoteType': 'EQUITY', 'marketHours': 'POST_MARKET', 'changePercent': 0.10440084, 'change': 0.18000793, 'priceHint': '2'}
+    return_message = {
+        'id': ticker_info['symbol'],
+        'price': ticker_info['currentPrice'],
+        'time': ticker_info['postMarketTime'],
+        'exchange': ticker_info['exchange'],    
+        'quoteType': ticker_info['quoteType'],
+        'marketHours': 'POST_MARKET',
+        'changePercent': ticker_info['regularMarketChangePercent'],
+        'change': ticker_info['regularMarketChange'],
+        'priceHint': ticker_info['priceHint']
+    }
+    print(f"Websocket state for {ticker}: {return_message}")
+    return return_message

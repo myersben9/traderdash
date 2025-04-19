@@ -11,6 +11,7 @@ import yfinance as yf
 from yfinance import EquityQuery
 from .conditions import DailyConditions
 from typing import List, Dict, Optional
+import json
 
 class DailyScreener:
     def __init__(self) -> None:
@@ -29,11 +30,14 @@ class DailyScreener:
             raise ValueError("Either quote or symbol must be provided.")
         
         floatShares = ticker_info["floatShares"] 
-        # print(ticker_info)
+
+
         bid = ticker_info["bid"]
         ask = ticker_info["ask"]
 
         volume = ticker_info["regularMarketVolume"]
+
+        currentPrice = ticker_info["regularMarketPrice"]
 
         try:
             averageDailyVolume = ticker_info["averageDailyVolume10Day"]
@@ -48,6 +52,7 @@ class DailyScreener:
             "relativeVolume": relativeVolume,
             "bid": bid,
             "ask": ask,
+            "currentPrice": currentPrice,
         }
 
     def parse_screen_response(self, response: Dict) -> List[Dict]:
@@ -59,7 +64,7 @@ class DailyScreener:
             try:
                 ticker_info = self.get_ticker_info(quote)
             except KeyError as e:
-                print(f"KeyError: {e} for quote: {quote}")
+                print(f"KeyError: {e} for quote: {quote['symbol']}")
                 continue
             isValid = DailyConditions(ticker_info["floatShares"], ticker_info["relativeVolume"], ticker_info["bid"]).valid
             if isValid:
@@ -69,6 +74,7 @@ class DailyScreener:
                     "relativeVolume": ticker_info["relativeVolume"],
                     "bid": ticker_info["bid"],
                     "ask": ticker_info["ask"],
+                    "currentPrice": ticker_info["currentPrice"],
                 })
 
         if valid_tickers == []:
@@ -81,6 +87,7 @@ class DailyScreener:
                     "relativeVolume": ticker_info["relativeVolume"],
                     "bid": ticker_info["bid"],
                     "ask": ticker_info["ask"],
+                    "currentPrice": ticker_info["currentPrice"],
                 })
         return valid_tickers
 

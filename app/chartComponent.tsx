@@ -3,33 +3,31 @@
 import dynamic from 'next/dynamic'
 import React, { useState, useEffect, useRef } from 'react';
 import useSWR from 'swr'
-import { WebSocketState } from '@/app/models';
-import { getHost } from "@/app/constants"
 import { ChartPoint } from '@/app/models';
 import { abbreviateNumber } from './utils';
 import { Slider } from "@/components/ui/slider"
 import { fetcher } from './utils';
 import { PricingData } from '@/proto/pricingData';
 
-const host = getHost();
 
 const ApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
-
 
 const ChartComponent = ({
     ticker,
     interval,
     range,
     prePost,
-    pricingData,
+    webSocprice,
+    setWebSocketState,
 }: {
     ticker: string;
     interval: string | null;
     range: string;
     prePost: boolean;
-    pricingData: PricingData | null;
-}
-) => {
+    webSocprice: number;
+    setWebSocketState: React.Dispatch<React.SetStateAction<PricingData>>;
+}): JSX.Element => {
+
     const [bufferPercent, setBufferPercent] = useState(1); // 1% default
     const xAxisRange = useRef<{ min: number; max: number } | null>(null);
 
@@ -56,43 +54,52 @@ const ChartComponent = ({
         `/api/py/get_chart_data?${stringParams}`,
         fetcher,
         {
-            // Refresh data for every interval (right now just do 1m)
             refreshInterval: 1000,
-        //   revalidateOnFocus: false,
-        //   onSuccess: (data) => {
-        //     if (data) {
-              
-        //     }
-        //   }
         }
       );;
-      // if (isLoading) return <div>Loading...</div>
       if (error) return <div>Error: {error.message}</div>
       if (!data) return <div>Loading...</div>
       if (isLoading) return <div>Loading...</div>
       
-  const chartData = data.map((point: ChartPoint) => {
-    return {
-      Timestamp: point.Timestamp,
-      Open: point.Open,
-      High: point.High,
-      Low: point.Low,
-      Close: point.Close,
-      Volume: point.Volume,
-      Symbol: point.Symbol
-    } 
-  });
+      const chartData = data.map((point: ChartPoint) => {
+        return {
+          Timestamp: point.Timestamp,
+          Open: point.Open,
+          High: point.High,
+          Low: point.Low,
+          Close: point.Close,
+          Volume: point.Volume,
+          Symbol: point.Symbol
+        } 
+      });
 
-  // Check if chartData is not a valid array
+      if (!Array.isArray(chartData) || chartData.length === 0) {
+        return <div>No data available</div>
+      }
+
+  const currentPrice = chartData[chartData.length - 1].Close;
+
+  // TODO - FIX THIS BECAUSE IT WILL BREAK IF THE PRICE IS THIS
+  if (webSocprice === 172.6) {
+    setWebSocketState({
+      change: 0,
+      changePercent: 0,
+      price: currentPrice,
+    } as unknown as PricingData);
+  }
+
+  setWebSocketState({
+    change: 0,
+    changePercent: 0,
+    price: currentPrice,
+  } as unknown as PricingData);
+
   if (!Array.isArray(chartData) || chartData.length === 0) {
     return <div>No data available</div>;
   }
 
   const close = chartData.map((point: ChartPoint) => point.Close);
   const categories = chartData.map((point: ChartPoint) => new Date(point.Timestamp).getTime());
-
-  const categoriesLast = categories[categories.length - 1];
-  // Write a use effect that prints the latest time of the close when data changes
 
   const buffer = bufferPercent / 100;
   const minValue = Math.min(...close) * (1 - buffer);

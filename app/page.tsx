@@ -24,25 +24,19 @@
 import React from 'react'
 import { Search } from 'lucide-react';
 
-
-// import { useWebSocket } from "@/app/useWebSocket"
-import { useYahooWebSocket } from "@/app/useYahooWebsocket"
 import ChartComponent from '@/app//chartComponent';
+import { abbreviateNumber} from '@/app/utils';
 import useSWR from 'swr';
-import { fetcher, abbreviateNumber, formatPrice } from '@/app/utils';
-import { NewsStateData } from '@/app/models';
+import { fetcher } from '@/app/utils';
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+
+import { PricingData } from '@/proto/pricingData'
+import NewsComponent from '@/app/newsComponent';
+import { set } from 'react-hook-form';
+import ScreenComponent from './screenComponent';
+
 
 export default function Home() {
 
@@ -50,50 +44,60 @@ export default function Home() {
   const [interval, setInterval] = React.useState<string | null>('1m');
   const [ticker, setTicker] = React.useState('AAPL');
   const [prePost, setPrePost] = React.useState(false);
-   // Fetch from python backend daily stocks of interest
-   const [stocks, setStocks] = React.useState<Array<Record<string, any>>>([])
+  const socketRef = React.useRef<WebSocket | null>(null);
+  const [yahooWebSocketState, setYahooWebSocketState] = React.useState<PricingData>({
+    id: 'AAPL',
+    price: 172.6,
+    time: '1744145133000',
+    exchange: 'NMS',
+    quoteType: 'EQUITY',
+    marketHours: 'POST_MARKET',
+    changePercent: 0.10440084,
+    change: 0.18000793,
+    priceHint: '2'
+  } as unknown as PricingData); // Initialize with example data
 
-   React.useEffect(() => {
-       const fetchStocks = async () => {
-           const response = await fetch('/api/py/get_daily_screen')
-           if (response.ok) {
-               const data = await response.json()
-               setStocks(data)  
-               console.log(data)
-           } else {
-               console.error('Failed to fetch stocks')
-           }
-       }
-       fetchStocks()
-   }, [])
 
-  // const websocketState = useWebSocket(ticker);
-  const websocketState = useYahooWebSocket(ticker); // Get the new state
+  React.useEffect(() => {
+    const socket = new WebSocket('wss://streamer.finance.yahoo.com');
+    socketRef.current = socket;
 
-  // Make useSWR hook to fetch news data 
-  const { data, error, isLoading } = useSWR(`/api/py/get_ticker_news?ticker=${ticker}`, 
-    fetcher,
-    {
-      refreshInterval: 10000, // Refresh every 5 seconds
-    }
-  );
-  // Parse data into NewsState if no error and data is not undefined
-  // Map the content in each dict in the list of data
-  if (error) {
-    return <>Error Loading News</>
-  }
-  if (!data) {
-    return <>Loading...</>
-  }
+    const subscription = {
+      subscribe: [ticker],
+    };
+    socket.addEventListener('open', () => {
+      socket.send(JSON.stringify(subscription));
+    });
 
-  if (isLoading) {
-    return (
-      <div className="flex flex-col items-center justify-center w-full h-full">
-        <h1 className="text-2xl font-bold text-white">Loading...</h1>
-        <div className="loader"></div>
-      </div>
-    )
-  }
+    // On error, log the error
+    socket.addEventListener('error', (event) => {
+      console.error('WebSocket error:', event);
+    });
+  
+    socket.addEventListener('message', (event) => {
+      try {
+        const base64 = event.data;
+        const raw = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
+        const message = PricingData.decode(raw);
+        // If message is empty, return the example state
+        if (Object.keys(message).length === 0) {
+          console.log("Empty message received, returning example state");
+          return;
+        }
+        setYahooWebSocketState(message); // Update the state with the decoded message
+      } catch (err) {
+        console.error('Decoding error:', err);
+      }
+    });
+
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.close();
+      }
+    };
+  }, [ticker]); 
+
+
   return (
     <main className="flex flex-col">
     <div className="flex flex-row w-full h-[100vh]">
@@ -128,7 +132,6 @@ export default function Home() {
               }}
             />  
             </div>
-          {/* Replace selects with ADJS */}
           <div id="rangeButtons" className='flex flex-row items-center justify-end mr-3'>
             <Button
               id='rangeButton-1d'
@@ -296,25 +299,25 @@ export default function Home() {
         <div className={`flex flex-row ml-3 h-10`}>
           <h2 id='livePrice' className={`
             text-2xl font-bold text-white
-            ${websocketState.change > 0 ? 'text-green-500' : 'text-red-500'}
+            ${yahooWebSocketState.change > 0 ? 'text-green-500' : 'text-red-500'}
           `}>
             { 
-              websocketState.price.toFixed(2)
+              yahooWebSocketState.price.toFixed(2)
             }
           </h2>
         </div>
         <div className="flex items-center text-left space-x-1 ml-3">
         <span className={`
             text-xs 
-            ${websocketState.change > 0 ? 'text-green-500' : 'text-red-500'}
+            ${yahooWebSocketState.change > 0 ? 'text-green-500' : 'text-red-500'}
           `}>
-            {websocketState.change > 0 ? '▲' : '▼'}
+            {yahooWebSocketState.change > 0 ? '▲' : '▼'}
           </span>
         <span className={`
             text-xs font-bold 
-            ${websocketState.change > 0 ? 'text-green-500' : 'text-red-500'}
+            ${yahooWebSocketState.change > 0 ? 'text-green-500' : 'text-red-500'}
           `}>
-          {abbreviateNumber(websocketState.changePercent)}% ({abbreviateNumber(websocketState.change)})
+          {abbreviateNumber(yahooWebSocketState.changePercent)}% ({yahooWebSocketState.change})
         </span>
       </div>
 
@@ -323,79 +326,26 @@ export default function Home() {
             <>
             <ChartComponent
               ticker={ticker}
+              webSocprice={yahooWebSocketState.price}
               interval={interval}
               range={range}
               prePost={prePost}
-              pricingData={websocketState}
+              setWebSocketState={setYahooWebSocketState}
             />
             </>
           )
         }
           
       </div>
-      {/* Make news component that displays most recent news for the ticker */}
+
       <div className='flex flex-col items-start justify-start w-[50vw] h-full'>
-        <div className='flex flex-row items-start justify-start p-3'>
-          <h1 className='text-2xl font-bold text-white'>
-            News
-          </h1>
-        </div>
-        {/* Make a shadcn component card */}
-        <div className='flex flex-col items-start justify-start w-full h-full overflow-y-scroll mb-5'>
-          {data.map((news: NewsStateData, index: number) => (
-            <div key={index} className='flex flex-col items-start justify-start p-3 border-b border-gray-700'>
-
-              {/* <img
-                src={news.thumbnail.originalUrl}
-                alt="news-thumbnail"
-                className="w-24 h-24 object-cover rounded-lg mr-4 border border-gray-600"
-                width={news.thumbnail.originalWidth}
-                height={news.thumbnail.originalHeight}
-              /> */}
-              
-              <a href={news.content.canonicalUrl.url} target="_blank" rel="noopener noreferrer" className='text-lg font-bold text-white hover:text-blue-500'>
-                {news.content.title}
-              </a>
-              <p className='text-sm font-bold text-gray-500'>{news.content.summary}</p>
-            </div>
-          ))}
-          {data.length === 0 && (
-            <div className='flex flex-col items-start justify-start p-3'>
-              <p className='text-sm font-bold text-gray-500'>No news available</p>
-            </div>
-          )}
-
-        </div>
+        <NewsComponent ticker={ticker} />
         {/* Add the shadcn table for the stock screener fetch */}
         <div className='flex flex-col items-start justify-start w-full h-full mb-10'>
           {/* trigger table deploy */}
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Symbol</TableHead>
-              <TableHead>Bid</TableHead>
-              <TableHead>Ask</TableHead>
-              <TableHead>Relative Volume </TableHead>
-              <TableHead>Float</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {stocks.map((stock, index) => (
-              <TableRow key={index}>
-                <TableCell 
-                  className="font-medium text-white cursor-pointer"
-                  onClick={() => setTicker(stock.symbol)}
-                >
-                  {stock.symbol}
-                </TableCell>
-                <TableCell>{stock.bid}</TableCell>
-                <TableCell>{stock.ask}</TableCell>
-                <TableCell>{stock.relativeVolume}</TableCell>
-                <TableCell>{stock.floatShares}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+      
+
+        <ScreenComponent setTicker={setTicker} />
         </div>
       </div>
       </div>
