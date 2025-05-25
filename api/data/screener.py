@@ -55,12 +55,23 @@ class DailyScreener:
             "currentPrice": currentPrice,
         }
 
-    def parse_screen_response(self, response: Dict) -> List[Dict]:
+    def parse_screen_response(self, response: Dict, marketTime : str = "regular") -> List[Dict]:
         """
         Parse the response from the screener and return a list of valid tickers, while retrieving additional information.
         """
         valid_tickers = []
+
+
+
         for quote in response["quotes"]:
+            # if marketTime == "post":
+            #     # if we are parsing for the post market, che
+            #     return
+            # elif marketTime == "pre":
+            #     # if we are parsing for the pre market, check if the market is open
+            #     if quote["marketState"] != "PRE":
+            #         continue
+            # elif marketTime == "regular":
             try:
                 ticker_info = self.get_ticker_info(quote)
             except KeyError as e:
@@ -112,6 +123,26 @@ class DailyScreener:
 
         return screened_tickers
 
+    def post_market_screen(self) -> List[Dict]:
+        """
+        Get a list of stocks that meet the post market screener criteria.
+        """
+        price_q   = EquityQuery('btwn', ['intradayprice', 2,20])  
+        change_q  = EquityQuery('gt',   ['percentchange', 30])       
+        region_q  = EquityQuery('eq', ['region', 'us'])  
+        exchange_q = EquityQuery('is-in', ['exchange', 'NMS', 'NYQ', 'NGM', 'ASE', 'PCX', 'YHD', 'NCM'])
+
+        combined = EquityQuery('and', [price_q, change_q, exchange_q, region_q])
+
+        response = yf.screen(
+            combined,
+            sortField='percentchange', 
+            sortAsc=True,         
+        )
+
+        screened_tickers = self.parse_screen_response(response, "post")
+
+        return screened_tickers
 
 
     
