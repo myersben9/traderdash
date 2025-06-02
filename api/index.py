@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import api.data.yfetch as yfetch
 import yfinance as yf
-from api.data.screener import DailyScreener
 
 ### Create FastAPI instance with custom docs and openapi url
 app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")
@@ -74,8 +73,13 @@ def get_daily_screen():
     """
     Fetches the daily screen data.
     """
-    screener = DailyScreener().tickers
-    return screener
+    "Make custome screeners, dont relly on yfinance it sucks"
+    # try:
+    #     screener = DailyScreener().tickers
+    #     return screener
+    # except Exception as e:
+    #     print(f"Error fetching daily screen data: {e}")
+    #     return {"error": str(e)}
 
 @app.get("/api/py/get_websocket_state")
 def get_websocket_state(ticker: str):

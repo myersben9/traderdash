@@ -35,7 +35,7 @@ import { Button } from "@/components/ui/button"
 import { PricingData } from '@/proto/pricingData'
 import NewsComponent from '@/app/newsComponent';
 import { set } from 'react-hook-form';
-import ScreenComponent from './screenComponent';
+// import ScreenComponent from './screenComponent';
 
 
 export default function Home() {
@@ -344,8 +344,8 @@ export default function Home() {
         <div className='flex flex-col items-start justify-start w-full h-full mb-10'>
           {/* trigger table deploy */}
       
-
-        <ScreenComponent setTicker={setTicker} />
+{/* 
+        <ScreenComponent setTicker={setTicker} /> */}
         </div>
       </div>
       </div>
